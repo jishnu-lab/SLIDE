@@ -18,7 +18,7 @@ selectLongest <- function(z, y, niter = 1000, fdr = 0.1) {
   
   ## calculate the covariance matrix and mean vector of z
   sigma <- t(z) %*% z / dim(z)[1]
-  sigma <- EssReg::makePosDef(sigma) # make covariance matrix positive definite
+  sigma <- makePosDef(sigma) # make covariance matrix positive definite
   mu <- rep(0, dim(z)[2])
   
   ## knockoffs function
