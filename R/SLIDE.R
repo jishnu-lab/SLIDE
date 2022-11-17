@@ -136,26 +136,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   }
   
   
-  # saveRDS(list(
-  #   z=z,
-  #   y=y, 
-  #   method = 4,
-  #   do_interacts = TRUE,
-  #   betas = NULL, 
-  #   top_prop = NULL, 
-  #   marginals = marginals, 
-  #   spec = spec, 
-  #   fdr = fdr, 
-  #   niter = niter, 
-  #   elbow =elbow,
-  #   f_size =f_size, 
-  #   parallel = parallel,
-  #   ncore = ncore,
-  #   interaction_vars = interactions$interaction_vars,
-  #   upsilon = final_upsilon,
-  #   upsilon_mods = final_mods,
-  #   marginal_vars=marginal_vars), 
-  #   file = paste0("/ix/djishnu/Javad/Poholek_scale_v_noscale/w_scale_220922/DebugData/SLIDE/", debugFileName))
+  
   
   #### RETURN ##################################################################
   return (list("marginal_vars" = marginal_vars, # significant marginal variables

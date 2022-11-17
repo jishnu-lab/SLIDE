@@ -15,8 +15,6 @@
 #' @return a data frame with 5 rows and 2 columns (method name and method MSE)
 #' @export
 
-
-
 predError <- function(x, y, spec = 0.3, niter = 1000, fdr = 0.1, f_size = 100, ncore = 64, out_file, k = NULL) {
   ## split into training and validation sets --- use 75% of data for training
   num_valid <- ceiling(nrow(x) * 0.25) ## get size of validation set
@@ -91,7 +89,7 @@ predError <- function(x, y, spec = 0.3, niter = 1000, fdr = 0.1, f_size = 100, n
   ## run PLSR
   cat("        PLSR . . . . \n")
   random_num <- rnorm(n=1)
-  
+
   saveRDS(file = paste0("/ix/djishnu/Javad/simulationResult/dbug","/",random_num,".rds"), list(
     train_y_std = train_y_std,
     train_x_std = train_x_std,
@@ -102,7 +100,7 @@ predError <- function(x, y, spec = 0.3, niter = 1000, fdr = 0.1, f_size = 100, n
   res_plsr <- runPLSR(
     train_y = train_y_std,
     train_x = train_x_std,
-    valid_x = valid_x_std, 
+    valid_x = valid_x_std,
     n_comp = 100
   )
 
