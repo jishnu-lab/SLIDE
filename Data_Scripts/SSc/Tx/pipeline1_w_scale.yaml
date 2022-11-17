@@ -1,0 +1,16 @@
+---
+x_path: sig_match.csv      # path to .csv file for data matrix
+y_path: Y.csv         # path to .csv file for response vector
+out_path: ./results/   # path to directory for saving results
+k: 10                                   # number of folds for cross-validation
+y_factor: FALSE                        # is y categorical?
+y_levels: NULL                            # if y is ordinal, provide the levels
+eval_type: "corr"
+rep_cv: 500                             # number of replicates for cross-validation for delta
+nreps: 1                              # number of replicates for cross-validation in step 2
+alpha_level: 0.05                      # alpha level for confidence intervals
+thresh_fdr: 1                        # false discovery rate thresholding p-value cutoff
+permute: TRUE                       # if doing permutation or not
+benchmark: FALSE 
+std_cv: TRUE
+std_y: TRUE

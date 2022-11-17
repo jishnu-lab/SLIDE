@@ -1,0 +1,18 @@
+---
+x_path: ER_X.csv      # path to .csv file for data matrix
+y_path: y.csv         # path to .csv file for response vector
+out_path: ./results_w/   # path to directory for saving results
+k: 10                                   # number of folds for cross-validation
+y_factor: FALSE                        # is y categorical?
+y_levels: NULL                            # if y is ordinal, provide the levels
+eval_type: "corr"
+rep_cv: 100                             # number of replicates for cross-validation for delta
+nreps: 20                              # number of replicates for cross-validation in step 2
+alpha_level: 0.05                      # alpha level for confidence intervals
+thresh_fdr: 0.2                        # false discovery rate thresholding p-value cutoff=
+permute: TRUE                       # if doing permutation or not
+std_cv: TRUE
+std_y: TRUE
+benchmark: FALSE
+delta: 0.05
+lambda: [0.1, 0.5, 1, 1.5]
