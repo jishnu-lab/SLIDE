@@ -63,9 +63,7 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
     ## get validation interactions
     zs_ints_valid <- matrix(nrow = nrow(valid_z), ncol = 0)
     
-    debugFileName <- paste0("debug", rnorm(n = 1), ".rds")
     
-    cat(paste0("The debugg file name is ", debugFileName))
     
     
     saveRDS(list(
