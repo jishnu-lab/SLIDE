@@ -1,3 +1,3 @@
 # SLIDE
 To install SLIDE Please Run the following command:
-install_github("jrahimik/SLIDE")
+```install_github("jrahimik/SLIDE")```
