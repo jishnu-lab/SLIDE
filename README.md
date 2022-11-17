@@ -1,7 +1,9 @@
 # SLIDE
 First install `phate` in Python by running the following code from a  R command terminal:
 
-   
+
+
+```library(devtools)```   
 ```install_github("jishnu-lab/SLIDE")```
 
 
