@@ -1,6 +1,6 @@
 Package: SLIDE
 Type: Package
-Title: SLIDE
+Title: Latent Factor Interaction Discovery and Exploration (SLIDE)
 Version: 0.1.0
 Author: Javad Rahimikollu,Anna Rosengart
 Maintainer: Javad@pitt.edu
