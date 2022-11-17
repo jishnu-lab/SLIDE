@@ -9,7 +9,7 @@ To run the slide function, use the following command:
 
 ```library(doParallel)```
 
-
+For capturing the interaction effect ```do_interacts = TRUE```
 ```SLIDE(z,y,method = 4,do_interacts = TRUE,betas = NULL,spec = 0.3,fdr = 0.1,niter = 1000,elbow = FALSE,f_size = 100,parallel = TRUE,ncore = 10)```
 
 
