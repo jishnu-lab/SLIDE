@@ -12,7 +12,7 @@ To run the slide function, use the following command:
 For capturing the interaction effect ```do_interacts = TRUE```
 
 
-```SLIDE(z,y,method = 4,do_interacts = TRUE)```
+```res <- SLIDE(z,y,method = 4,do_interacts = TRUE)```
 
 
    
