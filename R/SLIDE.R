@@ -22,6 +22,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
                   spec = 0.3, fdr = 0.1, niter = 1000, elbow = FALSE, f_size = 100, parallel = TRUE, ncore = 10) {
   #### HOUSEKEEPING ############################################################
   ## record number of samples
+  require(dplyr)
   n <- nrow(z)
   
   ## boolean flag for monitoring model size
