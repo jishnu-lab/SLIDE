@@ -27,9 +27,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   ## boolean flag for monitoring model size
   greater_than_n <- TRUE
   
-  debugFileName <- paste0("SLIDEdebug", rnorm(n = 1), ".rds")
-  
-  cat(paste0("The SLIDE funtion debugg file name is ", debugFileName))
+ 
   
   
   

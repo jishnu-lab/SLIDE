@@ -65,20 +65,14 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
     
     
     
-    
-    saveRDS(list(
-      train_z = train_z,
-      train_y = train_y,
-      valid_z = valid_z,
-      res = res
-    ), file = paste0("/ix/djishnu/Javad/Poholek_scale_v_noscale/w_scale_220922/DebugData/", debugFileName))
+       
     
     ## loop through marginals and create upsilons by regressing on marg + its interactions
     ## and extracting the fitted values from the regression model
     
-    print(zs_train)
-    print("/n")
-    print(dim(zs_train))
+    
+    
+    
     zs_train <- as.data.frame(zs_train)
     
     

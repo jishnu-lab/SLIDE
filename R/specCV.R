@@ -173,9 +173,7 @@ specCV <- function(k = 5, y, x, z, out_path, rep, parallel = T, y_order = NULL, 
                        out_path = out_path)
         }
         ## save
-        saveRDS(list("valid_indices" = valid_ind,
-                     "her_results" = res),
-                file = paste0(new_dir, "fold", i, "_", spec, "_debug.rds"))
+       
         
         ## get training Zs (margs + interacts)
         if (!is.null(res$upsilon)) {  ## interactions found
