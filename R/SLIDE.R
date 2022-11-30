@@ -40,6 +40,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   
   #### MARGINAL SELECTION ######################################################
   ## select marginal variables
+  colnames(z) <- paste0("z",1:ncol(z))
   marginal_vars <- marginalSLIDE(z = z,
                                  y = y,
                                  method = method,
@@ -95,6 +96,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   ## do interaction term selection
   print("Before doing interaction SLIDE")
   print(marginal_vars)
+  marginal_vars<- as.numeric(sub("z","",marginal_vars))
   interactions <- interactionSLIDE(z = z,
                                    y = y,
                                    m = m,
