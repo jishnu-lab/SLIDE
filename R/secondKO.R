@@ -19,7 +19,7 @@ secondKO <- function(z, y, niter = 100, fdr = 0.2, parallel = TRUE) {
   if (parallel == T) { ## parallel computing
     selected_list <- foreach::foreach(i = 1:niter) %dopar% {
       result <- knockoff::knockoff.filter(X = z,
-                                          y = y, 
+                                          y = as.matrix(y), 
                                           knockoffs = knockoff::create.second_order, 
                                           statistic = knockoff::stat.glmnet_lambdasmax,
                                           offset = 0,
