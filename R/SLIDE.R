@@ -24,6 +24,7 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   ## record number of samples
   require(dplyr)
   n <- nrow(z)
+  y <- as.matrix(y)
   
   ## boolean flag for monitoring model size
   greater_than_n <- TRUE
