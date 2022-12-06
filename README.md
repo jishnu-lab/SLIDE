@@ -15,7 +15,9 @@ For capturing the interaction effect ```do_interacts = TRUE```
 
 
 From the  ```./test``` folder read the ```x``` and ```y``` using this command
+
 ```z <- ReadRDS('./test/z.rds')```
+
 ```y <- ReadRDS('./test/y.rds')``` 
 
 ```res <- SLIDE(z,y,method = 4,do_interacts = TRUE)```
