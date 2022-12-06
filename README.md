@@ -22,13 +22,13 @@ From the  ```./test``` folder read the ```x``` and ```y``` using this command
 
 The expected outcome for the run should be:
 
-For marginal variables:
+**For marginal variables:**
 
 ```res$marginal_vars```
 
 ```"z4"  "z10" "z46" ```
 
-``For the interactors:``
+**For the interactors:**
 
 ```Z4.Z3     Z4.Z12     Z4.Z18       Z4.Z27     Z10.Z18     Z46.Z41 ```
 
