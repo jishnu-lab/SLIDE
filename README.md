@@ -3,7 +3,7 @@
 - [Installation Guide](#installation-guide)
 - [Demo](#demo)
 - [Results](#results)
-- [Hardware requirements](#hardware requirements)
+- [Hardware Requirements](#hardware requirements)
 
 
 
@@ -51,7 +51,7 @@ The expected outcome for the run should be:
 
 
 
-## Hardware requirements
+## Hardware Requirements
 For minimal performance of the ```SLIDE```,  a computer with about 8 GB of RAM is required. For optimal performance, we recommend a computer with the following specs:
 
 RAM: 16+ GB
