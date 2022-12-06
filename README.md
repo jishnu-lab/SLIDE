@@ -3,7 +3,7 @@
 - [Installation Guide](#installation-guide)
 - [Demo](#demo)
 - [Results](#results)
-- [Hardware requirements](#Hardware requirements)
+- [Hardware requirements](#hardware requirements)
 
 
 
