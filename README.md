@@ -1,3 +1,16 @@
+## Contents
+
+- [Installation Guide](#installation-guide)
+- [Demo](#demo)
+- [Results](#results)
+- [Hardware requirements](#Hardware requirements)
+
+
+
+
+
+
+
 ## Installation Procedure
 # SLIDE
 First install `SLIDE` in Python by running the following code from a  R command terminal:
@@ -23,6 +36,7 @@ From the  ```./test``` folder read the ```z``` and ```y``` using this command
 
 ```res <- SLIDE(z,y,method = 4,do_interacts = TRUE)```
 
+## Results
 The expected outcome for the run should be:
 
 **For marginal variables:**
