@@ -38,6 +38,11 @@ The expected run time for the command to run is
 
 ```282.25 seconds ```
 
+## Hardware requirements
+For minimal performance of the ```SLIDE```,  a computer with about 8 GB of RAM is required. For optimal performance, we recommend a computer with the following specs:
+
+RAM: 16+ GB
+CPU: 4+ cores, 3.3+ GHz/core
 
 
 
