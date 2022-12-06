@@ -28,7 +28,8 @@ For marginal variables:
 
 ```"z4"  "z10" "z46" ```
 
-For the interactors:
+``For the interactors:``
+
 ```Z4.Z3     Z4.Z12     Z4.Z18       Z4.Z27     Z10.Z18     Z46.Z41 ```
 
 The expected run time for the command to run is 
