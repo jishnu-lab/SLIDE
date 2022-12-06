@@ -33,7 +33,7 @@ For the interactors:
 
 The expected run time for the command to run is 
 
-```282.25 seconds ``
+```282.25 seconds ```
 
 
 
