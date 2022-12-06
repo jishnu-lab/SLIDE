@@ -14,7 +14,7 @@ To run the slide function, use the following command:
 For capturing the interaction effect ```do_interacts = TRUE```
 
 
-From the  ```./test``` folder read the ```x``` and ```y``` using this command
+From the  ```./test``` folder read the ```z``` and ```y``` using this command
 
 ```z <- ReadRDS('./test/z.rds')```
 
