@@ -3,6 +3,9 @@ pairwise_interactions <- function(index_list, mat) {
   index_combinations <- expand.grid(index_list, seq_len(num_cols))
   col_names <- paste0(colnames(mat)[index_combinations[, 1]], ".", colnames(mat)[index_combinations[, 2]])
   interaction_mat <- mat[, index_combinations[, 1]] * mat[, index_combinations[, 2]]
+  if(is.null(dim(interaction_mat))){
+  interaction_mat <- matrix(interaction_mat,nrow=1)}
+  
   colnames(interaction_mat) <- col_names
   return(list(interaction=as.data.frame(interaction_mat)))
 }
