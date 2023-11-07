@@ -111,8 +111,8 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
                                    parallel = parallel, 
                                    fdr = fdr)
   
-  print("printig the yhat of each maginals:")
-  print(interactions$upsilons)
+  #print("printig the yhat of each maginals:")
+  #print(interactions$upsilons)
   
   #### METHOD 4 ADDITIONAL WORK ################################################
   if (method == 4 && !is.null(interactions$upsilon)) {
