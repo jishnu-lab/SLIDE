@@ -95,8 +95,9 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
   
   cat("      starting interaction selection . . . \n")
   ## do interaction term selection
-  print("Before doing interaction SLIDE")
-  print(marginal_vars)
+  
+  #print("Before doing interaction SLIDE")
+  #print(marginal_vars)
   marginal_vars<- as.numeric(sub("z","",marginal_vars))
   interactions <- interactionSLIDE(z = z,
                                    y = y,
