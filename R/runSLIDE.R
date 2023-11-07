@@ -82,8 +82,8 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
       only_ind <- gsub("upsZ", "", marg_var)
       marg_var <- gsub("ups", "", marg_var)
       ## make interaction terms
-      print("possible error:")
-      print(colnames(valid_z))
+      #print("possible error:")
+      #print(colnames(valid_z))
       
       inter_union <- interUnion(marginal_vars = marg_var, z = valid_z)
       ## get interaction variable names that were chosen as significant
