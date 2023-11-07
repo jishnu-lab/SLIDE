@@ -1,0 +1,16 @@
+---
+x_path: x.csv      # path to .csv file for data matrix
+y_path: y.csv         # path to .csv file for response vector
+out_path: ./results/   # path to directory for saving results
+k: 10                                   # number of folds for cross-validation
+y_factor: TRUE                        # is y categorical?
+y_levels: [0, 1]                            # if y is ordinal, provide the levels, NULL if not categorical or ordinal
+eval_type: "auc"      # change to "corr" if using correlation
+rep_cv: 50                             # number of replicates for cross-validation for delta
+nreps: 10                              # number of replicates for cross-validation in step 2
+alpha_level: 0.05                      # alpha level for confidence intervals
+thresh_fdr: 0.2                        # false discovery rate thresholding p-value cutoff=
+permute: TRUE                       # if doing permutation or not
+std_cv: TRUE                        # standardize X within CV?
+std_y: TRUE                         # standardize y within CV?
+benchmark: FALSE                    # benchmark to other method, do not change. 
