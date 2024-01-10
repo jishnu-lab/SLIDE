@@ -9,3 +9,33 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 4.2.0)
+Imports:
+    cluster,
+    doParallel,
+    dplyr,
+    foreach,
+    ggplot2,
+    glmnet,
+    grDevices,
+    graphics,
+    gtools,
+    knockoff,
+    linprog,
+    magrittr,
+    MASS,
+    matrixcalc,
+    methods,
+    pheatmap,
+    stringr,
+    pls,
+    plyr,
+    stats,
+    tidyr,
+    utils,
+    yaml,
+    Matrix,
+    EssReg,
+    tidygraph,
+    ggraph
