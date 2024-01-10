@@ -57,7 +57,7 @@ predError <- function(x, y, spec = 0.3, niter = 1000, fdr = 0.1, f_size = 100, n
 
   # run SLIDE
   cat("        SLIDE . . . . \n")
-  res_slide <- runSLIDE(
+  res_slide <- runSLIDEBeta(
     train_y = train_y_std,
     valid_y = valid_y_std,
     train_z = res_z_train,

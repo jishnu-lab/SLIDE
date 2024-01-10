@@ -210,7 +210,7 @@ benchCV <- function(rep, k = 5, y, x, z, y_order = NULL, std = TRUE, eval_type, 
           alpha_level = alpha_level
         )
       } else if (grepl(x = method_j, pattern = "SLIDE", fixed = TRUE)) { ## run SLIDE
-        result <- runSLIDE(
+        result <- runSLIDEBeta(
           train_y = use_y_train,
           train_z = train_z,
           valid_z = valid_z,
