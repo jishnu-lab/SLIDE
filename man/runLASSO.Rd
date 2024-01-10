@@ -24,6 +24,6 @@ a list containing the training model and the predicted values of the response
 using \code{valid_x} and \code{train_x}
 }
 \description{
-Runs LASSO to create a regression model and predicts response values 
+Runs LASSO to create a regression model and predicts response values
 for the validation set.
 }

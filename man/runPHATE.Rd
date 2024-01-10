@@ -20,6 +20,6 @@ a list containing the training model and the predicted values of the response
 using \code{valid_x} and \code{train_x}
 }
 \description{
-Creates a regression model on the embeddings of the data 
+Creates a regression model on the embeddings of the data
 set found from PHATE and predicts response values for the validation set.
 }

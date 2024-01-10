@@ -50,17 +50,17 @@ a vector of names corresponding to the selected columns of \code{z} that are det
 \description{
 Find significant marginal variables. There are currently six supported methods:
 top_betas - Significant marginal variables are selected as the variables corresponding to the absolute largest coefficients from Essential Regression.
-    Selected variables are in the top \eqn{\frac{\text{spec}}{2}} proportion of the positive or negative largest coefficients.
+Selected variables are in the top \eqn{\frac{\text{spec}}{2}} proportion of the positive or negative largest coefficients.
 marginals - Significant marginal variables are selected as the provided vector of indices. This requires passing in a vector of indices as \code{marginals}.
 1 - Significant marginal variables are those appearing in the longest list returned from \code{niter} iterations of
-    Gaussian knockoffs
+Gaussian knockoffs
 2 - Significant marginal variable is the single most freqently appearing variable returned from \code{niter} iterations of
-    second order knockoffs
+second order knockoffs
 3 - Significant marginal variables are those appearing in the best list returned from \code{niter} iterations of
-    second order knockoffs. In this case, "best" refers to the shortest list that has the maximal overlap with the list of
-    most frequently selected variables. The frequency list is comprised of those variables appearing at least \code{spec}
-    proportion of the interactions. If the number of selected significant marginal variables is longer than the number of samples
-    (number of rows of \code{z}), then \code{spec} is increased by 0.1, and the selected process is repeated.
-4 - Significant marginal variables are selected in the same way as in Method 3 but without reselection in the case of too long a 
-    list.
+second order knockoffs. In this case, "best" refers to the shortest list that has the maximal overlap with the list of
+most frequently selected variables. The frequency list is comprised of those variables appearing at least \code{spec}
+proportion of the interactions. If the number of selected significant marginal variables is longer than the number of samples
+(number of rows of \code{z}), then \code{spec} is increased by 0.1, and the selected process is repeated.
+4 - Significant marginal variables are selected in the same way as in Method 3 but without reselection in the case of too long a
+list.
 }

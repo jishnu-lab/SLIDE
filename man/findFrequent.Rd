@@ -18,6 +18,6 @@ a vector of names corresponding to the selected columns of \code{z} that are det
 }
 \description{
 Finds the "joint" of the elbow if a histogram were to be made. Loops through all variables and selects those that appear in at least
-50% of the iterations or that are before the elbow. In this case, the elbow occurs when the proportion of selections in the iterations
+50\% of the iterations or that are before the elbow. In this case, the elbow occurs when the proportion of selections in the iterations
 changes by more than \code{spec}.
 }

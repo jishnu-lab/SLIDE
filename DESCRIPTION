@@ -1,13 +1,12 @@
 Package: SLIDE
-Type: Package
 Title: Latent Factor Interaction Discovery and Exploration (SLIDE)
-Version: 0.1.0
+Version: 0.1.1
 Author: Javad Rahimikollu, Hanxi Xiao, Anna Rosengart
 Maintainer: The package maintainer <Javad@pitt.edu>
 Description: This method is designed to capture linear and interaction effect of identifiable latent variables defined by covariance structure.
 License: MIT
 Encoding: UTF-8
-LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 4.2.0)
@@ -39,3 +38,7 @@ Imports:
     EssReg,
     tidygraph,
     ggraph
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

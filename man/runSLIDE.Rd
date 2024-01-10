@@ -2,62 +2,42 @@
 % Please edit documentation in R/runSLIDE.R
 \name{runSLIDE}
 \alias{runSLIDE}
-\title{Run SLIDE for cross-validation.}
+\title{running the SLIDE function}
 \usage{
 runSLIDE(
-  train_y,
-  valid_y,
-  train_z,
-  valid_z,
-  method,
-  spec,
-  niter,
-  fdr,
-  f_size,
-  betas,
-  top_prop,
-  marginals,
-  parallel,
-  ncore,
-  y_factor
+  y_path,
+  z_path = NULL,
+  z_matrix,
+  er_path,
+  method = 4,
+  do_interacts = TRUE,
+  fdr = 0.1,
+  niter = 500,
+  spec = 0.1
 )
 }
 \arguments{
-\item{train_y}{a vector of numeric values; the response (training set)}
+\item{y_path}{a string that points to the y vector}
 
-\item{valid_y}{a vector of numeric values; the response (validation set)}
+\item{z_path}{a string that points to the z matrix, user can also input the matrix directly.}
 
-\item{train_z}{a matrix or data frame of numeric values; the latent factor data (training set)}
+\item{z_matrix}{the z matrix, user can also input a path to the csv file.}
 
-\item{valid_z}{a matrix or data frame of numeric values; the latent factor data (validation set)}
+\item{er_path}{a string that points to the final er result as an RDS object.}
 
-\item{method}{an integer (1, 2, 3, 4); the selection method for determining marginal/interaction significance}
+\item{method}{which method of SLIDE to run}
 
-\item{spec}{a numeric constant; the proportion of iterations that a variable must be selected in to be considered significant}
+\item{do_interacts}{whether get interaction terms or not}
 
-\item{niter}{an integer; the number of times to run knockoffs}
+\item{fdr}{the fdr threshold}
 
-\item{fdr}{a numeric constant between 0 and 1; the target false discovery rate for knockoffs}
+\item{niter}{the number of iterations SLIDE run}
 
-\item{f_size}{an integer; the target size for the subset (number of columns in each subset)}
-
-\item{betas}{a vector of numeric values; the coefficients corresponding to the variables in \code{z} (found using Essential Regression)}
-
-\item{top_prop}{a numeric constant between 0 and 1; the proportion of \code{betas} to consider significant}
-
-\item{marginals}{a vector of integers; the indices of the variables to consider significant}
-
-\item{parallel}{a boolean flag; run iterations in parallel or sequentially}
-
-\item{ncore}{an integer; the number of cores to use for parallel computing}
-
-\item{y_factor}{a boolean flag; whether the response is categorical or not}
+\item{spec}{the threshold to use to choose the latent factors}
 }
 \value{
-a list containing the training model and the predicted values of the response
-using \code{valid_x}
+A list that contains all key information from SLIDE.
 }
 \description{
-Creates a regression model from the results of SLIDE and
-predicts response values from the validation data.
+Run the SLIDE function and formulate the results and the key parameters into a object.
 }

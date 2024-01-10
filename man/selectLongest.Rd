@@ -21,5 +21,5 @@ a vector of names corresponding to the selected columns of \code{z} that are det
 \description{
 Find significant marginal variables:
 1 - Significant marginal variables are those appearing in the longest list returned from \code{niter} iterations of
-    Gaussian knockoffs.
+Gaussian knockoffs.
 }

@@ -20,13 +20,13 @@ findFeats(x, y, z, er_res, thresh = 0.01, p_thresh = 0.1)
 \item{p_thresh}{a numeric value; the threshold to use to determine significance for the univariate p-values}
 }
 \value{
-a list including the pure variables, mixed variables, features with significant p-values, features with 
-significantly large loadings, correlations between response and features, and the univariate p-values for the 
+a list including the pure variables, mixed variables, features with significant p-values, features with
+significantly large loadings, correlations between response and features, and the univariate p-values for the
 latent factor of interest
 }
 \description{
 For a given latent factor of interest, extract the features with the highest loadings in the
-\eqn{A} matrix calculated by Essential Regression, find the Spearman correlation between the response (\eqn{y}) 
+\eqn{A} matrix calculated by Essential Regression, find the Spearman correlation between the response (\eqn{y})
 and these features, and find the p-values on the coefficients of these features from
 a simple linear regression of \eqn{y} on these features (univariate).
 }

@@ -23,5 +23,5 @@ a vector of names corresponding to the selected columns of \code{z} that are det
 \description{
 Find significant marginal variables:
 2 - Significant marginal variable is the single most freqently appearing variable returned from \code{niter} iterations of
-    second order knockoffs
+second order knockoffs
 }

@@ -18,6 +18,6 @@ a list containing the training model and the predicted class probabilities of th
 using \code{valid_x} and \code{train_x}
 }
 \description{
-Creates a logistic regression model on the principal components of the data 
+Creates a logistic regression model on the principal components of the data
 set and predicts response values for the validation set.
 }
