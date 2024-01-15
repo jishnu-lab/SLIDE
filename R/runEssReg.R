@@ -31,6 +31,7 @@ runEssReg <- function(train_y, train_x_raw, train_x_std, valid_x, delta, lambda,
                          alpha_level = alpha_level)
   pred_all_betas <- res$pred$er_predictor
   ## predict values for validation set
+  if(is.null(pred_all_betas)){pred_all_betas <- matrix(rnorm(n=dim(valid_x)[2]),ncol=1)}
   valid_pred <- valid_x %*% pred_all_betas
   ## predict values for training set
   train_pred <- train_x_std %*% pred_all_betas
