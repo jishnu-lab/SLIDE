@@ -1,8 +1,8 @@
 #' Run SLIDE for cross-validation.
 #'
 #' Creates a regression model from the results of SLIDE and
-#' predicts response values from the validation data. 
-#' 
+#' predicts response values from the validation data.
+#'
 #' @param train_y a vector of numeric values; the response (training set)
 #' @param valid_y a vector of numeric values; the response (validation set)
 #' @param train_z a matrix or data frame of numeric values; the latent factor data (training set)
@@ -22,11 +22,11 @@
 #' using \code{valid_x}
 #' @export
 
-runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fdr, 
+runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fdr,
                      f_size, betas, top_prop, marginals, parallel, ncore, y_factor) {
   ## run SLIDE
-  
-  
+
+
   res <- SLIDE(z = train_z,
                y = train_y,
                method = method,
@@ -64,20 +64,20 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
     zs_train <- res$upsilon
     ## get validation interactions
     zs_ints_valid <- matrix(nrow = nrow(valid_z), ncol = 0)
-    
-    
-    
-       
-    
+
+
+
+
+
     ## loop through marginals and create upsilons by regressing on marg + its interactions
     ## and extracting the fitted values from the regression model
-    
-    
-    
-    
+
+
+
+
     zs_train <- as.data.frame(zs_train)
-    
-    
+
+
     for (t in 1:ncol(zs_train)) {
       ## get name of marginal and upsilon
       marg_var <- colnames(zs_train)[t]
@@ -86,7 +86,7 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
       ## make interaction terms
       #print("possible error:")
       #print(colnames(valid_z))
-      
+
       inter_union <- interUnion(marginal_vars = marg_var, z = valid_z)
       ## get interaction variable names that were chosen as significant
       selected_interactions <- res$interaction_vars
@@ -100,34 +100,34 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
       print(marg_var)
       # if(!grepl("Z",marg_var)){marg_var <- paste0("Z",marg_var)}
       # print(colnames(valid_z))
-      
-      
-      
+
+
+
       ## Sometime variables are coming with Z and sometimes not so this section do double checking!
-      
+
       if(!grepl("Z",colnames(res$upsilon)[1])){
       colnames(valid_z) <- gsub("Z","",colnames(valid_z))
       marg_var          <- gsub("Z","",marg_var)}else{
-        
-        if(!grepl("Z",colnames(valid_z)[1]) & !grepl("Z",marg_var) ){colnames(valid_z) <- paste0("Z",colnames(valid_z)); 
-        print("new columns are ") 
+
+        if(!grepl("Z",colnames(valid_z)[1]) & !grepl("Z",marg_var) ){colnames(valid_z) <- paste0("Z",colnames(valid_z));
+        print("new columns are ")
         marg_var <- paste0("Z",marg_var)}
-        
-        if(!grepl("Z",colnames(valid_z)[1]) & grepl("Z",marg_var) ){colnames(valid_z) <- paste0("Z",colnames(valid_z)); 
+
+        if(!grepl("Z",colnames(valid_z)[1]) & grepl("Z",marg_var) ){colnames(valid_z) <- paste0("Z",colnames(valid_z));
         print("new columns are ")
         colnames(valid_z)
         }
-        
-        if(grepl("Z",colnames(valid_z)[1]) & !grepl("Z",marg_var) ){ marg_var <- paste0("Z",marg_var); 
-        sprintf("new marginal is %s",marg_var) 
+
+        if(grepl("Z",colnames(valid_z)[1]) & !grepl("Z",marg_var) ){ marg_var <- paste0("Z",marg_var);
+        sprintf("new marginal is %s",marg_var)
         }
-        
-        
+
+
       }
-      
+
       valid_df <- data.frame(valid_z[, marg_var,drop=F], matrix(selected_interactions,nrow=nrow(valid_z)))
       colnames(valid_df) <- c(marg_var, res$interaction_vars[sel])
-      
+
       ## predict using trained model
       upsilon_name <- paste0("ups", marg_var)
       print(res$upsilon_mods[[upsilon_name]])
@@ -138,7 +138,7 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
       colnames(valid_upsilon) <- upsilon_name
       zs_ints_valid <- cbind(zs_ints_valid, valid_upsilon)
     }
-    
+
     ## extract the significant upsilons
     selected_upsilon <- colnames(res$upsilon)
     zs_valid <- zs_ints_valid[, selected_upsilon] %>%
@@ -165,7 +165,7 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
     #contrast <- stats::contrasts(as.factor(train_y))
     ## get labels from class probabilities - validation set
    # valid_pred <- ifelse(valid_prob > 0.5, rownames(contrast)[2], rownames(contrast)[1])
-    
+
     ## predict values for training set
     train_pred <- slide_mod$fitted.values
     ## get labels from class probabilities - training set
@@ -178,11 +178,11 @@ runSLIDE <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fd
     ## predict values for training set
     train_pred <- slide_mod$fitted.values
   }
-  
+
   ## add SLIDE results to replicate report
   cat("  SLIDE model size: ", ncol(zs_train), "\n")
-  
-  
+
+
   return (list("model" = res,
                "valid_pred" = valid_pred,
                "train_pred" = train_pred))

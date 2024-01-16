@@ -181,7 +181,7 @@ benchCV2 <- function(k = 5, y, x,z, delta, std_cv, std_y, thresh_fdr = 0.2, lamb
 
         pred_vals <- valid_x_std %*% pred_all_betas
       }else if (grepl(x = method_j, pattern = "SLIDE", fixed = TRUE)) { ## run SLIDE
-        res <- runSLIDE(
+        res <- runSLIDEBeta(
           train_y = as.numeric(as.character(use_y_train)),
           train_z = train_z,
           valid_z = valid_z,
