@@ -8,7 +8,7 @@ lambda: 1
 y_factor: TRUE
 y_levels: [0,1]
 rep_cv: 50
-nreps: 50
+nreps: 1
 eval_type: "auc"
 alpha_level: 0.05
 thresh_fdr: 0.5

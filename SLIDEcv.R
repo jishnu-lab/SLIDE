@@ -20,7 +20,7 @@ for(j in 1:er_input$nreps){
 
 }
 
-er_input <- yaml::yaml.load_file(yaml_path)
+  er_input <- yaml::yaml.load_file(yaml_path)
 
 pathLists <- list.files(er_input$out_path,recursive = T,pattern = "results")
 perfList <- lapply(paste0(er_input$out_path,pathLists), readRDS)
