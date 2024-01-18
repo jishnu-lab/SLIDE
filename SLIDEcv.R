@@ -46,3 +46,4 @@ if (er_input$eval_type == "corr") {
 }
 library(ggplot2)
 ggsave(paste0(er_input$out_path,"/delta",er_input$delta,"lambda",er_input$lambda,"_boxplot.pdf"),lambda_boxplot)
+saveRDS(perRes,file=paste0(er_input$out_path,"/delta",er_input$delta,"lambda",er_input$lambda,"_boxplot_data.rds"))
