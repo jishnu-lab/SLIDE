@@ -15,7 +15,7 @@
 #' @param alpha_level \eqn{\alpha}, a numerical constant used in confidence interval calculation
 #' @return a list containing the training model and the predicted values of the response
 #' using \code{valid_x} and using \code{train_x_std}
-#' @export
+
 
 runEssReg <- function(train_y, train_x_raw, train_x_std, valid_x, delta, lambda, thresh_fdr, rep_cv, alpha_level) {
   ## run ER
