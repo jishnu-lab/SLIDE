@@ -7,10 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+Loading data, libraries and yaml file. There are two examples we have prepared in the test folder. One of the example is of binary response data and the other of ordinal/continuous response data. 
 ```{r, include = FALSE}
-
-```
-
-```{r setup}
 library(SLIDE)
+yaml_path = "path/to/yaml/file"
+```
+We first start by checking if the input data matrices and the yaml file is set up correctly.
+```{r setup}
+
 ```

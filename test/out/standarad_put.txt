@@ -1,0 +1,130 @@
+Input Delta:
+0.01 
+0.1 
+Input Lambda:
+0.5 
+1 
+Setting sigma as Null.
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting rep_cv at  5 .
+Getting latent factors for delta,  0.01 , and lambda,  0.5 . 
+Getting latent factors for delta,  0.01 , and lambda,  1 . 
+Getting latent factors for delta,  0.1 , and lambda,  0.5 . 
+Getting latent factors for delta,  0.1 , and lambda,  1 . 
+Warning messages:
+1: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+2: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+3: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+4: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+5: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+6: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+7: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+8: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+9: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+10: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+11: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+12: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+13: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+14: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+15: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+16: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+17: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+18: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+19: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+20: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+21: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+22: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+23: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+24: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+25: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+26: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+27: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+28: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+29: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+30: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+31: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+32: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+33: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+34: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+35: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+36: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+37: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+38: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+39: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+40: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+41: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+42: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+43: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+44: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+45: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+46: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+47: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+48: In readLines(file) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+49: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+50: In readLines(f, n) :
+  incomplete final line found on '/ix/djishnu/Hanxi/SLIDE/DESCRIPTION'
+Populating all outputs to  /ix/djishnu/Hanxi/SLIDE/test/out .
+Input Delta:
+0.01 
+0.1 
+Input Lambda:
+0.5 
+1 
+Setting sigma as Null.
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting rep_cv at  5 .
+Getting latent factors for delta,  0.01 , and lambda,  0.5 . 
+Getting latent factors for delta,  0.01 , and lambda,  1 . 
+Getting latent factors for delta,  0.1 , and lambda,  0.5 . 
+Getting latent factors for delta,  0.1 , and lambda,  1 . 
