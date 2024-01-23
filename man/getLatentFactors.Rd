@@ -8,7 +8,7 @@ getLatentFactors(
   y,
   x,
   x_std,
-  std_y,
+  std_y = TRUE,
   sigma = NULL,
   delta,
   thresh_fdr = 0.2,

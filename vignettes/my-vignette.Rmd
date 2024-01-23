@@ -8,6 +8,7 @@ vignette: >
 ---
 
 Loading data, libraries and yaml file. There are two examples we have prepared in the test folder. One of the example is of binary response data and the other of ordinal/continuous response data. 
+Please check your yaml file at any of the website for formatting issues. (insert website here)
 ```{r, include = FALSE}
 library(SLIDE)
 yaml_path = "path/to/yaml/file"

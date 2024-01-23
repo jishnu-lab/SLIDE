@@ -7,9 +7,10 @@ delta:
   - 0.1
 lambda:
   - 0.5
-  - 1
+  - 1.0
 spec: 0.1
 y_factor: false
 y_levels: NULL
 eval_type: corr
 rep_cv: 5
+SLIDE_iter: 500

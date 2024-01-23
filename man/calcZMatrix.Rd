@@ -4,12 +4,16 @@
 \alias{calcZMatrix}
 \title{calculate Z matrix}
 \usage{
-calcZMatrix(x_path, er_path, out_path)
+calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, out_path)
 }
 \arguments{
+\item{x_std}{a matrix of input data.}
+
+\item{all_latent_factors}{a object from getLatentFactors.}
+
 \item{x_path}{a string that points to the x matrix.}
 
-\item{er_path}{a string that points to the final er result as an RDS object.}
+\item{lf_path}{a string that points to the getLatentFactors result as an RDS object.}
 
 \item{out_path}{a string that points to the folder where the z matrix will be outputted.}
 }

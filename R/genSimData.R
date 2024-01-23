@@ -74,7 +74,7 @@ genSimData <- function(n = 100, p = 300, k = 10, sig_k = 5, sig_inx = 0) {
     y <- 1 / sd(c(beta_marginal_corss)) * c(beta_marginal_corss) +
       stats::rnorm(n, sd = 1) ## add a little bit of noise
 
-    er_res <- EssReg::plainER(
+    er_res <- getLatentFactors(
       y = y,
       x = x,
       x_std = scale(x, T, T),

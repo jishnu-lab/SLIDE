@@ -22,7 +22,7 @@
 #' determined by cross-validation, \eqn{Q}, and the variances of \eqn{\hat{\beta}}
 #' @export
 
-getLatentFactors <- function(y, x, x_std, std_y, sigma = NULL, delta, thresh_fdr = 0.2, lambda = 0.1,
+getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thresh_fdr = 0.2, lambda = 0.1,
                     rep_cv = 50, alpha_level = 0.05, out_path = NULL) {
   ## Data Housekeeping #########################################################
   raw_y <- y
