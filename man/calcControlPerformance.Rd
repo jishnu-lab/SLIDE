@@ -4,12 +4,12 @@
 \alias{calcControlPerformance}
 \title{calcControlPerformance}
 \usage{
-calcControlPerformance(z_matrix, y_path, SLIDE_res, niter, condition, out_path)
+calcControlPerformance(z_matrix, y, SLIDE_res, niter, condition, out_path)
 }
 \arguments{
 \item{z_matrix}{the z_matrix, the output of CalcZMatrix function.}
 
-\item{y_path}{a string that points to the y vector.}
+\item{y}{the response matrix.}
 
 \item{SLIDE_res}{the output of GetTopFeatures function.}
 

@@ -10,7 +10,7 @@ runSLIDE(
   z_path = NULL,
   z_matrix,
   all_latent_factors,
-  lf_path,
+  lf_path = NULL,
   method = 4,
   do_interacts = TRUE,
   fdr = 0.1,

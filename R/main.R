@@ -12,7 +12,7 @@ if (dir.exists(input_params$out_path)){
    }
 
 if(sink_file == TRUE){
-  sink(paste0(input_params$out_path, "/standarad_out.txt"))
+  sink(paste0(input_params$out_path, "/standard_out.txt"))
 }
 
 
@@ -39,12 +39,19 @@ if (is.null(input_params$sigma)){
   } else {sigma = input_params$rep_cv}
 if (is.null(input_params$spec)){spec = 0.1} else {spec = input_params$spec}
 if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 500} else{SLIDE_iter = input_params$SLIDE_iter}
+if (is.null(input_params$eval_type)){
+  if (length(unique(y))<=2){eval_type = "auc"}
+  else{eval_type = "corr"}
+}else{eval_type = input_params$eval_type}
+if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
 
 cat("Setting alpha_level at ", alpha_level, ".\n")
 cat("Setting thresh_fdr at ", thresh_fdr, ".\n")
 cat("Setting rep_cv at ", rep_cv, ".\n")
 cat("Setting spec at ", spec, ".\n")
+cat("Setting eval_type as ", eval_type, ".\n")
 cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
+cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
 
 
 
@@ -82,11 +89,19 @@ for (d in delta){
                          thresh_fdr = thresh_fdr,
                          out_path = loop_outpath)
 
-    saveRDS(er_output, paste0(loop_outpath, 'AllLatentFactors.rds'))
+    saveRDS(all_latent_factors, paste0(loop_outpath, 'AllLatentFactors.rds'))
 
     z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
+
     SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter)
     saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
 
-      }
+    SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
+
+    plotSigGenes(SLIDE_res, loop_outpath, plot_interaction = TRUE)
+
+    #the SLIDE_res has to be the output from getTopFeatures
+    calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
+
+  }
 }

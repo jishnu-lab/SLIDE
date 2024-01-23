@@ -1,17 +1,3 @@
-#' calcControlPerformance
-#'
-#' Calculate control model performances including the real model, the model with random interaction terms and full random model. 
-#'
-#' @param z_matrix the z_matrix, the output of CalcZMatrix function.
-#' @param y the response matrix.
-#' @param SLIDE_res the output of GetTopFeatures function.
-#' @param niter a integer for number of iterations.
-#' @param condition a string on whether to run auc or corr.
-#' @param out_path the output path.
-#' @return The z matrix calculated by the CalcZMatrix function
-#' @export
-
-
 calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out_path){
   
   colnames(y) <- "y"
@@ -118,5 +104,32 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
   saveRDS(P2, file = paste0(out_path, "ControlPerformancePlot.rds"))
   ggplot2::ggsave(P2, filename = paste0(out_path, "ControlPerfomancePlot.png"))
 }
+
+
+
+pairwiseInteractions <- function(index_list, mat) {
+  num_cols <- ncol(mat)
+  index_combinations <- expand.grid(index_list, seq_len(num_cols))
+  col_names <- paste0(colnames(mat)[index_combinations[, 1]], ".", colnames(mat)[index_combinations[, 2]])
+  interaction_mat <- mat[, index_combinations[, 1]] * mat[, index_combinations[, 2]]
+  if(is.null(dim(interaction_mat))){
+    interaction_mat <- matrix(interaction_mat,nrow=1)}
+  
+  colnames(interaction_mat) <- col_names
+  return(list(interaction=as.data.frame(interaction_mat)))
+}
+
+
+
+
+
+#z_matrix at "/ix/djishnu/Hanxi/SLIDE/test/out/0.1_1_out/z_matrix.csv"
+# y at "/ix/djishnu/Hanxi/SLIDE/test/SkinScore.csv
+#SLIDE_res at "/ix/djishnu/Hanxi/SLIDE/test/out/0.1_1_out/control_input.RDS"
+#SLIDE_iter = 100
+#eval_type = "corr"
+#loop_outpath = "/ix/djishnu/Hanxi/SLIDE/test/out/0.1_1_out"
+
+calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
 
 

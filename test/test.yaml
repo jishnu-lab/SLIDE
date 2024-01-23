@@ -14,3 +14,4 @@ y_levels: NULL
 eval_type: corr
 rep_cv: 5
 SLIDE_iter: 500
+SLIDE_top_feats: 10

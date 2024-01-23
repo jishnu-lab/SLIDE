@@ -2,9 +2,9 @@
 #'
 #' Output the top features in each latent factors by taking a union of features with highest A loadings and spearman correlations or univariate AUCs
 #'
-#' @param x_path a string that points to the x matrix.
-#' @param y_path a string that points to the y vector.
-#' @param er_path a string that points to the final er result as an RDS object.
+#' @param x the input data matrix.
+#' @param y the input response matrix.
+#' @param all_latent_factors a R object contains all latent factors.
 #' @param out_path a string that points to a folder where txt files of each latent factors will be outputted.
 #' @param SLIDE_res the object outputted by the runSLIDE function. 
 #' @param num_top_feats the number of top features to get from each criteria such as A loadings or AUCs.
@@ -13,17 +13,15 @@
 #' @export
 
 
-getTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition){
+getTopFeatures <- function(x, y, all_latent_factors, out_path, SLIDE_res, num_top_feats = 10, condition){
   
-  x <- as.matrix(utils::read.csv(x_path, row.names = 1))
-  y <- as.matrix(utils::read.csv(y_path, row.names = 1))
-  er_res <- readRDS(er_path)
+  
   ks <- union(union(unique(SLIDE_res$interaction$p1), unique(SLIDE_res$interaction$p2)), unique(SLIDE_res$marginal_vals))
   
   if (is.null(ks) == TRUE){stop('The SLIDE_res input is not formatted correctly. Please re-run the runSLIDE function...')}
   if ("auc" == condition & length(unique(y[, 1])) != 2){stop('Only 2 levels allowed for y when condition = "auc".')}
   
-  A <- er_res$A[, ks]
+  A <- all_latent_factors$A[, ks]
   
   gene_names <- colnames(x)
   
