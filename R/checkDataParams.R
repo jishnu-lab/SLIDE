@@ -36,10 +36,10 @@ checkDataParams <- function(yaml_path, pipeline = NULL){
   if ((length(unique(y)) == 2) & (input_params$eval_type == 'corr')) { 
     warning("Only 2 level in response data (y), evaluation type is set as correlation.")
   }
-  if ((length(unique(y)) >= 2) & (input_params$eval_type == 'auc')) { 
-    stop("More than 2 level in response data (y), evaluation type is set as auc. Please change to auc.")
+  if ((length(unique(y)) > 2) & (input_params$eval_type == 'auc')) { 
+    stop("More than 2 level in response data (y), evaluation type is set as auc. Please change to corr.")
   }
-  if (is.null(rep_cv) == TRUE) {stop("rep_cv is not set. This is needed to choose stable parameter delta.")}
+  if (is.null(input_params$rep_cv) == TRUE) {stop("rep_cv is not set. This is needed to choose stable parameter delta.")}
   
   ##################################################################
   ##                          check yaml                          ##

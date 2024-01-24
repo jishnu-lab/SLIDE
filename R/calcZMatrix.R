@@ -31,6 +31,7 @@ calcZMatrix <- function(x_std, all_latent_factors, x_path = NULL, lf_path = NULL
   
   z_matrix <- predZ(x, er_res)
   colnames(z_matrix) <- paste0("Z", c(1:ncol(z_matrix)))
+  rownames(z_matrix) <- rownames(x)
   write.csv(z_matrix, paste0(out_path, "z_matrix.csv"), row.names = TRUE)
   return(z_matrix)
 }
