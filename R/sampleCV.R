@@ -18,7 +18,7 @@ sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV
   
   # if the number of SLIDE chosen lfs are bigger than 2/3(default number) of the sample numbers, return na
   lf_idx = union(SLIDE_res$marginal_vals, union(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2))
-  if (length(lf_idx) > length(sample(nrow(z), ceiling(fraction * nrow(z))))) {
+  if (length(lf_idx) > length(sample(nrow(z_matrix), ceiling(fraction * nrow(z_matrix))))) {
     perf = "NA"
     return(perf)
   } 
@@ -27,8 +27,8 @@ sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV
   sigK <- SLIDE_res$marginal_vals
   sigIn <- as.vector(SLIDE_res$SLIDE_res$interaction_vars)
   
-  # get the z matrix for SLIDE selected LFs and the interaction terms
-  IntData <- pairwiseInteractions(sigK,z)
+  # get the z_matrix for SLIDE selected LFs and the interaction terms
+  IntData <- pairwiseInteractions(sigK,z_matrix)
   Dataint <- IntData$interaction[, sigIn]
   # create the data for lm or logistic regression
   lm_data <- data.frame(y = y, z_matrix[, sigK], Dataint)
@@ -38,13 +38,13 @@ sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV
   for (iter in 1:sampleCV_iter){
     
     # randomly choose idx each round
-    sample_idx <- sample(nrow(z), ceiling(fraction * nrow(z)))
+    sample_idx <- sample(nrow(z_matrix), ceiling(fraction * nrow(z_matrix)))
     train_lm_data <- lm_data[sample_idx, ]
     test_lm_data <- lm_data[-sample_idx, ]
     # get rid of the y in the test data
     y_true <- test_lm_data$y
     test_lm_data <- test_lm_data[, -1]
-    if(nrow(train_lm_data) + nrow(test_lm_data) != nrow(z)){stop("The data split in sampleCV is wrong...")}
+    if(nrow(train_lm_data) + nrow(test_lm_data) != nrow(z_matrix)){stop("The data split in sampleCV is wrong...")}
     if(length(y_true) != nrow(test_lm_data)){stop("The dimensions of true y and test data doesn't match in samplesCV.")}
     
     # build the model and get y_hat and y_true
