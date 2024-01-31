@@ -127,5 +127,6 @@ main <- function(yaml_path, sink_file){
       i = i+1
     }
   }
+  return(summary_table)
 }
 
