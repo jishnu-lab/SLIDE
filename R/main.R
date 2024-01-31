@@ -1,3 +1,9 @@
+#' Main Pipeline of Running SLIDE (get LF and run SLIDE without CV)
+#'
+#' @param yaml_path the string to a yaml path
+#' @param sink_file boolean flag of saving to a sink file or not
+#' @export
+
 ##################################### set up the parameters #####################################
 #input_params <- yaml::yaml.load_file("/ix/djishnu/Hanxi/SLIDE/test/test.yaml")
 #sink_file = FALSE
@@ -54,6 +60,7 @@ main <- function(yaml_path, sink_file){
   
   for (d in delta){
     for (l in  lambda){
+      i = 1
       ##################################### Get LF.#####################################
       loop_outpath = paste0(input_params$out_path, '/', d, '_', l, '_', 'out/' )
       dir.create(file.path(loop_outpath), showWarnings = F, recursive = T)
@@ -109,14 +116,15 @@ main <- function(yaml_path, sink_file){
       calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
       
       # calculate the sampleCV performance 
-      performance = sampleCV(y, z, SLIDE_res, fraction = 2/3, condition = condition, sampleCV_iter = 20, logistic = False, out_path = loop_outpath)
+      performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = False, out_path = loop_outpath)
       
       # fill in the summary table
       interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
       if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
     
       loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
-      
+      summary_table[i, ] = loop_summary
+      i = i+1
     }
   }
 }
