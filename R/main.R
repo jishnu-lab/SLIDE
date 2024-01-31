@@ -58,9 +58,9 @@ main <- function(yaml_path, sink_file){
   summary_table <- as.data.frame(matrix(NA, nrow = length(delta) * length(lambda), ncol = 6))
   colnames(summary_table) <- c('delta', 'lambda', '# of LFs', '# of Sig LFs', '# of Interactors', 'sampleCV Performance')
   
+  i = 1
   for (d in delta){
     for (l in  lambda){
-      i = 1
       ##################################### Get LF.#####################################
       loop_outpath = paste0(input_params$out_path, '/', d, '_', l, '_', 'out/' )
       dir.create(file.path(loop_outpath), showWarnings = F, recursive = T)

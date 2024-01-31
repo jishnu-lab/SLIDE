@@ -3,7 +3,7 @@
 #' Calculate SLIDE performance using the sample CV framework for a quick evaluation. This is meant to help user to choose which model to use for the more rigorous cross validation. 
 #'
 #' @param y the response matrix.
-#' @param z the z_matrix, the output of CalcZMatrix function
+#' @param z_matrix the z_matrix, the output of CalcZMatrix function
 #' @param SLIDE_res the output of GetTopFeatures function.
 #' @param fraction the fraction of samples to choose for sampling.
 #' @param condition use auc or corr(spearman) to evaluate performance.
@@ -14,7 +14,7 @@
 #' @export
 
 
-sampleCV <- function(y, z, SLIDE_res, fraction = 2/3, condition, sampleCV_iter = 20,  logistic = FALSE, out_path){
+sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV_iter = 20,  logistic = FALSE, out_path){
   
   # if the number of SLIDE chosen lfs are bigger than 2/3(default number) of the sample numbers, return na
   lf_idx = union(SLIDE_res$marginal_vals, union(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2))

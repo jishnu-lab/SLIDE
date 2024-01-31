@@ -6,7 +6,7 @@
 \usage{
 sampleCV(
   y,
-  z,
+  z_matrix,
   SLIDE_res,
   fraction = 2/3,
   condition,
@@ -18,7 +18,7 @@ sampleCV(
 \arguments{
 \item{y}{the response matrix.}
 
-\item{z}{the z_matrix, the output of CalcZMatrix function}
+\item{z_matrix}{the z_matrix, the output of CalcZMatrix function}
 
 \item{SLIDE_res}{the output of GetTopFeatures function.}
 
