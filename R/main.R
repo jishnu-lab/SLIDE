@@ -127,6 +127,7 @@ main <- function(yaml_path, sink_file){
       i = i+1
     }
   }
+  write.csv(summary_table, paste0(outpath, "/summary_table.csv"))
   return(summary_table)
 }
 
