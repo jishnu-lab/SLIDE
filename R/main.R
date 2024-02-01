@@ -66,7 +66,7 @@ main <- function(yaml_path, sink_file){
       dir.create(file.path(loop_outpath), showWarnings = F, recursive = T)
       
       if(sink_file == TRUE){
-        sink(paste0(input_params$loop_outpath, "/standard_out.txt"))
+        sink(paste0(loop_outpath, "/standard_out.txt"))
       }
       cat("Getting latent factors for delta, ", d, ", and lambda, ", l, ". \n")
       cat("Setting alpha_level at ", alpha_level, ".\n")
@@ -109,7 +109,7 @@ main <- function(yaml_path, sink_file){
       
       # get top features txt files and latent factor plots
       SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
-      plotSigGenes(SLIDE_res, loop_outpath, plot_interaction = TRUE)
+      plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath, )
       
       #the SLIDE_res has to be the output from getTopFeatures
       #calculate the control performance plot
@@ -127,7 +127,7 @@ main <- function(yaml_path, sink_file){
       i = i+1
     }
   }
-  write.csv(summary_table, paste0(outpath, "/summary_table.csv"))
+  write.csv(summary_table, paste0(input_params$out_path, "/summary_table.csv"))
   return(summary_table)
 }
 
