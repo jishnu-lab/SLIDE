@@ -109,7 +109,7 @@ main <- function(yaml_path, sink_file){
       
       # get top features txt files and latent factor plots
       SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
-      plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath, )
+      plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath)
       
       #the SLIDE_res has to be the output from getTopFeatures
       #calculate the control performance plot
