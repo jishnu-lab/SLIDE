@@ -10,6 +10,7 @@
 
 main <- function(yaml_path, sink_file){
   
+  input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
   # check if output path exists
   if (dir.exists(input_params$out_path)){
