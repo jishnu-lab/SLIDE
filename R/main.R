@@ -5,8 +5,6 @@
 #' @export
 
 ##################################### set up the parameters #####################################
-#input_params <- yaml::yaml.load_file("/ix/djishnu/Hanxi/SLIDE/test/test.yaml")
-#sink_file = FALSE
 
 main <- function(yaml_path, sink_file){
   

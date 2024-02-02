@@ -7,7 +7,7 @@
 
 calcDefaultFsize <- function(y, all_latent_factors){
   
-  if ((dim(y)[[1]] <= all_latent_factors$K) & (all_latent_factors$K < 100)){
+  if ((dim(y)[[1]] <= all_latent_factors$K) && (all_latent_factors$K < 100)){
     if (abs(dim(y)[[1]]-all_latent_factors$K) <= 2){
       f_size = dim(y)[[1]] - 2
     } else{
@@ -15,7 +15,7 @@ calcDefaultFsize <- function(y, all_latent_factors){
     }
   }
   
-  if ((dim(y)[[1]] > all_latent_factors$K) & (all_latent_factors$K < 100)){
+  if ((dim(y)[[1]] > all_latent_factors$K) && (all_latent_factors$K < 100)){
     f_size = all_latent_factors$K
   }
 
