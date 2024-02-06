@@ -47,7 +47,7 @@ runSLIDE <- function(y_path, z_path = NULL, z_matrix, er_path, method = 4, do_in
   p2 <- as.double(p2)
   final_res$SLIDE_res <- SLIDE_res
   final_res$SLIDE_param <- SLIDE_param
-  final_res$marginal_vals <- SLIDE_res$marginal_vars
+  final_res$marginal_vals  <- as.numeric(gsub("^[zZ]","",SLIDE_res$marginal_vals))
   final_res$interaction <- data.frame(p1, p2)
   return(final_res)
 }
