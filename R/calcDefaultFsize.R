@@ -7,8 +7,9 @@
 
 calcDefaultFsize <- function(y, all_latent_factors){
   
-  cat(dim(y[[1]]))
-  cat(all_latent_factors$K)
+  cat("this is y dim", dim(y[[1]]))
+  cat("this is num k", all_latent_factors$K)
+  cat("this is ifna", is.na(dim(y[[1]])))
   
   if ((dim(y)[[1]] <= all_latent_factors$K) && (all_latent_factors$K < 100)){
     cat("In calcDefaultFsize block 1")
