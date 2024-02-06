@@ -81,8 +81,8 @@ main <- function(yaml_path, sink_file){
         y <- toCont(y, input_params$y_order)
         
         saveRDS(y, file = paste0(input_params$out_path, "plainER_y_mapping.rds"))
-        orig_y <- y$cat_y
-        y <- y$cont_y
+        orig_y <- as.matrix(y$cat_y)
+        y <- as.matrix(y$cont_y)
       }
       
       #final output
