@@ -1,7 +1,7 @@
 ---
 x_path: /ix/djishnu/Hanxi/SLIDE/test/Ssc_x.csv
 y_path: /ix/djishnu/Hanxi/SLIDE/test/SkinScore.csv
-out_path: /ix/djishnu/Hanxi/SLIDE/test/out
+out_path: /ix/djishnu/Hanxi/SLIDE/test/binary_out
 delta:
   - 0.01
   - 0.1

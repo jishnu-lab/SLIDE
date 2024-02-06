@@ -78,11 +78,12 @@ main <- function(yaml_path, sink_file){
       
       
       if (input_params$y_factor) {
-        y <- toCont(y, input_params$y_order)
+        y_temp <- toCont(y, input_params$y_order)
         
-        saveRDS(y, file = paste0(input_params$out_path, "plainER_y_mapping.rds"))
-        orig_y <- as.matrix(y$cat_y)
-        y <- as.matrix(y$cont_y)
+        saveRDS(y_temp, file = paste0(input_params$out_path, "plainER_y_mapping.rds"))
+        orig_y <- as.matrix(y_temp$cat_y)
+        y <- as.matrix(y_temp$cont_y)
+        row.names(y) <- row.names(y_temp$cat_y)
       }
       
       #final output
