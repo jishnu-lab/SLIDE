@@ -33,8 +33,6 @@ yaml_path = "/ix/djishnu/Hanxi/SLIDE/test/test.yaml"
 input_params = yaml::read_yaml(yaml_path)
 ```
 
-Once we have checked that our yaml file looks good.
-
 ```{r}
 checkDataParams(yaml_path)
 ```
@@ -45,7 +43,6 @@ Delta and Lambda are 2 key parameters for SLIDE. Delta tunes the number of laten
 
 Spec is the parameter that controls the number of significant latent factor chosen by the algorithm. The lower the spec is the
 
-checkDataParams(yaml_path)
 
 ```{r setup}
 
