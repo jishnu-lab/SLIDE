@@ -8,7 +8,6 @@ vignette: >
 ---
 
 **Pre-Processing and Checking Input Data**
-
 Due to the assumption-free-nature of SLIDE, there are no data modality limit to the input of SLIDE. [The key input to SLIDE are just two csv files, the data matrix x and the response vector y file.]{.underline} The x file contains your data such as single cell transcriptomics (cell by gene), or spatial proteomics (region by protein). The y file contains the responses of the data, such as severity of disease or clonal expansion. Since SLIDE is a regression method, when your data has multiple unique values (not just two classes), please make sure there are an ordinal relation between the y values.
 
 In this tutorial, we are going to use the example Systemic Sclerosis dataset we have used in the SLIDE paper. This dataset is a human skin cell scRNA-seq dataset that we have transformed into the pseudo-bulk format. [If you have human single-cell data,]{.underline} our recommended workflow is to pseudobulk your dataset since the cell-to-cell variability is high (we are currently working on employing Metacell for SLIDE, tutorial coming soon).
@@ -24,6 +23,10 @@ SLIDE accepts many parameters from user input to give user as much freedom to tw
 x_path: a string to the x data matrix in the csv format [with row names and column names where each rows are samples (cells, patients, regions...) and columns are features (genes, proteins...)]{.underline}.
 
 We can check what the yaml file look like by reading it in as an varaible:
+
+Loading data, libraries and yaml file. There are two examples we have prepared in the test folder. One of the example is of binary response data and the other of ordinal/continuous response data. Please check your yaml file at any of the website for formatting issues. (insert website here) This tutorial does ssc blah blah We first load the example yaml file which stores all of the parameters.
+
+
 
 ![the example yaml file](test_yaml_example.png)
 
