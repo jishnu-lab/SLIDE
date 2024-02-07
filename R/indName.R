@@ -9,10 +9,10 @@
 #' @export
 
 indName <- function(feats, all_names, to_ind = T) {
-  if (to_ind) { ## if going from index to name
+  if (to_ind) {
     where_feat <- match(feats, all_names)
     return (where_feat)
-  } else { ## if going from name to index
+  } else {
     which_feat <- all_names[feats]
     return (which_feat)
   }

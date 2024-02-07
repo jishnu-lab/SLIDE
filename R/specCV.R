@@ -121,7 +121,7 @@ specCV <- function(k = 5, y, x, z, out_path, rep, parallel = T, y_order = NULL, 
       
       if (spec == "ER") {
         ## run ER
-        res <- EssReg::plainER(y = train_y,
+        res <- getLatentFactors(y = train_y,
                                x = train_x,
                                sigma = NULL,
                                delta = 0.06,

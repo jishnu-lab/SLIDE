@@ -165,7 +165,7 @@ benchCV2 <- function(k = 5, y, x,z, delta, std_cv, std_y, thresh_fdr = 0.2, lamb
         use_y_train_ER <- train_y_raw
       }
       if (grepl(x = method_j, pattern = "plainER", fixed = TRUE)) {
-        res <- plainER(y = use_y_train_ER, x = train_x_raw,
+        res <- getLatentFactors(y = use_y_train_ER, x = train_x_raw,
                        x_std = train_x_std, std_y = std_y, sigma = NULL,
                        delta = delta, lambda = lambda, thresh_fdr = thresh_fdr,
                        rep_cv = rep_cv, alpha_level = alpha_level)

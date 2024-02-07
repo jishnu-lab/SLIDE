@@ -5,25 +5,32 @@
 \title{running the SLIDE function}
 \usage{
 runSLIDE(
-  y_path,
+  y,
+  y_path = NULL,
   z_path = NULL,
   z_matrix,
-  er_path,
+  all_latent_factors,
+  lf_path = NULL,
   method = 4,
   do_interacts = TRUE,
   fdr = 0.1,
   niter = 500,
-  spec = 0.1
+  spec = 0.1,
+  f_size = NULL
 )
 }
 \arguments{
-\item{y_path}{a string that points to the y vector}
+\item{y}{a matrix of the response vector}
+
+\item{y_path}{a string that points to the response vector}
 
 \item{z_path}{a string that points to the z matrix, user can also input the matrix directly.}
 
 \item{z_matrix}{the z matrix, user can also input a path to the csv file.}
 
-\item{er_path}{a string that points to the final er result as an RDS object.}
+\item{all_latent_factors}{a object contain all latent factors from getLatentFactors.}
+
+\item{lf_path}{a string that points to the all_latent_factors as an RDS object.}
 
 \item{method}{which method of SLIDE to run}
 
@@ -34,6 +41,8 @@ runSLIDE(
 \item{niter}{the number of iterations SLIDE run}
 
 \item{spec}{the threshold to use to choose the latent factors}
+
+\item{f_size}{the number of latent factors to split.}
 }
 \value{
 A list that contains all key information from SLIDE.

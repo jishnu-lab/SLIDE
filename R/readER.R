@@ -10,25 +10,39 @@
 #' found by ER
 #' @export
 
-readER <- function(er_res) {
-  A <- er_res$A
+readER <- function(x, er_res) {
+  var_names <- colnames(x)
   #### get clusters with structure
-  clusters <- list()
-  for (i in 1:ncol(A)) {
-    column <- A[,i]
-    posInd <- which(column > 0)
-    negInd <- which(column < 0)
-    clusters[[i]] <- list(pos = posInd, neg = negInd)
+  clusters <- recoverGroup(er_res$A)
+  new_clusters <- NULL
+  for (i in 1:length(clusters)) {
+    cluster_name <- paste0("Z", i)
+    cluster <- clusters[[i]]
+    if (length(cluster$pos) > 0) {
+      names(cluster$pos) <- var_names[cluster$pos]
+    } else {
+      cluster$pos <- NULL
+    }
+    if (length(cluster$neg) > 0) {
+      names(cluster$neg) <- var_names[cluster$neg]
+    } else {
+      cluster$neg <- NULL
+    }
+    new_clusters[[cluster_name]] <- cluster
   }
+  clusters <- new_clusters
   #### get all features included in clusters
-  samp_feats <- as.vector(unlist(clusters)) %>% unique()
+  samp_feats <- unlist(clusters) %>% unique()
   #### get pure variables
-  pure_vars <- c()
-  for (i in 1:ncol(A)) {
-    pure_vars <- c(pure_vars, which(abs(A[ ,i]) == 1))
-  }
+  pure_vars <- pureRowInd(er_res$A)
+  names(pure_vars) <- var_names[pure_vars]
   #### get mixed variables
   mix_vars <- setdiff(samp_feats, pure_vars)
+  if (length(mix_vars) > 0) {
+    names(mix_vars) <- var_names[mix_vars]
+  } else {
+    mix_vars <- NULL
+  }
   return(list("clusters" = clusters,
               "pure_vars" = pure_vars,
               "mix_vars" = mix_vars))

@@ -3,34 +3,59 @@
 #' Run the SLIDE function and formulate the results and the key parameters into a object.
 
 #' @importFrom foreach '%dopar%'
-#' @param y_path a string that points to the y vector
+#' @param y_path a string that points to the response vector
+#' @param y a matrix of the response vector
 #' @param z_path a string that points to the z matrix, user can also input the matrix directly.
 #' @param z_matrix the z matrix, user can also input a path to the csv file.
-#' @param er_path a string that points to the final er result as an RDS object.
+#' @param all_latent_factors a object contain all latent factors from getLatentFactors.
+#' @param lf_path a string that points to the all_latent_factors as an RDS object.
 #' @param method which method of SLIDE to run
 #' @param do_interacts whether get interaction terms or not
 #' @param fdr the fdr threshold
 #' @param niter the number of iterations SLIDE run
 #' @param spec the threshold to use to choose the latent factors
+#' @param f_size the number of latent factors to split. 
 #' @return A list that contains all key information from SLIDE.
 #' @export
 
 
-runSLIDE <- function(y_path, z_path = NULL, z_matrix, er_path, method = 4, do_interacts=TRUE, fdr = 0.1, niter = 500, spec = 0.1){
+runSLIDE <- function(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, method = 4, do_interacts=TRUE, fdr = 0.1, niter = 500, spec = 0.1, f_size = NULL){
   final_res <- NULL
-  y <- as.matrix(utils::read.csv(y_path, row.names = 1))
-  if (is.null(z_path) == FALSE){z <- as.matrix(utils::read.csv(z_path, row.names = 1))}
-  else{z = z_matrix}
-  er_res <- readRDS(er_path)
+  if (!is.null(y_path)){
+    y <- as.matrix(utils::read.csv(y_path, row.names = 1))
+  }
   
-  if (er_res$K <= 100){
-    f_size = er_res$K
-  }else (f_size = 100)
+  if (!is.null(z_path)){
+    z <- as.matrix(utils::read.csv(z_path, row.names = 1))
+    } else {z = z_matrix}
+  
+  if (!is.null(lf_path)){
+    all_latent_factors <- readRDS(lf_path)
+    }
+  
+  if (is.null(f_size)){
+    f_size <- calcDefaultFsize(y, all_latent_factors)
+  }
   
   cat("f_size is set as ", f_size, "\n")
-  
-  SLIDE_res <- SLIDE:::SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
-                            spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+  if (!is.null(f_size)){
+    tryCatch({
+      SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
+                         spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+    },
+    error = function(e){
+      warning("An error has occured with SLIDE. Re-running SLIDE with default f_size value.")
+    },
+    finally = {
+      f_size = calcDefaultFsize(y, all_latent_factors)
+      cat("Rerunning SLIDE with default f_size as ", f_size, '.\n')
+      SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
+                         spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+    })
+  } else{
+    SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
+                       spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+  }
   
   SLIDE_param <- c(method, spec, fdr, niter, f_size)
   names(SLIDE_param) <- c("method", "spec", "fdr", "niter", "f_size")

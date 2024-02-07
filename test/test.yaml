@@ -1,0 +1,17 @@
+---
+x_path: /ix/djishnu/Hanxi/SLIDE/test/Ssc_x.csv
+y_path: /ix/djishnu/Hanxi/SLIDE/test/SkinScore.csv
+out_path: /ix/djishnu/Hanxi/SLIDE/test/binary_out
+delta:
+  - 0.01
+  - 0.1
+lambda:
+  - 0.5
+  - 1.0
+spec: 0.1
+y_factor: false
+y_levels: NULL
+eval_type: corr
+rep_cv: 5
+SLIDE_iter: 500
+SLIDE_top_feats: 10
