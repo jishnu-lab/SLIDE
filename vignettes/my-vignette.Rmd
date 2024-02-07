@@ -7,15 +7,49 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Loading data, libraries and yaml file. There are two examples we have prepared in the test folder. One of the example is of binary response data and the other of ordinal/continuous response data. 
-Please check your yaml file at any of the website for formatting issues. (insert website here)
-This tutorial does ssc blah blah 
-We first load the example yaml file which stores all of the parameters.
-```{r, include = FALSE}
+**Pre-Processing and Checking Input Data**
+
+Due to the assumption-free-nature of SLIDE, there are no data modality limit to the input of SLIDE. [The key input to SLIDE are just two csv files, the data matrix x and the response vector y file.]{.underline} The x file contains your data such as single cell transcriptomics (cell by gene), or spatial proteomics (region by protein). The y file contains the responses of the data, such as severity of disease or clonal expansion. Since SLIDE is a regression method, when your data has multiple unique values (not just two classes), please make sure there are an ordinal relation between the y values.
+
+In this tutorial, we are going to use the example Systemic Sclerosis dataset we have used in the SLIDE paper. This dataset is a human skin cell scRNA-seq dataset that we have transformed into the pseudo-bulk format. [If you have human single-cell data,]{.underline} our recommended workflow is to pseudobulk your dataset since the cell-to-cell variability is high (we are currently working on employing Metacell for SLIDE, tutorial coming soon).
+
+If you have mouse single cell data, with the reduced cell-to-cell variability, you can consider each cell as an sample.(another tutorial)
+
+**Parameters**
+
+The input to SLIDE is the path to a yaml file which documents the parameters. You can see an example for continuous output in the test folder.
+
+SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
+
+x_path: a string to the x data matrix in the csv format [with row names and column names where each rows are samples (cells, patients, regions...) and columns are features (genes, proteins...)]{.underline}.
+
+We can check what the yaml file look like by reading it in as an varaible:
+
+![the example yaml file](test_yaml_example.png)
+
+```{r}
 library(SLIDE)
 yaml_path = "/ix/djishnu/Hanxi/SLIDE/test/test.yaml"
+input_params = yaml::read_yaml(yaml_path)
 ```
-We first start by checking if the input data matrices and the yaml file is set up correctly.
+
+Once we have checked that our yaml file looks good.
+
+```{r}
+checkDataParams(yaml_path)
+```
+
+The x_path and y_path are the path to the input data matrices and response vector in the csv format. Both row names and column names are needed. The out_path is where all the output will automatically be populated to.
+
+Delta and Lambda are 2 key parameters for SLIDE. Delta tunes the number of latent factors, the higher the delta, the less number of latent factors will be produced. Lambda tunes the sparsity in each latent factors such as how many members each latent factors will contain. The higher the lambda, the more sparse the latent factors will be. SLIDE will automatically run the method pairwise of delta and lambda. For example, with the example yaml file, four SLIDE output will be produced with delta = 0.01 - lambda = 0.5, delta = 0.01 - lambda = 0.5...
+
+Spec is the parameter that controls the number of significant latent factor chosen by the algorithm. The lower the spec is the
+
+checkDataParams(yaml_path)
+
 ```{r setup}
 
+```
+
+```{r setup}
 ```

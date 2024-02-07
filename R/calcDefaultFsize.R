@@ -7,13 +7,8 @@
 
 calcDefaultFsize <- function(y, all_latent_factors){
   
-  cat("this is y dim", dim(y)[[1]])
-  cat("this is nrow(y)", nrow(y))
-  cat("this is num k", all_latent_factors$K)
-  cat("this is ifna", is.na(dim(y)[[1]]))
   
   if ((dim(y)[[1]] <= all_latent_factors$K) && (all_latent_factors$K < 100)){
-    cat("In calcDefaultFsize block 1")
     if (abs(dim(y)[[1]]-all_latent_factors$K) <= 2){
       f_size = dim(y)[[1]] - 2
     } else{
@@ -22,12 +17,10 @@ calcDefaultFsize <- function(y, all_latent_factors){
   }
   
   if ((dim(y)[[1]] > all_latent_factors$K) && (all_latent_factors$K < 100)){
-    cat("In calcDefaultFsize block 2")
     f_size = all_latent_factors$K
   }
 
   if (all_latent_factors$K >= 100){
-    cat("In calcDefaultFsize block 3")
     f_size = 100
   }
 return(f_size)

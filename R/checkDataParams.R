@@ -14,22 +14,31 @@ checkDataParams <- function(yaml_path, pipeline = NULL){
   ##                          check data                          ##
   ##################################################################
   # check col names
+  cat("Checking the format and dimensions of input data and response matrices... \n")
   if (is.null(names(as.data.frame(x))) == TRUE){stop("No feature names found for the input data (X), please add column names...")}
   if (is.null(names(as.data.frame(y))) == TRUE){stop("No column name found for the response data (y), please add column name...")}
+  
   # check the dimensions  
   if (dim(x)[1] != length(y)) {stop("The number of samples in input data (X) and response data (y) does not match or data matrix needs to be transposed.")}
+  
   # check the sample names
   if (sum(rownames(x) != row.names(y)) != 0) {warning("The samples names are not in the same order or do not match for the data matrix and the response vector.\n Note that the row orders of input data (X) and response data (y) needs to be the same.")}
+  
+  
+  cat("Checking na values in the input data and response matrices... \n")
   # check na values
   if (anyNA(x)) {stop("Input data (X) has NA values...")}
   if (anyNA(y)) {stop("Input response (y) has NA values...")}
   if (anyNA(scale(x, T, T))) {stop("Input data (X) has features with zero standard deviation.")}
+  
+  
   # check levels in y
   if (length(unique(y)) < 2) { stop("There is only one unique value in the input response (y).")}
   
   ##################################################################
   ##                 check yaml for main pipeline                 ##
   ##################################################################
+  cat("Checking if yaml file is correct for the input data and response matrices... \n")
   if ((length(unique(y)) == 2) & (input_params$y_factor == FALSE)) {
     stop("The response data (y) is binary, set f_factor is set to TRUE. ")
   }
@@ -39,7 +48,6 @@ checkDataParams <- function(yaml_path, pipeline = NULL){
   if ((length(unique(y)) > 2) & (input_params$eval_type == 'auc')) { 
     stop("More than 2 level in response data (y), evaluation type is set as auc. Please change to corr.")
   }
-  if (is.null(input_params$rep_cv) == TRUE) {stop("rep_cv is not set. This is needed to choose stable parameter delta.")}
   
   ##################################################################
   ##                          check yaml                          ##
