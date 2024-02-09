@@ -35,7 +35,8 @@ main <- function(yaml_path, sink_file){
   if (is.null(input_params$alpha)){alpha_level = 0.05} else {alpha_level = input_params$alpha}
   if (is.null(input_params$thresh_fdr)){thresh_fdr = 0.2} else {thresh_fdr = input_params$thresh_fdr}
   if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
-  if(is.null(input_params$spec) ){spec = 0.1} else(spec = input_params$spec)
+  if (is.null(input_params$spec)){spec = 0.1} else(spec = input_params$spec)
+  if (is.null(input_params$do_interacts)){do_interacts = TRUE} else(do_interacts = do_interacts)
   if (is.null(input_params$sigma)){
     sigma = NULL
     cat("Setting sigma as Null.\n")
@@ -47,6 +48,7 @@ main <- function(yaml_path, sink_file){
     else{eval_type = "corr"}
   }else{eval_type = input_params$eval_type}
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
+  
 
   ##################################### Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
@@ -104,7 +106,7 @@ main <- function(yaml_path, sink_file){
       z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
       
       # run SLIDE
-      SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter)
+      SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
       
       # get top features txt files and latent factor plots
