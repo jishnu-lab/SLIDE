@@ -38,24 +38,29 @@ runSLIDE <- function(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_facto
   }
   
   cat("f_size is set as ", f_size, "\n")
+  error_occured = FALSE
   if (!is.null(f_size)){
     tryCatch({
       SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
                          spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
     },
     error = function(e){
+      error_occured = TRUE
       warning("An error has occured with SLIDE. Re-running SLIDE with default f_size value.")
     },
     finally = {
-      f_size = calcDefaultFsize(y, all_latent_factors)
-      cat("Rerunning SLIDE with default f_size as ", f_size, '.\n')
-      SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
-                         spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+      if (error_occured == TRUE){
+        f_size = calcDefaultFsize(y, all_latent_factors)
+        cat("Rerunning SLIDE with default f_size as ", f_size, '.\n')
+        SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
+                           spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+      }
     })
-  } else{
-    SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
-                       spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
-  }
+  } 
+  # else{
+  #   SLIDE_res <- SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
+  #                      spec = spec, fdr = fdr, niter = niter, elbow = FALSE, f_size = f_size, parallel = TRUE, ncore = 10)
+  # }
   
   SLIDE_param <- c(method, spec, fdr, niter, f_size)
   names(SLIDE_param) <- c("method", "spec", "fdr", "niter", "f_size")
@@ -72,7 +77,8 @@ runSLIDE <- function(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_facto
   p2 <- as.double(p2)
   final_res$SLIDE_res <- SLIDE_res
   final_res$SLIDE_param <- SLIDE_param
-  ##final_res$marginal_vals <- as.numeric(gsub("^[zZ]","",SLIDE_res$marginal_vals))
+  #final_res$marginal_vals <- SLIDE_res$marginal_vars
+  final_res$marginal_vals <- as.numeric(gsub("^[zZ]","",SLIDE_res$marginal_vars))
   final_res$interaction <- data.frame(p1, p2)
   return(final_res)
 }

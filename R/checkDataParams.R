@@ -20,17 +20,17 @@ checkDataParams <- function(yaml_path, pipeline = NULL){
   
   # check the dimensions  
   if (dim(x)[1] != length(y)) {stop("The number of samples in input data (X) and response data (y) does not match or data matrix needs to be transposed.")}
+  if (dim(y)[1] <= 15) {stop("The number of samples are too low to recieve accurate results.")}
+  if (dim(x)[2] >= 4000) {warning("The number of features are over 4000 which can result in long computational time, please reduce the number of features...")}
   
   # check the sample names
   if (sum(rownames(x) != row.names(y)) != 0) {warning("The samples names are not in the same order or do not match for the data matrix and the response vector.\n Note that the row orders of input data (X) and response data (y) needs to be the same.")}
-  
   
   cat("Checking na values in the input data and response matrices... \n")
   # check na values
   if (anyNA(x)) {stop("Input data (X) has NA values...")}
   if (anyNA(y)) {stop("Input response (y) has NA values...")}
   if (anyNA(scale(x, T, T))) {stop("Input data (X) has features with zero standard deviation.")}
-  
   
   # check levels in y
   if (length(unique(y)) < 2) { stop("There is only one unique value in the input response (y).")}
