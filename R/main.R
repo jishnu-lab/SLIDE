@@ -36,7 +36,7 @@ main <- function(yaml_path, sink_file){
   if (is.null(input_params$thresh_fdr)){thresh_fdr = 0.2} else {thresh_fdr = input_params$thresh_fdr}
   if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
   if (is.null(input_params$spec)){spec = 0.1} else(spec = input_params$spec)
-  if (is.null(input_params$do_interacts)){do_interacts = TRUE} else(do_interacts = do_interacts)
+  if (is.null(input_params$do_interacts)){do_interacts = TRUE} else(do_interacts = input_params$do_interacts)
   if (is.null(input_params$sigma)){
     sigma = NULL
     cat("Setting sigma as Null.\n")
@@ -77,7 +77,7 @@ main <- function(yaml_path, sink_file){
       cat("Setting eval_type as ", eval_type, ".\n")
       cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
       cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
-      
+      cat("Setting do_interacts as ", do_interacts, ".\n")
       
       if (input_params$y_factor) {
         y_temp <- toCont(y, input_params$y_order)
@@ -112,7 +112,7 @@ main <- function(yaml_path, sink_file){
       if (length(SLIDE_res$SLIDE_res$marginal_vars) != 0) {
         # get top features txt files and latent factor plots
         SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
-        plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath)
+        plotSigGenes(SLIDE_res, plot_interaction = do_interacts, out_path = loop_outpath)
         
         #the SLIDE_res has to be the output from getTopFeatures
         #calculate the control performance plot
@@ -122,12 +122,16 @@ main <- function(yaml_path, sink_file){
         performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)
         
         # fill in the summary table
-        interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
-        if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
-        
-        loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
+        if (do_interacts == TRUE){
+          interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
+          if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
+          loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
+        } else{
+          if (nrow(SLIDE_res$interaction) != 0) {stop("do_interacts set to FALSE but interaction terms found...")}
+          loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
+        }
       } else {
-        loop_summary = c(d, l, all_latent_factors$K, "null", "null", "NA")
+        loop_summary = c(d, l, all_latent_factors$K, "NA", "NA", "NA")
       }
       summary_table[cnt, ] = loop_summary
       cnt = cnt+1

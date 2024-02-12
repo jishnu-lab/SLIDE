@@ -21,7 +21,7 @@ getTopFeatures <- function(x, y, all_latent_factors, out_path, SLIDE_res, num_to
   if (is.null(ks) == TRUE){stop('The SLIDE_res input is not formatted correctly. Please re-run the runSLIDE function...')}
   if ("auc" == condition & length(unique(y[, 1])) != 2){stop('Only 2 levels allowed for y when condition = "auc".')}
   
-  A <- all_latent_factors$A[, ks]
+  A <- as.matrix(all_latent_factors$A[, ks])
   
   gene_names <- colnames(x)
   
