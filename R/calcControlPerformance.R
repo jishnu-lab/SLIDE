@@ -25,7 +25,7 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
   
   # Real ##########################################################################
   
-  sigK <- SLIDE_res$marginal_vals
+  sigK <- SLIDE_res$SLIDE_res$marginal_vars
   sigIn <- as.vector(SLIDE_res$SLIDE_res$interaction_vars)
   
   IntData <- pairwiseInteractions(sigK,z_matrix)
