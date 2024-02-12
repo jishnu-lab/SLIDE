@@ -59,7 +59,7 @@ main <- function(yaml_path, sink_file){
   summary_table <- as.data.frame(matrix(NA, nrow = length(delta) * length(lambda), ncol = 6))
   colnames(summary_table) <- c('delta', 'lambda', '# of LFs', '# of Sig LFs', '# of Interactors', 'sampleCV Performance')
   
-  i = 1
+  cnt = 1
   for (d in delta){
     for (l in  lambda){
       ##################################### Get LF.#####################################
@@ -109,24 +109,28 @@ main <- function(yaml_path, sink_file){
       SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
       
-      # get top features txt files and latent factor plots
-      SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
-      plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath)
-      
-      #the SLIDE_res has to be the output from getTopFeatures
-      #calculate the control performance plot
-      calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
-      
-      # calculate the sampleCV performance 
-      performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)
-      
-      # fill in the summary table
-      interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
-      if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
-    
-      loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
-      summary_table[i, ] = loop_summary
-      i = i+1
+      if (length(SLIDE_res$SLIDE_res$marginal_vars) != 0) {
+        # get top features txt files and latent factor plots
+        SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
+        plotSigGenes(SLIDE_res, plot_interaction = TRUE, out_path = loop_outpath)
+        
+        #the SLIDE_res has to be the output from getTopFeatures
+        #calculate the control performance plot
+        calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
+        
+        # calculate the sampleCV performance 
+        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)
+        
+        # fill in the summary table
+        interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
+        if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
+        
+        loop_summary = c(d, l, all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
+      } else {
+        loop_summary = c(d, l, all_latent_factors$K, "null", "null", "NA")
+      }
+      summary_table[cnt, ] = loop_summary
+      cnt = cnt+1
     }
   }
   write.csv(summary_table, paste0(input_params$out_path, "/summary_table.csv"))
