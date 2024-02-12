@@ -1,7 +1,7 @@
 ---
-x_path: /ix/djishnu/Hanxi/SLIDE/test/Ssc_x.csv
-y_path: /ix/djishnu/Hanxi/SLIDE/test/SkinScore.csv
-out_path: /ix/djishnu/Hanxi/SLIDE/test/out
+x_path: /ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/test/Ssc_x.csv
+y_path: /ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/test/SkinScore.csv
+out_path: /ix/djishnu/Javad/SLIDEDir_Lab/test/out
 delta:
   - 0.01
   - 0.1
