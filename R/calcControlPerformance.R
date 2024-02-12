@@ -38,7 +38,7 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
     aucreal <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
   }else if (condition == 'corr'){
     SumReal <- summary(lm(y ~ ., data = Data_real))
-    aucreal <- SumReal$r.squared
+    aucreal <- sqrt(SumReal$r.squared)
   }
   
   
