@@ -15,8 +15,6 @@ The SLIDE pipeline is consisted of below two steps. We recommand to run both ste
 
 2.  Reviewing the output of step 1 and choose the optimal parameters for rigorous k-fold CV.
 
-    ![](Vignette.png)
-
 **Step 1: Parameter Tuning**
 
 **1-1 Pre-Processing and Checking Input Data**
@@ -65,7 +63,7 @@ SLIDE accepts many parameters from user input to give user as much freedom to tw
 
 thresh_fdr: set to lower if co-linearity of the features in the data matrix is high. Default as 0.2.
 
-**2-1 Check YAML file**
+**2-1 Step1 of SLIDE Framework**
 
 Once your YAML file is ready, we first recommend using a YAML validator website to ensure your YAML file is correctly formatted.
 
@@ -77,25 +75,27 @@ yaml_path = "/ix/djishnu/Hanxi/SLIDE/test/test.yaml"
 input_params = yaml::read_yaml(yaml_path)
 ```
 
-If you have a sparse dataset such as scRNA-seq datasets, we recommend filtering out samples and features that have too many zeros.
+**If you have a sparse dataset such as scRNA-seq datasets**, we recommend filtering out samples and features that have too many zeros. zeroFiltering function will remove samples with more than g_thresh number of zeros and features with more than c_thresh number of zeros. An appropriate data matrix should at most have around 3-4k features.
 
-```{r}zeroFiltering(yaml_path, g_thresh, c_thresh)}
-
+```{r}
+zeroFiltering(yaml_path, g_thresh, c_thresh)
 ```
+
+We then check if your data files are formatted correctly.
 
 ```{r}
 checkDataParams(yaml_path)
 ```
 
-The x_path and y_path are the path to the input data matrices and response vector in the csv format. Both row names and column names are needed. The out_path is where all the output will automatically be populated to.
-
-Delta and Lambda are 2 key parameters for SLIDE. Delta tunes the number of latent factors, the higher the delta, the less number of latent factors will be produced. Lambda tunes the sparsity in each latent factors such as how many members each latent factors will contain. The higher the lambda, the more sparse the latent factors will be. SLIDE will automatically run the method pairwise of delta and lambda. For example, with the example YAML file, four SLIDE output will be produced with delta = 0.01 - lambda = 0.5, delta = 0.01 - lambda = 0.5...
-
-Spec is the parameter that controls the number of significant latent factor chosen by the algorithm. The lower the spec is the
+If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
 
 ```{r setup}
-
+main(yaml_path=yaml_path, sink_file = TRUE)
 ```
+
+**2-2 Interpret Step1 Output Files**
+
+The output files are now populated to the output folder we specified in the YAML file.
 
 ```{r setup}
 ```
