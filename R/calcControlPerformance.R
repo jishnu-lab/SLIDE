@@ -26,12 +26,15 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
   # Real ##########################################################################
 
   sigK <- SLIDE_res$SLIDE_res$marginal_vars
-  sigK <- toupper(sigK)
+  sigK<- toupper(sigK)
+  sigK <- as.numeric(gsub("Z","",sigK))
+
   sigIn <- as.vector(SLIDE_res$SLIDE_res$interaction_vars)
 
-  IntData <- pairwiseInteractions(sigK,z_matrix)
+
 
   if(!is.null(sigIn)){
+  IntData <- pairwiseInteractions(as.numeric(sigK),z_matrix)
   Dataint <- IntData$interaction[, sigIn]
   Data_real <- data.frame(y = y, z_matrix[, sigK], Dataint)
 
@@ -53,6 +56,7 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
 
   # All random ####################################################################
   Fullreport <- NULL
+  Partialreport <- NULL
 
   for (i in 1:niter) {
     sigKRandom <- sample(ncol(z_matrix), size = length(sigK)) ## Random marginal
@@ -63,9 +67,14 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
     sigInRandom <- sample(ncol(IntDataRandom$interaction), size = length(sigIn)) ## Random interaction
     IntDataRandom <- IntDataRandom$interaction[, sigInRandom]
 
-    Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom], IntDataRandom)}else{
-    Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom])
+    Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom], IntDataRandom) ## With interaction
+
+    }else{
+
+      Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom]) # No interaction
+
     }
+
 
     SumInt <- summary(lm(y ~ ., data = Data_fullRandom))
     if (condition == 'auc'){
@@ -76,21 +85,20 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
     }else if (condition == "corr"){
       SumInt$r.squared
       Fullreport <- rbind(Fullreport, sqrt(SumInt$r.squared))
-    }}
 
+    }
 
-    if(!is.null(sigIn)){
-      Partialreport <- NULL
+  }
+  Partialreport <- NULL
+  if(!is.null(sigIn)){
+
       for (i in 1:niter) {
 
         IntData  <- pairwiseInteractions(sigK, z_matrix)
         sigInRandom <- sample(ncol(IntData$interaction), size = length(sigIn)) ## Ranodm interaction
 
         IntDataRandom <- IntData$interaction[, sigInRandom]
-        Data_partialRandom <- data.frame(y = y, z_matrix[, sigK], IntDataRandom)
-
-        Data_partialRandom <- data.frame(y = y, z_matrix[, sigK])
-
+        Data_partialRandom <- data.frame(y = y, z_matrix[, sigK], IntDataRandom)}
         SumPInt <- summary(lm(y ~ ., data = Data_partialRandom))
 
       if (condition == 'auc'){
@@ -103,34 +111,41 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
         Partialreport <- rbind(Partialreport, sqrt(SumPInt$r.squared))
       }
 
-        }
 
-      cols <- c("#0000FF", "#00FF00")
+        rawdf <- data.frame(FullRandom = Fullreport,Partialreport=Partialreport)
+        df <- reshape2::melt(rawdf)
+        colnames(df) <- c("group", "value")
 
-      # Basic density plot in ggplot2
-
-      P2 <- ggplot2::ggplot(df, ggplot2::aes(x = value, fill = group)) + ggplot2::geom_density(alpha = 0.7) + ggplot2::scale_fill_manual(values = cols) +
-        ggplot2::theme_light() + ggplot2::geom_vline(xintercept = aucreal, linetype = "longdash", colour = "red",size=2) +
-        ggplot2::ylab("Density") +
-        ggplot2::xlab(condition)
-
-      P2 <- P2 + ggplot2::annotate("text", x = aucreal + 0.01, y = 55, label = " ", angle = "90") + ggplot2::xlim(0.25, max(df$value) + 0.05)
-
-      P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(),
-                                panel.grid.major = ggplot2::element_blank(),
-                                panel.grid.minor = ggplot2::element_blank(),
-                                panel.background = ggplot2::element_blank(),
-                                axis.line = ggplot2::element_line(colour = "black"),
-                                axis.text = ggplot2::element_text(size = 20),
-                                axis.title.x = ggplot2::element_text(size = 20),
-                                axis.title.y = ggplot2::element_text(size = 20))
-      P2
+        cols <- c("#0000FF", "#00FF00")
 
 
-    }else{
+        P2 <- ggplot2::ggplot(df, ggplot2::aes(x = value, fill = group)) + ggplot2::geom_density(alpha = 0.7) + ggplot2::scale_fill_manual(values = cols) +
+          ggplot2::theme_light()  +
+          ggplot2::ylab("Density") +
+          ggplot2::xlab(condition)
 
-      ################################################################################
-      ## Report
+        P2 <- P2 + ggplot2::annotate("text", x = aucreal + 0.01, y = 55, label = " ", angle = "90") + ggplot2::xlim(0.25, max(df$value) + 0.1)+
+          ggplot2::geom_vline(xintercept = aucreal, linetype = "longdash", colour = "red",size=2)
+
+        P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(),
+                                  panel.grid.major = ggplot2::element_blank(),
+                                  panel.grid.minor = ggplot2::element_blank(),
+                                  panel.background = ggplot2::element_blank(),
+                                  axis.line = ggplot2::element_line(colour = "black"),
+                                  axis.text = ggplot2::element_text(size = 20),
+                                  axis.title.x = ggplot2::element_text(size = 20),
+                                  axis.title.y = ggplot2::element_text(size = 20))
+        P2 <- P2 + ggplot2::annotate("text", x = aucreal + 0.01, y = 55, label = " ", angle = "90") + ggplot2::xlim(0.25, max(df$value) + 0.1)+
+          ggplot2::geom_vline(xintercept = aucreal, linetype = "longdash", colour = "red",size=2)
+
+       P2
+        }else{
+
+
+
+
+
+
 
       rawdf <- data.frame(FullRandom = Fullreport)
       df <- reshape2::melt(rawdf)
@@ -142,19 +157,20 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
 
       P2 <- ggplot2::ggplot(df, ggplot2::aes(x = value, fill = group)) + ggplot2::geom_density(alpha = 0.7) + ggplot2::scale_fill_manual(values = cols) +
         ggplot2::theme_light() + ggplot2::geom_vline(xintercept = aucreal, linetype = "longdash", colour = "red",size=2) +
+        ggplot2::geom_vline(xintercept = aucreal, linetype = "longdash", colour = "red",size=2)+
         ggplot2::ylab("Density") +
         ggplot2::xlab(condition)
 
-      P2 <- P2 + ggplot2::annotate("text", x = aucreal + 0.01, y = 55, label = " ", angle = "90") + ggplot2::xlim(0.25, max(df$value) + 0.05)
+      P2 <- P2  + ggplot2::xlim(0.25, max(df$value) + 0.1)
 
-      P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(),
-                                panel.grid.major = ggplot2::element_blank(),
-                                panel.grid.minor = ggplot2::element_blank(),
-                                panel.background = ggplot2::element_blank(),
+      P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(family='Arial'),
+                                panel.grid.major = ggplot2::element_blank(family='Arial'),
+                                panel.grid.minor = ggplot2::element_blank(family='Arial'),
+                                panel.background = ggplot2::element_blank(family='Arial'),
                                 axis.line = ggplot2::element_line(colour = "black"),
-                                axis.text = ggplot2::element_text(size = 20),
-                                axis.title.x = ggplot2::element_text(size = 20),
-                                axis.title.y = ggplot2::element_text(size = 20))
+                                axis.text = ggplot2::element_text(size = 20,family = 'Arial'),
+                                axis.title.x = ggplot2::element_text(size = 20,family = 'Arial'),
+                                axis.title.y = ggplot2::element_text(size = 20,family = 'Arial'))
       P2
 
 

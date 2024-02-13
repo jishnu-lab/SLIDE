@@ -12,9 +12,9 @@ spec: 0.3
 y_factor: false
 y_levels: NULL
 eval_type: corr
-SLIDE_iter: 5
+SLIDE_iter: 1000
 SLIDE_top_feats: 10
-do_interacts: FALSE
+do_interacts: TRUE
 
 
 
