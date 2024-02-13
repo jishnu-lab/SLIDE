@@ -163,14 +163,14 @@ calcControlPerformance <- function(z_matrix, y, SLIDE_res, niter, condition, out
 
       P2 <- P2  + ggplot2::xlim(0.25, max(df$value) + 0.1)
 
-      P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(family='Arial'),
-                                panel.grid.major = ggplot2::element_blank(family='Arial'),
-                                panel.grid.minor = ggplot2::element_blank(family='Arial'),
-                                panel.background = ggplot2::element_blank(family='Arial'),
+      P2 <- P2 + ggplot2::theme(panel.border = ggplot2::element_blank(),
+                                panel.grid.major = ggplot2::element_blank(),
+                                panel.grid.minor = ggplot2::element_blank(),
+                                panel.background = ggplot2::element_blank(),
                                 axis.line = ggplot2::element_line(colour = "black"),
-                                axis.text = ggplot2::element_text(size = 20,family = 'Arial'),
-                                axis.title.x = ggplot2::element_text(size = 20,family = 'Arial'),
-                                axis.title.y = ggplot2::element_text(size = 20,family = 'Arial'))
+                                axis.text = ggplot2::element_text(size = 20),
+                                axis.title.x = ggplot2::element_text(size = 20),
+                                axis.title.y = ggplot2::element_text(size = 20))
       P2
 
 
