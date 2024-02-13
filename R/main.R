@@ -89,6 +89,7 @@ main <- function(yaml_path, sink_file){
       }
 
       #final output
+
       all_latent_factors <- getLatentFactors(x = x,
                                              x_std = x_std,
                                              y = y,
@@ -106,6 +107,8 @@ main <- function(yaml_path, sink_file){
       z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
 
       # run SLIDE
+
+
       SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
 
