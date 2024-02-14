@@ -1,0 +1,13 @@
+Getting latent factors for delta,  0.01 , and lambda,  0.5 . 
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting rep_cv at  50 .
+Setting spec at  0.3 .
+Setting eval_type as  corr .
+Setting SLIDE_iter at  5 .
+Setting SLIDE_top_feats as  10 .
+Setting do_interacts as  FALSE .
+f_size is set as  100 
+      selecting marginal variables using method 4 . . . 
+               running aggregated results . . . 
+         final marginal spec: 0.3
