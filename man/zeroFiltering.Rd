@@ -4,14 +4,14 @@
 \alias{zeroFiltering}
 \title{Reduce sparsity of the data matrix by deleting samples and features that are expressed in few features and samples.}
 \usage{
-zeroFiltering(data, g_thresh, c_thresh)
+zeroFiltering(yaml_path, g_thresh, c_thresh)
 }
 \arguments{
-\item{data}{the data matrix}
+\item{yaml_path}{the path to the yaml file}
 
-\item{g_thresh}{samples with number of zeros greater then g_thresh will be filtered out}
+\item{g_thresh}{features with number of zeros greater then g_thresh will be filtered out}
 
-\item{c_thresh}{features with number of zeros greater then g_thresh will be filtered out}
+\item{c_thresh}{samples with number of zeros greater than c_thresh will be filtered out}
 }
 \description{
 Reduce sparsity of the data matrix by deleting samples and features that are expressed in few features and samples.

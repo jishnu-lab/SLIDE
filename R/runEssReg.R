@@ -19,7 +19,7 @@
 
 runEssReg <- function(train_y, train_x_raw, train_x_std, valid_x, delta, lambda, thresh_fdr, rep_cv, alpha_level) {
   ## run ER
-  res <- EssReg::plainER(y = train_y,
+  res <- getLatentFactors(y = train_y,
                          x = train_x_raw,
                          x_std = train_x_std,
                          std_y = FALSE,
