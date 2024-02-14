@@ -1,7 +1,7 @@
 ---
-x_path: /ix/djishnu/Aaron/3_collabs/6_Anuradha/2_RESULTS/20240206_slide_pipeline_test/x.csv
-y_path: /ix/djishnu/Aaron/3_collabs/6_Anuradha/2_RESULTS/20240206_slide_pipeline_test/y.csv
-out_path: /ix/djishnu/Hanxi/SLIDE/test/binary_out
+x_path: path/to/x.csv
+y_path: path/to/y.csv
+out_path: path/to/output/folder
 delta:
   - 0.01
   - 0.1

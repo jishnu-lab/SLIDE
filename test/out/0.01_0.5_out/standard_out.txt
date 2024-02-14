@@ -1,0 +1,27 @@
+Getting latent factors for delta,  0.01 , and lambda,  0.5 . 
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting rep_cv at  50 .
+Setting spec at  0.3 .
+Setting eval_type as  corr .
+Setting SLIDE_iter at  10 .
+Setting SLIDE_top_feats as  10 .
+Setting do_interacts as  TRUE .
+f_size is set as  24 
+      selecting marginal variables using method 4 . . . 
+               running aggregated results . . . 
+         final marginal spec: 0.3
+      starting interaction selection . . . 
+[1] "Before doing interaction SLIDE"
+[1] "z19"
+starting interactions........ 
+          interaction terms with 19 
+               running aggregated results . . . 
+              no interaction vars . . . upsilon is marginal variable 
+[1] "printig the yhat of each maginals:"
+NULL
+      running knockoffs on marginal/interaction submodels . . . 
+            only one upsilon . . . using without testing 
+[1] "uplsion error cheking: \n"
+[1] "ups19"
+[1] "upsilon colnames:"

@@ -1,0 +1,431 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\usepackage[normalem]{ulem}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={SLIDE},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{SLIDE}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\textbf{SLIDE Pipeline}
+
+The SLIDE pipeline is consisted of below two steps. We recommand to run
+both steps on a computational cluster for optimal computational time.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Calculating and select latent factors (LFs) for multiple input
+  parameter combinations.
+\item
+  Reviewing the output of step 1 and choose the optimal parameters for
+  rigorous k-fold CV.
+\end{enumerate}
+
+\textbf{Step 1: Parameter Tuning}
+
+\textbf{1-1 Pre-Processing and Checking Input Data}
+
+Due to the assumption-free-nature of SLIDE, there are no data modality
+limit to the input of SLIDE.
+
+\uline{The key input to SLIDE are just two csv files, the data matrix x
+and the response vector y file post pre-processing such as batch effect
+correction and/or normalization (for example, for scRN-seq data, first
+process with the standard Seurat pipeline).}
+
+The x file contains your data in a sample by feature format, such as
+single cell transcriptomics (\textbf{cell by gene}), or spatial
+proteomics (\textbf{region by protein}). The y file contains the
+responses of the data, such as severity of disease, spatial regions or
+clonal expansion. Since SLIDE is a regression method, when the response
+vector has multiple unique values (not just two classes), please make
+sure there are an ordinal relation between the y values. \textbf{Please
+make sure both csv files have row names and column names.}
+
+In this tutorial, we are going to use the example Systemic Sclerosis
+dataset we have used in the SLIDE paper. This dataset is a human skin
+cell scRNA-seq dataset that we have transformed into the pseudo-bulk
+format.
+
+\uline{If you have human single-cell data,} our recommended workflow is
+to pseudobulk your dataset since the cell-to-cell variability is high.
+\uline{If you have mouse single cell data}, with the reduced
+cell-to-cell variability, you can consider each cell as an sample. For
+single-cell datasets, the sparsity might be extremely high with high
+feature numbers. In this case, please see below for how to reduce the
+number of features and samples with large amount of zeros.
+
+\textbf{1-2 Parameters}
+
+The input to SLIDE is the path to a YAML file which documents the
+parameters.
+
+SLIDE accepts many parameters from user input to give user as much
+freedom to tweak the method to their own data as possible. We have set
+default values to many parameters that works well with majority of the
+data moralities. Here, we explain what each of these parameters mean.
+
+\textbf{x\_path:} a string of the path to the data matrix (x) in the csv
+format \uline{with row names and column names where each row is samples
+(cells, patients, regions\ldots) and each column is a features (genes,
+proteins\ldots)}.
+
+\textbf{y\_path:} a string of the path of the response vector (y) in the
+csv format \uline{with row names and column names where each row is a
+sample and the column would be the outcome of interest.}
+
+\textbf{out\_path:} a string of the path of a folder to store all output
+files (please see below section to interpret the outputs).
+
+\textbf{delta:} control the number of all latent factors. The higher the
+delta, the less number of latent factors will be found. Default as 0.01
+and 0.1.
+
+\textbf{lambda:} control the sparsity of all latent factors. The higher
+the lambda, the less number of features will be in a latent factor.
+Default as 0.5 and 1.
+
+\textbf{spec:} control the number of significant latent factors. The
+higher the spec, the less number of significant latent factors will be
+outputted. \uline{The desired number of output should be between 5 to 12
+LFs}. Default as 0.1.
+
+\textbf{y\_factor:} set to false if not binary and true if binary.
+
+\textbf{y\_levels:} null if y is continuous or ordinal. If y is binary,
+input a list of the correct order relationship such as {[}0, 1{]} or
+{[}1, 2{]}.
+
+\textbf{eval\_type:} the performance evaluation metric used. corr for
+continuous Y and auc for binary Y.
+
+\textbf{SLIDE\_iter:} the number of times to repeat the SLIDE latent
+factor selection algorithm. The higher the iteration, the more stable
+the performance would be. Default as
+
+\textbf{SLIDE\_top\_feats:} the number of top features to plot from each
+latent factor. If set as n, a union of the top n weighted features and
+top n correlated (with y) features will be outputted.
+
+\textbf{do\_interacts (optional):} set to false if don't want
+interacting latent factors. Default as TRUE
+
+thresh\_fdr: set to lower if co-linearity of the features in the data
+matrix is high. Default as 0.2.
+
+\textbf{2-1 Step1 of SLIDE Framework}
+
+Once your YAML file is ready, we first recommend using a YAML validator
+website to ensure your YAML file is correctly formatted.
+
+We can then check what the YAML file looks like by reading it in as an
+variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(SLIDE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'SLIDE'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     merge
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yaml\_path }\OtherTok{=} \StringTok{"/ix/djishnu/Hanxi/SLIDE/test/test.yaml"}
+\NormalTok{input\_params }\OtherTok{=}\NormalTok{ yaml}\SpecialCharTok{::}\FunctionTok{read\_yaml}\NormalTok{(yaml\_path)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{If you have a sparse dataset such as scRNA-seq datasets}, we
+recommend filtering out samples and features that have too many zeros.
+zeroFiltering function will remove samples with more than g\_thresh
+number of zeros and features with more than c\_thresh number of zeros.
+An appropriate data matrix should at most have around 3-4k features.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#zeroFiltering(yaml\_path, g\_thresh, c\_thresh)}
+\end{Highlighting}
+\end{Shaded}
+
+We then check if your data files are formatted correctly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{checkDataParams}\NormalTok{(yaml\_path)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Checking the format and dimensions of input data and response matrices... 
+## Checking na values in the input data and response matrices... 
+## Checking if yaml file is correct for the input data and response matrices...
+\end{verbatim}
+
+If everything is formatted correctly, you can now run \uline{Step1} of
+SLIDE. If sink\_file set to TRUE, all print statement will be printed to
+a txt file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{main}\NormalTok{(}\AttributeTok{yaml\_path=}\NormalTok{yaml\_path, }\AttributeTok{sink\_file =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Populating all outputs to  /ix/djishnu/Hanxi/SLIDE/test/out .
+## Setting sigma as Null.
+## Getting latent factors for delta,  0.01 , and lambda,  0.5 . 
+## Setting alpha_level at  0.05 .
+## Setting thresh_fdr at  0.2 .
+## Setting rep_cv at  50 .
+## Setting spec at  0.3 .
+## Setting eval_type as  corr .
+## Setting SLIDE_iter at  10 .
+## Setting SLIDE_top_feats as  10 .
+## Setting do_interacts as  TRUE .
+\end{verbatim}
+
+\begin{verbatim}
+## f_size is set as  24 
+##       selecting marginal variables using method 4 . . . 
+##                running aggregated results . . . 
+##          final marginal spec: 0.3
+##       starting interaction selection . . . 
+## [1] "Before doing interaction SLIDE"
+## [1] "z19" "z46" "z97"
+## starting interactions........ 
+##           interaction terms with 19 
+##                running aggregated results . . . 
+##               no interaction vars . . . upsilon is marginal variable 
+##           interaction terms with 46 
+##                running aggregated results . . . 
+##               no interaction vars . . . upsilon is marginal variable 
+##           interaction terms with 97 
+##                running aggregated results . . . 
+## [1] "printig the yhat of each maginals:"
+## NULL
+##       running knockoffs on marginal/interaction submodels . . . 
+##                no splitting . . . skipping aggregation 
+## [1] "upsilon colnames:"
+\end{verbatim}
+
+\begin{verbatim}
+## Getting latent factors for delta,  0.01 , and lambda,  1 . 
+## Setting alpha_level at  0.05 .
+## Setting thresh_fdr at  0.2 .
+## Setting rep_cv at  50 .
+## Setting spec at  0.3 .
+## Setting eval_type as  corr .
+## Setting SLIDE_iter at  10 .
+## Setting SLIDE_top_feats as  10 .
+## Setting do_interacts as  TRUE .
+\end{verbatim}
+
+\begin{verbatim}
+## f_size is set as  24 
+##       selecting marginal variables using method 4 . . . 
+##                running aggregated results . . . 
+##          final marginal spec: 0.3
+##     no interaction terms . . . no marginals 
+##     no interaction terms . . . no marginals 
+## Getting latent factors for delta,  0.1 , and lambda,  0.5 . 
+## Setting alpha_level at  0.05 .
+## Setting thresh_fdr at  0.2 .
+## Setting rep_cv at  50 .
+## Setting spec at  0.3 .
+## Setting eval_type as  corr .
+## Setting SLIDE_iter at  10 .
+## Setting SLIDE_top_feats as  10 .
+## Setting do_interacts as  TRUE .
+\end{verbatim}
+
+\begin{verbatim}
+## f_size is set as  24 
+##       selecting marginal variables using method 4 . . . 
+##                running aggregated results . . . 
+##          final marginal spec: 0.3
+##       starting interaction selection . . . 
+## [1] "Before doing interaction SLIDE"
+## [1] "z1"  "z26" "z45" "z70" "z77"
+## starting interactions........ 
+##           interaction terms with 1 
+##                no splitting . . . skipping aggregation 
+##           interaction terms with 26 
+##                no splitting . . . skipping aggregation 
+##               no interaction vars . . . upsilon is marginal variable 
+##           interaction terms with 45 
+##                no splitting . . . skipping aggregation 
+##           interaction terms with 70 
+##                no splitting . . . skipping aggregation 
+##               no interaction vars . . . upsilon is marginal variable 
+##           interaction terms with 77 
+##                no splitting . . . skipping aggregation 
+## [1] "printig the yhat of each maginals:"
+## NULL
+##       running knockoffs on marginal/interaction submodels . . . 
+##                no splitting . . . skipping aggregation 
+## [1] "upsilon colnames:"
+\end{verbatim}
+
+\begin{verbatim}
+## Getting latent factors for delta,  0.1 , and lambda,  1 . 
+## Setting alpha_level at  0.05 .
+## Setting thresh_fdr at  0.2 .
+## Setting rep_cv at  50 .
+## Setting spec at  0.3 .
+## Setting eval_type as  corr .
+## Setting SLIDE_iter at  10 .
+## Setting SLIDE_top_feats as  10 .
+## Setting do_interacts as  TRUE .
+\end{verbatim}
+
+\begin{verbatim}
+## f_size is set as  24 
+##       selecting marginal variables using method 4 . . . 
+##                running aggregated results . . . 
+##          final marginal spec: 0.3
+##       starting interaction selection . . . 
+## [1] "Before doing interaction SLIDE"
+## [1] "z26" "z45" "z70"
+## starting interactions........ 
+##           interaction terms with 26 
+##                no splitting . . . skipping aggregation 
+##           interaction terms with 45 
+##                no splitting . . . skipping aggregation 
+##           interaction terms with 70 
+##                no splitting . . . skipping aggregation 
+## [1] "printig the yhat of each maginals:"
+## NULL
+##       running knockoffs on marginal/interaction submodels . . . 
+##                no splitting . . . skipping aggregation 
+## [1] "upsilon colnames:"
+\end{verbatim}
+
+\begin{verbatim}
+##   delta lambda # of LFs # of Sig LFs # of Interactors sampleCV Performance
+## 1  0.01    0.5      172            3                2    0.775112176558556
+## 2  0.01      1      172           NA               NA                   NA
+## 3   0.1    0.5       88            5                6    0.681689794427692
+## 4   0.1      1       88            3                6    0.667582082222078
+\end{verbatim}
+
+\textbf{2-2 Interpret Step1 Output Files}
+
+The output files are now populated to the output folder we specified in
+the YAML file.
+
+\end{document}
