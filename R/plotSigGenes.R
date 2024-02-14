@@ -17,10 +17,12 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
 
   sg_df = data.frame()
 
+
+
   # make results into plottable dataframe
   for (lf in 1:length(slide_vars)) {
     lf_df = list2DF(slide_vars[[lf]])
-    lf_df$lf_num = as.numeric(stringr::str_replace(names(slide_vars)[lf],
+    lf_df[,"lf_num"] = as.numeric(stringr::str_replace(names(slide_vars)[lf],
                                                    pattern = "Z", replacement = ""))
     sg_df = rbind(sg_df, lf_df)
 
@@ -44,16 +46,17 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
 
   plot_list = list()
 
+if(!is.null(slide_results$SLIDE_res$marginal_vars)){
 
+  slide_results$SLIDE_res$marginal_vars <- gsub("z", "", slide_results$SLIDE_res$marginal_vars) ## With interact equal to true we miss this
+}
   # plot marginals
   marg_plot = sg_plot_df %>% dplyr::filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
     ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
     ggplot2::geom_text(ggplot2::aes(color = factor(color))) +
     ggplot2::scale_color_manual(values = text_color_vals, guide = "none") + ggplot2::theme_void() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(), axis.title.x = ggplot2::element_text(),
-                   axis.title.y = ggplot2::element_text(angle = 90)) +
-
-    ggplot2::xlab("Significant Latent Factor") +
+                   axis.title.y = ggplot2::element_text(angle = 90)) +ggplot2::xlab("Significant Latent Factor") +
     ggplot2::ylab("Genes Associated with Significant Latent Factors") +
     ggplot2::ylim(0, max_num_genes_in_any_lf) +
     ggplot2::ggtitle("SLIDE Marginal Variables")
@@ -139,14 +142,14 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
     ggplot2::ggsave(plot = marg_plot, filename = paste0(out_path, '/plotSigGenes_marginals.png'),
 
                     device = "png",
-                    width = 1.5 * length(slide_results$SLIDE_res$marginal_vars), height = 7, 
+                    width = 1.5 * length(slide_results$SLIDE_res$marginal_vars), height = 7,
                     limitsize = FALSE)
 
     if (plot_interactions) {
 
       ggplot2::ggsave(plot = plt, filename = paste0(out_path, '/plotSigGenes.png'),
                       device = "png",
-                      width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7, 
+                      width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7,
                       limitsize = FALSE)
 
       ggplot2::ggsave(plot = lf_graph, filename = paste0(out_path, '/plotInteractions.png'),
