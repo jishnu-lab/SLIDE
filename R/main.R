@@ -119,7 +119,7 @@ main <- function(yaml_path, sink_file){
 
         #the SLIDE_res has to be the output from getTopFeatures
         #calculate the control performance plot
-        calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, niter = SLIDE_iter, condition = eval_type, loop_outpath)
+        calcControlPerformance(z_matrix = z_matrix, y, SLIDE_res, condition = eval_type, loop_outpath)
 
         # calculate the sampleCV performance
         performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)

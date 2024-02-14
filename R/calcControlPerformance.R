@@ -25,6 +25,8 @@ calcControlPerformance <- function(z_matrix, y,do_interacts, SLIDE_res, conditio
 
   # Real ##########################################################################
 
+  cat("Getting real performance: \n")
+
   sigK <- SLIDE_res$SLIDE_res$marginal_vars
   sigK<- toupper(sigK)
   sigK <- as.numeric(gsub("Z","",sigK))
@@ -67,6 +69,7 @@ calcControlPerformance <- function(z_matrix, y,do_interacts, SLIDE_res, conditio
 
 
     ## Make Full Random
+    cat("Getting Full  Random: \n")
 
     if(length(sigIn)!=0){
 
@@ -98,6 +101,7 @@ calcControlPerformance <- function(z_matrix, y,do_interacts, SLIDE_res, conditio
 
       }}
 
+  cat("Getting partial random: \n")
 
     for (i in 1:1000) {
 
