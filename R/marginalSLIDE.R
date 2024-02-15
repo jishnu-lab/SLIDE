@@ -75,7 +75,7 @@ marginalSLIDE <- function(z, y, method = 4, betas = NULL, top_prop = NULL, margi
                                        fdr = fdr,
                                        parallel = parallel)
     } else if (method == 4) { ## select marginal Z by frequency/shortest list with subsetting
-      cat("      selecting marginal variables using method 4 . . . \n")
+     # cat("      selecting marginal variables using method 4 . . . \n")
       marginal_vars <- selectShortFreq(z = z,
                                        y = y,
                                        niter = niter,
