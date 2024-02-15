@@ -6,7 +6,7 @@
 
 ##################################### set up the parameters #####################################
 
-Optimize_SLIDE <- function(yaml_path, sink_file){
+Optimize_SLIDE <- function(input_params, sink_file){
 
   #input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
@@ -119,7 +119,7 @@ Optimize_SLIDE <- function(yaml_path, sink_file){
         calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)
 
         # calculate the sampleCV performance
-        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)
+        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = input_params$CViter, logistic = FALSE, out_path = loop_outpath)
 
         # fill in the summary table
         if (do_interacts == TRUE){
