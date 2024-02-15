@@ -6,7 +6,7 @@
 
 ##################################### set up the parameters #####################################
 
-Optimize_SLIDE <- function(yaml_path, sink_file){
+Optimize_SLIDE <- function(input_params, sink_file){
 
   #input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
