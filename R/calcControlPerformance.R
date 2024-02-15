@@ -45,21 +45,21 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
     IntData   <- pairwiseInteractions(as.numeric(sigK),z_matrix)
 
-    Dataint   <- IntData$interaction[, sigIn]
+    Dataint   <- IntData$interaction[, sigIn,drop=F]
 
-    Data_real <- data.frame(y = y, z_matrix[, sigK], Dataint)
+    Data_real <- data.frame(y = y, z_matrix[, sigK,drop=F], Dataint)
 
     }else{
 
 
-    Data_real <- data.frame(y = y, z_matrix[, sigK])
+    Data_real <- data.frame(y = y, z_matrix[, sigK,drop=F])
 
 
     }
 
     if (condition == 'auc'){
       lmod    <- lm(y~.,data=Data_real)
-      yhat    <- predict(lmod,Data_real[,-1],type = 'response')
+      yhat    <- predict(lmod,Data_real[,-1,drop=F],type = 'response')
       perreal <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
     }else if (condition == 'corr'){
       SumReal <- summary(lm(y ~ ., data = Data_real))
@@ -79,18 +79,18 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
       sigKRandom      <- sample(ncol(z_matrix), size = length(sigK))
       IntDataRandom   <- pairwiseInteractions(sigKRandom, z_matrix)
       sigInRandom     <- sample(ncol(IntDataRandom$interaction), size = length(sigIn)) ## Random interaction
-      IntDataRandom   <- IntDataRandom$interaction[, sigInRandom]
+      IntDataRandom   <- IntDataRandom$interaction[, sigInRandom,drop=F]
 
 
       ## Make the final simulated  data
-      Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom], IntDataRandom)
+      Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom,drop=F], IntDataRandom)
 
       ## Do performance check
       SumInt <- summary(lm(y ~ ., data = Data_fullRandom))
 
        if (condition == 'auc'){
         lmod  <- lm(y~.,data=Data_fullRandom)
-        yhat <- predict(lmod,Data_fullRandom[,-1],type = 'response')
+        yhat <- predict(lmod,Data_fullRandom[,-1,drop=F],type = 'response')
         prerandom <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
         Fullreport <- rbind(Fullreport, prerandom)
 
@@ -107,14 +107,14 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
       IntData  <- pairwiseInteractions(sigK, z_matrix)
       sigInRandom <- sample(ncol(IntData$interaction), size = length(sigIn)) ## Ranodm interaction
-      IntDataRandom <- IntData$interaction[, sigInRandom]
-      Data_partialRandom <- data.frame(y = y, z_matrix[, sigK], IntDataRandom)
+      IntDataRandom <- IntData$interaction[, sigInRandom,drop=F]
+      Data_partialRandom <- data.frame(y = y, z_matrix[, sigK,drop=F], IntDataRandom)
 
       SumPInt <- summary(lm(y ~ ., data = Data_partialRandom))
 
       if (condition == 'auc'){
         lmod  <- lm(y~.,data=Data_partialRandom)
-        yhat <- predict(lmod,Data_partialRandom[,-1],type = 'response')
+        yhat <- predict(lmod,Data_partialRandom[,-1,drop=F],type = 'response')
         perPrandom <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
         Partialreport <- rbind(Partialreport, perPrandom)
       }else if(condition == 'corr'){
@@ -162,11 +162,11 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
       }else{
 
-        Data_real <- data.frame(y = y, z_matrix[, sigK])
+        Data_real <- data.frame(y = y, z_matrix[, sigK,drop=F])
 
         if (condition == 'auc'){
           lmod  <- lm(y~.,data=Data_real)
-          yhat <- predict(lmod,Data_real[,-1],type = 'response')
+          yhat <- predict(lmod,Data_real[,-1,drop=F],type = 'response')
           perreal <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
         }else if (condition == 'corr'){
           SumReal <- summary(lm(y ~ ., data = Data_real))
@@ -181,7 +181,7 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
           ## Make the final simulated  data
 
-          Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom])
+          Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom,drop=F])
 
           ## Do performance check
 
@@ -190,7 +190,7 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
           if (condition == 'auc'){
 
             lmod  <- lm(y~.,data=Data_fullRandom)
-            yhat <- predict(lmod,Data_fullRandom[,-1],type = 'response')
+            yhat <- predict(lmod,Data_fullRandom[,-1,drop=F],type = 'response')
             prerandom <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
             Fullreport <- rbind(Fullreport, prerandom)
 
@@ -242,11 +242,11 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
       ## No interaction flag
 
       ## Getting real performance
-      Data_real <- data.frame(y = y, z_matrix[, sigK])
+      Data_real <- data.frame(y = y, z_matrix[, sigK,drop=F])
 
       if (condition == 'auc'){
         lmod  <- lm(y~.,data=Data_real)
-        yhat <- predict(lmod,Data_real[,-1],type = 'response')
+        yhat <- predict(lmod,Data_real[,-1,drop=F],type = 'response')
         perreal <- pROC::auc(response=as.matrix(y), predictor=as.matrix(yhat))
       }else if (condition == 'corr'){
         SumReal <- summary(lm(y ~ ., data = Data_real))
@@ -261,7 +261,7 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
         ## Make the final simulated  data
 
-        Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom])
+        Data_fullRandom <- data.frame(y = y, z_matrix[, sigKRandom,drop=F])
 
         ## Do performance check
 
