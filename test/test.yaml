@@ -14,7 +14,7 @@ y_levels: NULL
 eval_type: corr
 SLIDE_iter: 20
 SLIDE_top_feats: 10
-CViter: 100
+CViter: 1000
 do_interacts: TRUE
 
 

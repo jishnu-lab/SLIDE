@@ -116,7 +116,8 @@ Optimize_SLIDE <- function(input_params, sink_file){
 
         #the SLIDE_res has to be the output from getTopFeatures
         #calculate the control performance plot
-        calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)
+        if(length(SLIDE_res$SLIDE_res$marginal_vars)!=0){
+        calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)}
 
         # calculate the sampleCV performance
         performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = input_params$CViter, logistic = FALSE, out_path = loop_outpath)
