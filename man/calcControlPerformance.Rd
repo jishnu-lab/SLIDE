@@ -4,7 +4,14 @@
 \alias{calcControlPerformance}
 \title{calcControlPerformance}
 \usage{
-calcControlPerformance(z_matrix, y, SLIDE_res, niter, condition, out_path)
+calcControlPerformance(
+  z_matrix,
+  y,
+  do_interacts,
+  SLIDE_res,
+  condition,
+  out_path
+)
 }
 \arguments{
 \item{z_matrix}{the z_matrix, the output of CalcZMatrix function.}
@@ -13,11 +20,11 @@ calcControlPerformance(z_matrix, y, SLIDE_res, niter, condition, out_path)
 
 \item{SLIDE_res}{the output of GetTopFeatures function.}
 
-\item{niter}{a integer for number of iterations.}
-
 \item{condition}{a string on whether to run auc or corr.}
 
 \item{out_path}{the output path.}
+
+\item{niter}{a integer for number of iterations.}
 }
 \value{
 The z matrix calculated by the CalcZMatrix function

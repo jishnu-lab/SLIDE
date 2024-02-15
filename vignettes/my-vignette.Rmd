@@ -16,6 +16,8 @@ The SLIDE pipeline is consisted of below two steps. We recommand to run both ste
 
 2.  Reviewing the output of step 1 and choose the optimal parameters for rigorous k-fold CV.
 
+    ![](Vignette.png)
+
 **Step 1: Parameter Tuning**
 
 **1-1 Pre-Processing and Checking Input Data**
@@ -35,6 +37,10 @@ In this tutorial, we are going to use the example Systemic Sclerosis dataset we 
 The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
+
+![](test_yaml_example.png)
+
+![](Screen%20Shot%202024-02-14%20at%2010.48.53%20AM.png)
 
 **x_path:** a string of the path to the data matrix (x) in the csv format [with row names and column names where each row is samples (cells, patients, regions...) and each column is a features (genes, proteins...)]{.underline}.
 
@@ -88,8 +94,8 @@ checkDataParams(yaml_path)
 
 If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
 
-```{r name3, warning=FALSE, message=FALSE}
-main(yaml_path=yaml_path, sink_file = FALSE)
+```{r name3, warning=FALSE}
+Optimize_SLIDE(input_params, sink_file = TRUE)
 ```
 
 **2-2 Interpret Step1 Output Files**

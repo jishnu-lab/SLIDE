@@ -1,7 +1,7 @@
 ---
-x_path: /ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/test/Ssc_x.csv
-y_path: /ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/test/SkinScore.csv
-out_path: /ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/test/out
+x_path: ./test/Ssc_x.csv
+y_path: ./test/SkinScore.csv
+out_path: ./test/out
 delta:
   - 0.01
   - 0.1
@@ -14,7 +14,7 @@ y_levels: NULL
 eval_type: corr
 SLIDE_iter: 20
 SLIDE_top_feats: 10
-do_interacts: TRUE
+do_interacts: FALSE
 
 
 

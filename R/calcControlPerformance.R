@@ -12,7 +12,7 @@
 #' @export
 
 
-calcControlPerformance <- function(z_matrix, y,do_interacts, SLIDE_res, condition, out_path){
+calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, condition, out_path){
 
   colnames(y) <- "y"
   zz <- row.names(z_matrix)

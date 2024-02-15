@@ -1,12 +1,12 @@
 #' Main Pipeline of Running SLIDE (get LF and run SLIDE without CV)
 #'
-#' @param input_params the R object that contains all the input parameter
+#' @param yaml_path the string to a yaml path
 #' @param sink_file boolean flag of saving to a sink file or not
 #' @export
 
 ##################################### set up the parameters #####################################
 
-Optimize_SLIDE <- function(input_params, sink_file){
+Optimize_SLIDE <- function(yaml_path, sink_file){
 
   #input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
