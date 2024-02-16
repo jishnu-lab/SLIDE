@@ -14,7 +14,7 @@
 #' @export
 
 
-sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV_iter = 20,  logistic = FALSE, out_path){
+sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV_iter = 100,  logistic = FALSE, out_path){
 
   # if the number of SLIDE chosen lfs are bigger than 2/3(default number) of the sample numbers, return na
   lf_idx = union(SLIDE_res$marginal_vals, union(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2))
