@@ -1,12 +1,12 @@
 #' Main Pipeline of Running SLIDE (get LF and run SLIDE without CV)
 #'
-#' @param input_params the R object that contains all the input parameter
+#' @param yaml_path the string to a yaml path
 #' @param sink_file boolean flag of saving to a sink file or not
 #' @export
 
 ##################################### set up the parameters #####################################
 
-Optimize_SLIDE <- function(input_params, sink_file){
+optimizeSLIDE <- function(input_params, sink_file){
 
   #input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
@@ -44,8 +44,13 @@ Optimize_SLIDE <- function(input_params, sink_file){
     if (length(unique(y))<=2){eval_type = "auc"}
     else{eval_type = "corr"}
   }else{eval_type = input_params$eval_type}
+  if ((eval_type != 'auc') & (eval_type != 'corr')){
+    warning('Inputted eval_type is either auc or corr, setting to the default option (auc for binary outcome and corr for ordinal/continuous outcome).')
+    if (length(unique(y))<=2){eval_type = "auc"}
+    else{eval_type = "corr"}
+    }
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
-
+  if (is.null(input_params$CViter)){CViter = 50} else{CViter = input_params$CViter}
 
   ##################################### Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
@@ -54,7 +59,7 @@ Optimize_SLIDE <- function(input_params, sink_file){
 
   #initiate the summary table
   summary_table <- as.data.frame(matrix(NA, nrow = length(delta) * length(lambda), ncol = 7))
-  colnames(summary_table) <- c('delta', 'lambda', 'f_size', '# of LFs', '# of Sig LFs', '# of Interactors', 'sampleCV Performance')
+  colnames(summary_table) <- c('delta', 'lambda', 'f_size', 'Num_of_LFs', 'Num_of_Sig_LFs', 'Num_of_Interactors', 'sampleCV_Performance')
 
   cnt = 1
   for (d in delta){
@@ -75,18 +80,18 @@ Optimize_SLIDE <- function(input_params, sink_file){
       cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
       cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
       cat("Setting do_interacts as ", do_interacts, ".\n")
+      cat("Setting CViter as ", CViter, ".\n")
 
       if (input_params$y_factor) {
         y_temp <- toCont(y, input_params$y_order)
 
-        saveRDS(y_temp, file = paste0(input_params$out_path, "plainER_y_mapping.rds"))
+        saveRDS(y_temp, file = paste0(input_params$out_path, "/binary_y_mapping.rds"))
         orig_y <- as.matrix(y_temp$cat_y)
         y <- as.matrix(y_temp$cont_y)
         row.names(y) <- row.names(y_temp$cat_y)
       }
 
       #final output
-
       all_latent_factors <- getLatentFactors(x = x,
                                              x_std = x_std,
                                              y = y,
@@ -109,33 +114,35 @@ Optimize_SLIDE <- function(input_params, sink_file){
       SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
 
-       if(length(SLIDE_res$SLIDE_res$marginal_vars) != 0) {
+      if(length(SLIDE_res$SLIDE_res$marginal_vars) != 0) {
         # get top features txt files and latent factor plots
         SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
         plotSigGenes(SLIDE_res, plot_interaction = do_interacts, out_path = loop_outpath)
 
         #the SLIDE_res has to be the output from getTopFeatures
         #calculate the control performance plot
-        calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)
+        if(length(SLIDE_res$SLIDE_res$marginal_vars)!=0){
+        calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)}
 
         # calculate the sampleCV performance
-        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = 20, logistic = FALSE, out_path = loop_outpath)
+        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = CViter, logistic = FALSE, out_path = loop_outpath)
 
-        # fill in the summary table
+      # fill in the summary table
         if (do_interacts == TRUE){
           interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
+          interactors = unique(interactors)
           if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
           loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
         } else{
           if (nrow(SLIDE_res$interaction) != 0) {stop("do_interacts set to FALSE but interaction terms found...")}
-          loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
+          #loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
         }
       } else {
         loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, "NA", "NA", "NA")
       }
       summary_table[cnt, ] = loop_summary
-      if (summary_table[cnt, ]$`# of Sig LFs` >= 10) {warning("The number of standalone LFs are more than 10, consider increase the spec parameter.")}
-      if ((summary_table[cnt, ]$`# of Sig LFs` <= 2 ) & (spec > 0.1)) {warning("The number of standalone LFs are less than 2, consider decrease the spec parameter.")}
+      if (summary_table[cnt, ]$Num_of_Sig_LFs >= 10) {warning("The number of standalone LFs are more than 10, consider increase the spec parameter.")}
+      if ((summary_table[cnt, ]$Num_of_Interactors <= 2 ) & (spec > 0.1)) {warning("The number of standalone LFs are less than 2, consider decrease the spec parameter.")}
       cnt = cnt+1
     }
   }
