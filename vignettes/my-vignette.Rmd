@@ -38,9 +38,9 @@ The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
 
-![](test_yaml_example.png)
+![Example YAML file for ordinal/continuous Y.](test_yaml_example.png)
 
-![](Screen%20Shot%202024-02-14%20at%2010.48.53%20AM.png)
+![Example YAML file for binary Y.](Screen%20Shot%202024-02-14%20at%2010.48.53%20AM.png){width="200" height="282"}
 
 **x_path:** a string of the path to the data matrix (x) in the csv format [with row names and column names where each row is samples (cells, patients, regions...) and each column is a features (genes, proteins...)]{.underline}.
 
@@ -66,13 +66,13 @@ SLIDE accepts many parameters from user input to give user as much freedom to tw
 
 **do_interacts (optional):** set to false if don't want interacting latent factors. Default as TRUE
 
-thresh_fdr: set to lower if co-linearity of the features in the data matrix is high. Default as 0.2.
+**thresh_fdr:** set to lower if co-linearity of the features in the data matrix is high. Default as 0.2.
 
 **2-1 Step1 of SLIDE Framework**
 
 Once your YAML file is ready, we first recommend using a YAML validator website to ensure your YAML file is correctly formatted.
 
-We can then check what the YAML file looks like by reading it in as an variable.
+We can then check if the YAML file is read in correctly by reading it in as an variable.
 
 ```{r setup}
 library(SLIDE)
@@ -101,3 +101,5 @@ Optimize_SLIDE(input_params, sink_file = TRUE)
 **2-2 Interpret Step1 Output Files**
 
 The output files are now populated to the output folder we specified in the YAML file.
+
+First investigate the summary_table.csv. Thi
