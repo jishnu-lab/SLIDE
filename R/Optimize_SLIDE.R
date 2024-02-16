@@ -79,7 +79,7 @@ Optimize_SLIDE <- function(yaml_path, sink_file){
       if (input_params$y_factor) {
         y_temp <- toCont(y, input_params$y_order)
 
-        saveRDS(y_temp, file = paste0(input_params$out_path, "plainER_y_mapping.rds"))
+        saveRDS(y_temp, file = paste0(input_params$out_path, "/plainER_y_mapping.rds"))
         orig_y <- as.matrix(y_temp$cat_y)
         y <- as.matrix(y_temp$cont_y)
         row.names(y) <- row.names(y_temp$cat_y)
@@ -124,11 +124,12 @@ Optimize_SLIDE <- function(yaml_path, sink_file){
         # fill in the summary table
         if (do_interacts == TRUE){
           interactors = c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2)[which(!(c(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2) %in% SLIDE_res$marginal_vals))]
+          interactors = unique(interactors)
           if (sum(interactors %in% SLIDE_res$marginal_vals) != 0) {stop("getting interactor code is wrong.")}
           loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
         } else{
           if (nrow(SLIDE_res$interaction) != 0) {stop("do_interacts set to FALSE but interaction terms found...")}
-          loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
+          #loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
         }
       } else {
         loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, "NA", "NA", "NA")
