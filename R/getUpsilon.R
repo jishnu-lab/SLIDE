@@ -11,7 +11,7 @@
 
 getUpsilon <- function(interaction_var, interactions, z, y, marg_var) {
   if (is.null(interaction_var)) { # if no interaction variables selected, just use marginal
-    cat("              no interaction vars . . . upsilon is marginal variable \n")
+    #cat("              no interaction vars . . . upsilon is marginal variable \n")
     ## create data frame for linear regression
     lin_reg_df <- z[, marg_var] %>%
       as.data.frame()

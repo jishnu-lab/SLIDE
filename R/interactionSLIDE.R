@@ -24,7 +24,7 @@ interactionSLIDE <- function(z, y, m, marginals, method = 4, elbow = FALSE, spec
   
   ## loop until model is small enough
   while (greater_than_m) {
-    cat("starting interactions........ \n")
+    # cat("starting interactions........ \n")
     ## initialize vectors of results
     sig_interacts <- NULL # a vector; significant interaction variables
     interact_terms <- NULL # a matrix; values of sig_interacts
@@ -40,7 +40,7 @@ interactionSLIDE <- function(z, y, m, marginals, method = 4, elbow = FALSE, spec
       used_margs <- c(used_margs, marg_var)
       
       ## construct interaction terms with union logic
-      cat(paste0("          interaction terms with ", marg_var), "\n")
+      # cat(paste0("          interaction terms with ", marg_var), "\n")
       int_list <- interUnion(marginal_vars = marg_var,
                              z = z)
       
