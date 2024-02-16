@@ -62,7 +62,7 @@ selectShortFreq <- function(z, y, spec = 0.3, fdr = 0.1, elbow = FALSE, niter = 
   
   ## aggregation run, if needed
   if (n_splits > 1) {
-    cat("               running aggregated results . . . \n")
+    #cat("               running aggregated results . . . \n")
     if (is.null(screen_var)) { # if none were ever selected in any subsets, return NULL
       final_var <- NULL
     } else {
@@ -97,7 +97,7 @@ selectShortFreq <- function(z, y, spec = 0.3, fdr = 0.1, elbow = FALSE, niter = 
       }
     }
   } else { ## if no aggregation - all in one run
-    cat("               no splitting . . . skipping aggregation \n")
+    # cat("               no splitting . . . skipping aggregation \n")
    final_var <- screen_var 
   }
   return (final_var)
