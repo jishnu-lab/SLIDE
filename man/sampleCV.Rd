@@ -10,7 +10,7 @@ sampleCV(
   SLIDE_res,
   fraction = 2/3,
   condition,
-  sampleCV_iter = 20,
+  sampleCV_iter = 100,
   logistic = FALSE,
   out_path
 )
