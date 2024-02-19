@@ -28,7 +28,7 @@ For capturing the interaction effect ```do_interacts = TRUE```
 
 ## Running the software
 
-For running the software please refer to vignette folder. 
+For running the software please refer to `vignette` folder. 
 
 
 
