@@ -34,9 +34,7 @@ For minimal performance of the ```SLIDE```,  a computer with about 8 GB of RAM i
 RAM: 16+ GB
 CPU: 4+ cores, 3.3+ GHz/core
 
-The expected run time with computer with 32GB ram and 16 cores for the demo command to run is 
 
-```282.25 seconds ```
 
 
 
