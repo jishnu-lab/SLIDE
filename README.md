@@ -20,11 +20,6 @@ First install `SLIDE` in Python by running the following code from a  R command 
 ```install_github("jishnu-lab/SLIDE")```
 
 
-To run the slide function, use the following command:
-
-```library(doParallel)```
-
-For capturing the interaction effect ```do_interacts = TRUE```
 
 ## Running the software
 
