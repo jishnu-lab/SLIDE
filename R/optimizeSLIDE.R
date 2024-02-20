@@ -50,7 +50,7 @@ optimizeSLIDE <- function(input_params, sink_file){
     else{eval_type = "corr"}
     }
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
-  if (is.null(input_params$CViter)){CViter = 50} else{CViter = input_params$CViter}
+  if (is.null(input_params$CViter)){CViter = 100} else{CViter = input_params$CViter}
 
   ##################################### Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))

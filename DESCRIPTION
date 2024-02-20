@@ -35,7 +35,6 @@ Imports:
     utils,
     yaml,
     Matrix,
-    EssReg,
     tidygraph,
     ggraph
 Suggests: 
