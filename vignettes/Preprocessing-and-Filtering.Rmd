@@ -23,6 +23,9 @@ SLIDE uses the feature-feature correlation structure in the data to create laten
 * `thresh_fdr` argument sets the threshold below which correlations (in the scaled correlation matrix) will be removed. The default is `0.2`, but use a lower value to get more diverse latent factors.
   + Occasionally, `thresh_fdr` and `delta` will cause the algorithm to fail because the remaining correlations in the data are too sparse and more than `delta` apart from each other. Consider lowering both if you encounter problems.
 
+## Missing Values
+* Imputation
+* 
 
 ## Filtering
 * **Sparsity**: both in features and samples will create problems. Consider removing features, then samples based on sparsity (generally, any sample filtering should come after feature filtering). 
@@ -32,7 +35,76 @@ SLIDE uses the feature-feature correlation structure in the data to create laten
 * **Coefficient of Variation**: Ratio of feature `std dev / mean`. Features with high coefficient of variation may be noise and features with low coefficient of variation may be uninformative.
 
 
-Below are some examples of how you can do this:
+
+Below are some examples of how you can do this (note, download these files from the examples folder on the SLIDE repo at jishnu-lab/SLIDE):
+```{r load_example_data}
+unfiltered_x = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Scripts/CD4_Expansion/x.csv', row.names = 1))
+unfiltered_y = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Scripts/CD4_Expansion/y.csv', row.names = 1))
+
+
+x = unfiltered_x
+y = unfiltered_y
+```
+
+
+## Sparsity Filtering
+You can measure the proportion of zeros in each row/column. Start by filtering out features, then filter samples
+```{r sparsity-filter}
+proportion_col_zeros = apply(x, 2, function(x) length(which(x == 0))/length(x))
+
+hist(proportion_col_zeros, xlab = "Proportion/% of Zeros in each column")
+```
+
+We can use these vectors with the quantile function to set a threshold for percentage of zeros - note: you don't need to use the quantile function, but it makes for smoother filtering.
+```{r sparsity-filter-col}
+# Get indices for cols that are the top 10% sparse
+cols_above_zero_threshold = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9))
+
+x = x[, -cols_above_zero_threshold]
+```
+
+Now do the same for rows (remember to remove the corresponding rows from your response vector as well!)
+```{r sparsity-filter-rows}
+# Get indices for rows that are the top 10% sparse
+proportion_row_zeros = apply(x, 1, function(x) length(which(x == 0))/length(x))
+
+hist(proportion_row_zeros, xlab = "Proportion/% of Zeros in each row")
+
+rows_above_zero_threshold = which(proportion_row_zeros > quantile(proportion_row_zeros, 0.9))
+x = x[-rows_above_zero_threshold, ]
+
+```
+
+Note: you may want to just remove any columns or rows that have 90% zeros (versus just filtering out by quantile); in this case, your apply function will not normalize for length:
+```{r absolute-sparsity-filtering}
+absolute_num_col_zeros = apply(x, 2, function(x) length(which(x == 0)))
+absolute_num_row_zeros = apply(x, 1, function(x) length(which(x == 0)))
+
+# should look the same as hist for row % above
+hist(absolute_num_row_zeros)
+```
+
+
+<!-- You can measure the proportion of zeros in each row/column -->
+<!-- ```{r sparsity-filter} -->
+<!-- proportion_row_zeros = apply(x, 1, function(x) length(which(x == 0))/length(x)) -->
+<!-- proportion_col_zeros = apply(x, 2, function(x) length(which(x == 0))/length(x)) -->
+
+<!-- hist(proportion_col_zeros, xlab = "Proportion/% of Zeros in each column") -->
+<!-- hist(proportion_row_zeros, xlab = "Proportion/% of Zeros in each row") -->
+
+<!-- ``` -->
+
+<!-- We can use these vectors with the quantile function to set a threshold for percentage of zeros - note: you don't need to use the quantile function, but it makes for smoother filtering. -->
+<!-- ```{r sparsity-filter} -->
+
+<!-- # Get indices for row/column that are the top 10% sparse -->
+<!-- max_proportion_col_zeros = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9)) -->
+
+<!-- max_proportion_row_zeros = which(proportion_row_zeros > quantile(proportion_row_zeros, 0.9)) -->
+
+
+<!-- ``` -->
 
 
 
