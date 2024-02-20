@@ -2,7 +2,7 @@
 title: "Preprocessing-and-Filtering"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{Preprocessing-and-Filtering}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,9 +10,13 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+library(formatR)
+library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  tidy.opts = list(width.cutoff = 40), tidy = TRUE,
+  linewidth = 40
 )
 ```
 
@@ -24,30 +28,32 @@ SLIDE uses the feature-feature correlation structure in the data to create laten
   + Occasionally, `thresh_fdr` and `delta` will cause the algorithm to fail because the remaining correlations in the data are too sparse and more than `delta` apart from each other. Consider lowering both if you encounter problems.
 
 The sections below outline:
+
 1. Sample data
 2. Handling missing values
-  - data repair
-  - imputation
+    + data repair
+    + imputation
 3. Filtering
-  - sparsity
-  - variance
-  - coefficient of variation
+    + sparsity
+    + variance
+    + coefficient of variation
 
 
 
 
 # Sample Data
 Below are some examples using example data (note, download these files from the examples folder on the SLIDE repo at jishnu-lab/SLIDE):
-```{r load_example_data}
+```{r load_example_data, eval = F}
+unfiltered_x = as.matrix(read.csv('SLIDE/Data_Scripts/CD4_Expansion/x.csv', row.names = 1))
+unfiltered_y = as.matrix(read.csv('SLIDE/Data_Scripts/CD4_Expansion/y.csv', row.names = 1))
+
+```
+
+```{r actual_load_example_data, echo = F}
 unfiltered_x = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Scripts/CD4_Expansion/x.csv', row.names = 1))
 unfiltered_y = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Scripts/CD4_Expansion/y.csv', row.names = 1))
 
-
-x = unfiltered_x
-y = unfiltered_y
 ```
-
-
 # Handling Missing Values
 SLIDE requires that the input sample-feature data be a numeric matrix and contain no characters or `NA`/`NAN`/`Inf` values. 
 
@@ -68,7 +74,7 @@ If you wish to impute values (for example, by using the mean), you can do so sim
 bad_values = which(is.na(unfiltered_x) | is.nan(unfiltered_x) | is.infinite(unfiltered_x))
 
 # go through each column and replace bad values with the mean of that column
-imputed_x = apply(unfiltered_x, 2, function(x) x[which(is.na(x) | is.nan(x) | is.infinite(x))] = mean(x, na.rm = TRUE))
+imputed_x = apply(unfiltered_x, MARGIN = 2, function(x) x[which(is.na(x) | is.nan(x) | is.infinite(x))] = mean(x, na.rm = TRUE))
 ```
 
 # Filtering
@@ -82,8 +88,9 @@ imputed_x = apply(unfiltered_x, 2, function(x) x[which(is.na(x) | is.nan(x) | is
 
 ### Filtering features (columns)
 You can measure the proportion of zeros in each row/column. Start by filtering out features, then filter samples
-```{r sparsity-filter}
-proportion_col_zeros = apply(x, 2, function(x) length(which(x == 0))/length(x))
+```{r sparsity-filter, out.width = "80%"}
+proportion_col_zeros = apply(unfiltered_x, MARGIN = 2, 
+                             function(x) length(which(x == 0))/length(x))
 
 hist(proportion_col_zeros, xlab = "Proportion/% of Zeros in each column")
 ```
@@ -93,26 +100,29 @@ We can use these vectors with the quantile function to set a threshold for perce
 # Get indices for cols that are the top 10% sparse
 cols_above_zero_threshold = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9))
 
-x = x[, -cols_above_zero_threshold]
+filtered_x = unfiltered_x[, -cols_above_zero_threshold]
 ```
 
 ### Filtering samples (rows)
 Now do the same for rows (**remember to remove the corresponding rows from your response vector as well!**)
-```{r sparsity-filter-rows}
+```{r sparsity-filter-rows, out.width = "80%"}
 # Get indices for rows that are the top 10% sparse
-proportion_row_zeros = apply(x, 1, function(x) length(which(x == 0))/length(x))
+proportion_row_zeros = apply(unfiltered_x, MARGIN = 1, function(x) length(which(x == 0))/length(x))
 
 hist(proportion_row_zeros, xlab = "Proportion/% of Zeros in each row")
 
 rows_above_zero_threshold = which(proportion_row_zeros > quantile(proportion_row_zeros, 0.9))
-x = x[-rows_above_zero_threshold, ]
 
+filtered_x = unfiltered_x[-rows_above_zero_threshold, ]
+filtered_y = unfiltered_y[-rows_above_zero_threshold]
 ```
 
 Note: you may want to filter out zeros based on absolute number (versus just filtering out by quantile); in this case, your apply function will not normalize for length:
-```{r absolute-sparsity-filtering}
-absolute_num_col_zeros = apply(x, 2, function(x) length(which(x == 0)))
-absolute_num_row_zeros = apply(x, 1, function(x) length(which(x == 0)))
+```{r absolute-sparsity-filtering, out.width = "80%"}
+absolute_num_col_zeros = apply(unfiltered_x, MARGIN = 2, 
+                               function(x) length(which(x == 0)))
+absolute_num_row_zeros = apply(unfiltered_x, MARGIN = 1, 
+                               function(x) length(which(x == 0)))
 
 # should look the same as hist for row % above
 hist(absolute_num_row_zeros)
@@ -122,7 +132,7 @@ Alternatively, you can use the `zeroFiltering` function in the SLIDE package:
 - Features with more than `g_thresh` zeros will be filtered out 
 - Samples with more than `c_thresh` zeros will be filtered out
 
-```{r zero-filtering}
+```{r zero-filtering, eval = F}
 
 # this will remove all features and samples that have more than 50% zeros (any feature or column with median = 0)
 SLIDE::zeroFiltering('your-yaml-path', g_thresh = nrow(unfiltered_x)/2, c_thresh = ncol(unfiltered_x)/2)
@@ -135,15 +145,15 @@ We use similar functions to filter by variance; generally speaking, you will wan
 
 Below, we filter out the bottom 25th percentile by variance. We use the `quantile` function to control the number of features we filter, and so that we don't need to explicitly pick a variance threshold (e.g. filtering out the 25th percentile removes the lowest 25% of features by variance)
 
-Note, you can repeat this same process for rows by changing the axis in the apply function - e.g. for columns, axis = 2 `apply(unfiltered_x, 2, var)` and for rows, axis = 1 `apply(unfiltered_x, 1, var)`
+Note, you can repeat this same process for rows by changing the `MARGIN` argument in the apply function - e.g. for columns, `MARGIN = 2` `apply(unfiltered_x, MARGIN = 2, var)` and for rows, `MARGIN = 1` `apply(unfiltered_x, MARGIN = 1, var)`
 
-```{r col-variance}
+```{r col-variance, out.width = "80%"}
 
 # mean center each column
-scaled_x = apply(unfiltered_x, 2, function(x) scale(x, center = TRUE, scale = FALSE))
+scaled_x = apply(unfiltered_x, MARGIN = 2, function(x) scale(x, center = TRUE, scale = FALSE))
 
 # get the variance of each column
-col_variance = apply(scaled_x, 2, var)
+col_variance = apply(scaled_x, MARGIN = 2, var)
 
 hist(col_variance)
 
@@ -156,13 +166,13 @@ filtered_x = unfiltered_x[, -low_var_cols]
 ## Coefficient of Variation Filtering
 
 We can also filter by coefficient of variation (`sd(x)/mean(x)`). As stated above, features with high coefficient of variation may be noise and features with low coefficient of variation may be uninformative. We can again use the `quantile` function to filter out the top 5th percentile (noise) and bottom 5th percentile (uninformative)
-```{r col-coef-var}
+```{r col-coef-var, out.width = "80%"}
 
 # mean center each column
-scaled_x = apply(unfiltered_x, 2, function(x) scale(x, center = TRUE, scale = FALSE))
+scaled_x = apply(unfiltered_x, MARGIN = 2, function(x) scale(x, center = TRUE, scale = FALSE))
 
 # get the variance of each column
-col_coefficient_variation = apply(scaled_x, 2, function(x) sd(x)/mean(x))
+col_coefficient_variation = apply(scaled_x, MARGIN = 2, function(x) sd(x)/mean(x))
 
 hist(col_coefficient_variation)
 
@@ -171,79 +181,3 @@ low_coeff_var_cols = which(col_coefficient_variation < quantile(col_coefficient_
 
 filtered_x = unfiltered_x[, -low_coeff_var_cols]
 ```
-### Filtering features (columns)
-
-
-
-
-
-<!-- You can measure the proportion of zeros in each row/column -->
-<!-- ```{r sparsity-filter} -->
-<!-- proportion_row_zeros = apply(x, 1, function(x) length(which(x == 0))/length(x)) -->
-<!-- proportion_col_zeros = apply(x, 2, function(x) length(which(x == 0))/length(x)) -->
-
-<!-- hist(proportion_col_zeros, xlab = "Proportion/% of Zeros in each column") -->
-<!-- hist(proportion_row_zeros, xlab = "Proportion/% of Zeros in each row") -->
-
-<!-- ``` -->
-
-<!-- We can use these vectors with the quantile function to set a threshold for percentage of zeros - note: you don't need to use the quantile function, but it makes for smoother filtering. -->
-<!-- ```{r sparsity-filter} -->
-
-<!-- # Get indices for row/column that are the top 10% sparse -->
-<!-- max_proportion_col_zeros = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9)) -->
-
-<!-- max_proportion_row_zeros = which(proportion_row_zeros > quantile(proportion_row_zeros, 0.9)) -->
-
-
-<!-- ``` -->
-
-
-
-<!-- Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format: -->
-
-<!-- - Never uses retina figures -->
-<!-- - Has a smaller default figure size -->
-<!-- - Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style -->
-
-<!-- ## Vignette Info -->
-
-<!-- Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette. -->
-
-<!-- ## Styles -->
-
-<!-- The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows: -->
-
-<!--     output:  -->
-<!--       rmarkdown::html_vignette: -->
-<!--         css: mystyles.css -->
-
-<!-- ## Figures -->
-
-<!-- The figure sizes have been customised so that you can easily put two images side-by-side.  -->
-
-<!-- ```{r, fig.show='hold'} -->
-<!-- plot(1:10) -->
-<!-- plot(10:1) -->
-<!-- ``` -->
-
-<!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
-
-<!--     output: -->
-<!--       rmarkdown::html_vignette: -->
-<!--         fig_caption: yes -->
-
-<!-- Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**. -->
-
-<!-- ## More Examples -->
-
-<!-- You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`. -->
-
-<!-- ```{r, echo=FALSE, results='asis'} -->
-<!-- knitr::kable(head(mtcars, 10)) -->
-<!-- ``` -->
-
-<!-- Also a quote using `>`: -->
-
-<!-- > "He who gives up [code] safety for [code] speed deserves neither." -->
-<!-- ([via](https://twitter.com/hadleywickham/status/504368538874703872)) -->
