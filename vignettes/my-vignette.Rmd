@@ -10,7 +10,7 @@ vignette: >
 
 **SLIDE Pipeline**
 
-The SLIDE pipeline is consisted of below two steps. We recommand to run both steps on a computational cluster for optimal computational time.
+The SLIDE pipeline is consisted of below two steps. We recommend to run both steps on a computational cluster for optimal computational time.
 
 1.  Calculating and select latent factors (LFs) for multiple input parameter combinations.
 
