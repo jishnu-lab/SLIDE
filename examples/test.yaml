@@ -1,7 +1,7 @@
 ---
-x_path: ./test/Ssc_x.csv
-y_path: ./test/SkinScore.csv
-out_path: ./test/out
+x_path: /ix/djishnu/Hanxi/SLIDE/examples/Ssc_x.csv
+y_path: /ix/djishnu/Hanxi/SLIDE/examples/SkinScore.csv
+out_path: /ix/djishnu/Hanxi/SLIDE/examples/out
 delta:
   - 0.01
   - 0.1

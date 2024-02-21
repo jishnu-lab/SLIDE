@@ -24,22 +24,32 @@ optimizeSLIDE <- function(input_params, sink_file){
 
   if (is.null(input_params$delta) == TRUE){delta = c(0.01, 0.1)}else{delta = input_params$delta}
   if (is.null(input_params$lambda) == TRUE){lambda = c(0.5, 1.0)}else{lambda = input_params$lambda}
-
+  if (input_params$delta <= 0 | delta > 1) {stop("input delta is not between 0 and 1.")}
+  if (input_params$lambda <= 0 | delta > 4) {stop("input lambda is not between 0 and 4.")}
 
   # take care of all input params
   if (is.null(input_params$alpha)){alpha_level = 0.05} else {alpha_level = input_params$alpha}
+  
   if (is.null(input_params$thresh_fdr)){thresh_fdr = 0.2} else {thresh_fdr = input_params$thresh_fdr}
-  if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
+  if (input_params$thresh_fdr <=0 | input_params$thresh_fdr > 1) {stop("thresh_fdr should be set between 0 and 1.")}
+  
+  #if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
+  
   if (is.null(input_params$spec)){spec = 0.1} else(spec = input_params$spec)
-  if (spec < 0.1) {stop("spec is less then 0.1. Please increase spec as the minimum of spec should be 0.1.")}
+  if (spec < 0.01) {stop("spec is less then 0.1. Please increase spec as the minimum of spec should be 0.01.")}
+  if (spec > 0.9) {stop("spec is greater than 0.9. Please decrease spec as the maximum of spec should be 0.9.")}
+  
   if (is.null(input_params$do_interacts)){do_interacts = TRUE} else(do_interacts = input_params$do_interacts)
+  
   if (is.null(input_params$sigma)){
     sigma = NULL
     cat("Setting sigma as Null.\n")
   } else {sigma = input_params$rep_cv}
   
-  if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 500} else{SLIDE_iter = input_params$SLIDE_iter}
+  if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 1000} else{SLIDE_iter = input_params$SLIDE_iter}
   if (input_params$SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance.")}
+  
+  if (input_params$eval_type %in% c('auc', 'corr')){stop("Eval type is set neither to auc nor corr...")}
   if (is.null(input_params$eval_type)){
     if (length(unique(y))<=2){eval_type = "auc"}
     else{eval_type = "corr"}
@@ -49,8 +59,11 @@ optimizeSLIDE <- function(input_params, sink_file){
     if (length(unique(y))<=2){eval_type = "auc"}
     else{eval_type = "corr"}
     }
+  
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
-  if (is.null(input_params$CViter)){CViter = 100} else{CViter = input_params$CViter}
+  if (input_params$SLIDE_top_feats < 10){stop("The minimum of SLIDE_top_feats should be 10.")}
+  
+  if (is.null(input_params$CViter)){CViter = 500} else{CViter = input_params$CViter}
 
   ##################################### Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
