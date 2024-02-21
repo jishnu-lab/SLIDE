@@ -6,7 +6,7 @@ SLIDE -- Significant Latent Factor Interaction Discovery and Exploration across 
  - SLIDE makes no assumptions regarding the distribution of the underlying data as it significantly builds on a unique latent-factor regression framework.
  - It takes into account an extremely large search space of relationships to converge on a very small subset of biologically relevant and actionable latent factors.
  - Critically, SLIDE incorporates both linear and nonlinear relationships, including complex hierarchical structures.
- - It uncovers significant interacting latent factors in diverse contexts that span scales of organization from cellular/molecular phenotypes.
+ - The discovery of SLIDE is also coupled to rigorous false discovery rate (FDR) control via our unique analytical framework that creatively adapts ultramodern methods for FDR control
 
 The link for the paper:[website](https://www.nature.com/articles/s41592-024-02175-z)
 
