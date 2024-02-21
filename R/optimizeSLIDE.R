@@ -24,16 +24,21 @@ optimizeSLIDE <- function(input_params, sink_file){
 
   if (is.null(input_params$delta) == TRUE){delta = c(0.01, 0.1)}else{delta = input_params$delta}
   if (is.null(input_params$lambda) == TRUE){lambda = c(0.5, 1.0)}else{lambda = input_params$lambda}
-  if (input_params$delta <= 0 | delta > 1) {stop("input delta is not between 0 and 1.")}
-  if (input_params$lambda <= 0 | delta > 4) {stop("input lambda is not between 0 and 4.")}
+  for (i in delta){
+    if (i <= 0 | i > 1) {stop("input delta is not between 0 and 1.")}
+  }
+  for (i in lambda){
+    if (i <= 0 | i > 4) {stop("input lambda is not between 0 and 4.")}
+  }
+
 
   # take care of all input params
   if (is.null(input_params$alpha)){alpha_level = 0.05} else {alpha_level = input_params$alpha}
   
   if (is.null(input_params$thresh_fdr)){thresh_fdr = 0.2} else {thresh_fdr = input_params$thresh_fdr}
-  if (input_params$thresh_fdr <=0 | input_params$thresh_fdr > 1) {stop("thresh_fdr should be set between 0 and 1.")}
+  if (thresh_fdr <=0 | thresh_fdr > 1) {stop("thresh_fdr should be set between 0 and 1.")}
   
-  #if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
+  if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
   
   if (is.null(input_params$spec)){spec = 0.1} else(spec = input_params$spec)
   if (spec < 0.01) {stop("spec is less then 0.1. Please increase spec as the minimum of spec should be 0.01.")}
@@ -47,9 +52,11 @@ optimizeSLIDE <- function(input_params, sink_file){
   } else {sigma = input_params$rep_cv}
   
   if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 1000} else{SLIDE_iter = input_params$SLIDE_iter}
-  if (input_params$SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance.")}
+  if (SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance.")}
   
-  if (input_params$eval_type %in% c('auc', 'corr')){stop("Eval type is set neither to auc nor corr...")}
+  if (is.null(input_params$eval_type) == FALSE){
+    if (!input_params$eval_type %in% c('auc', 'corr')){stop("Eval type is set neither to auc nor corr...")}
+  }
   if (is.null(input_params$eval_type)){
     if (length(unique(y))<=2){eval_type = "auc"}
     else{eval_type = "corr"}
@@ -61,9 +68,10 @@ optimizeSLIDE <- function(input_params, sink_file){
     }
   
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
-  if (input_params$SLIDE_top_feats < 10){stop("The minimum of SLIDE_top_feats should be 10.")}
+  if (SLIDE_top_feats < 10){stop("The minimum of SLIDE_top_feats should be 10.")}
   
   if (is.null(input_params$CViter)){CViter = 500} else{CViter = input_params$CViter}
+  if (CViter <= 100) {warning("The CViter is set to less than 100, we recommend setting it to 500 or higher.")}
 
   ##################################### Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
@@ -87,7 +95,7 @@ optimizeSLIDE <- function(input_params, sink_file){
       cat("Getting latent factors for delta, ", d, ", and lambda, ", l, ". \n")
       cat("Setting alpha_level at ", alpha_level, ".\n")
       cat("Setting thresh_fdr at ", thresh_fdr, ".\n")
-      cat("Setting rep_cv at ", rep_cv, ".\n")
+      #cat("Setting rep_cv at ", rep_cv, ".\n")
       cat("Setting spec at ", spec, ".\n")
       cat("Setting eval_type as ", eval_type, ".\n")
       cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
@@ -105,6 +113,7 @@ optimizeSLIDE <- function(input_params, sink_file){
       }
 
       #final output
+      
       all_latent_factors <- getLatentFactors(x = x,
                                              x_std = x_std,
                                              y = y,
@@ -122,7 +131,6 @@ optimizeSLIDE <- function(input_params, sink_file){
       z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
 
       # run SLIDE
-
 
       SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
