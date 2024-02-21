@@ -8,6 +8,8 @@ SLIDE -- Significant Latent Factor Interaction Discovery and Exploration across 
  - Critically, SLIDE incorporates both linear and nonlinear relationships, including complex hierarchical structures.
  - It uncovers significant interacting latent factors in diverse contexts that span scales of organization from cellular/molecular phenotypes.
 
+The link for the paper:[website](https://www.nature.com/articles/s41592-024-02175-z)
+
 
 
 
