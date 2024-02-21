@@ -1,4 +1,4 @@
-SLIDE -- Significant Latent Factor Interaction Discovery and Exploration across biological domains
+SLIDE :Significant Latent Factor Interaction Discovery and Exploration across biological domains
 ============================================
  
  
