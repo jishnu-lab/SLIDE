@@ -6,8 +6,6 @@
 #' @param er_res a list output by the function \link[EssReg]{plainER} or \link[EssReg]{priorER}
 #' @param y a vector of responses
 #' @return a list including the clusters, pure variables, mixed variables, the significant
-#' cluster indices, and the features found in the significant clusters
-#' found by ER
 #' @export
 
 readER <- function(x, er_res) {
