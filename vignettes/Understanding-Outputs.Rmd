@@ -1,8 +1,10 @@
 ---
 title: "Understanding Outputs"
-author: "Vignette Author"
+author: "Jishnu Das Lab"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::pdf_document:
+      extra_dependencies: ["float"]
 vignette: >
   %\VignetteIndexEntry{Understanding Outputs}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,7 +17,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   tidy.opts = list(width.cutoff = 40), tidy = TRUE,
-  linewidth = 40
+  linewidth = 40, fig.pos = "H", out.extra = "", knitr.graphics.auto_pdf = TRUE
 )
 ```
 
@@ -27,7 +29,8 @@ This is the general workflow:
 1. Evaluate latent factor performance using `ControlPerformancePlot.png`
 2. Look at top features in each latent factor using `plotSigGenes_marginals.png` and `plotSigGenes.png`
 3. Look at interactions between latent factors with `plotInteractions.png`
-4. Look at gene lists in `SLIDE_LFs.rds` and `gene_list_Z.txt` files
+4. Look at gene lists in `gene_list_Z.txt` files
+5. View SLIDE results and parameters in `SLIDE_LFs.rds` 
 
 ## Evaluate latent factor performance using `ControlPerformancePlot.png`
 This plot shows how the significant latent factors perform relative to their knockoff counterparts:
@@ -38,16 +41,92 @@ This plot shows how the significant latent factors perform relative to their kno
 
 A good model should have:
 
-- performance red line to the right (better performance) than both the blue and green densities - this indicates that there signal in the significant latent factors.
-- green density should be slightly higher than blue, since we are using the true marginal latent factors paired with knockoff interaction latent factors - we are trying to evaluate whether the interaction latent factors are meaningful
-- blue density has the lowest performance, as knockoffs for our marginal latent factors should not have signal
+- **performance red line should be highest** (better performance) and to the right of both the blue and green densities - this indicates that there signal in the significant latent factors.
+- **green density should be slightly higher than blue**, since we are using the true marginal latent factors paired with knockoff interaction latent factors - we are trying to evaluate whether the interaction latent factors are meaningful
+- **blue density has the lowest performance**, as knockoffs for our marginal latent factors should not have signal
 
-
-
-```{r load_example_data, eval = F, fig.cap = "Latent Factor Performance", out.width = '75%'}
-knitr::include_graphics('test/out/0.01_1_out/ControlPerformancePlot.png'
+```{r load_example_data, eval = F, fig.cap = "Significant Latent Factor Performance", out.width="60%", fig.align="center"}
+knitr::include_graphics('examples/out/0.01_1_out/ControlPerformancePlot.png')
 ```
 
-```{r actual_load_example_data, echo = F, fig.cap = "Latent Factor Performance", out.width = '75%'}
-knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/test/out/0.01_1_out/ControlPerfomancePlot.png')
+```{r actual_load_example_data, echo = F, fig.cap = "Significant Latent Factor Performance", out.width="60%", fig.align="center"}
+knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/ControlPerfomancePlot.png')
 ```
+
+Above is an example of a model with great performance. In some cases, you may find that the green density overlaps perfectly with the blue - in this case, the interaction latent factors are not meaningful. If you find that all three (blue, green and red) perfectly overlap, then this indicates a lack of signal in the significant latent factors and there are a few options:
+
+1. Increase `spec` parameter (increase FDR control for choosing latent factors)
+2. Re-cluster latent factors using different `delta` and `lambda` parameters - it is possible the latent factors are a poor fit to the data (too many latent factors will overfit = increase `delta`; too few latent factors will be over-clustered = decrease `delta`)
+
+The data for this plot is stored in `ControlPerformance.rds`; the `ControlPerformancePlot.rds` has the plot object for the ggplot above. 
+
+## Look at top features in each latent factor using `plotSigGenes_marginals.png` and `plotSigGenes.png`
+The `plotSigGenes_marginals.png` shows the top features in the stand-alone/marginal significant latent factors. By default, we show the top 10 features by loading (features that contribute most to the latent factor), as well as the top 10 univariate features (features that have high correlation or AUC with response/Y). Each latent factor shows 20 features - the bottom 10 are the highest loading and the top 10 are highest univariate. 
+
+```{r load_sig_plots, eval = F, fig.cap = "Marginal Significant Latent Factors", out.width="90%", fig.align="center"}
+knitr::include_graphics('examples/out/0.01_1_out/plotSigGenes_marginals.png')
+```
+
+```{r actual_load_sig_plots, echo = F, fig.cap = "Marginal Significant Latent Factors", out.width="90%", fig.align="center"}
+knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/plotSigGenes_marginals.png')
+```
+
+
+We also include plots showing both the marginal and interaction latent factors in this format; here, the bolded/italicized latent factors are the stand-alone/marginal latent factors and the plain text are the interactions.
+```{r load_itxn_sig_plots, eval = F, fig.cap = "Marginal (bolded) and Interaction (plain) Significant Latent Factors", out.width="90%", fig.align="center"}
+knitr::include_graphics('examples/out/0.01_1_out/plotSigGenes.png')
+```
+
+```{r actual_itxn_load_sig_plots, echo = F, fig.cap = "Marginal (bolded) and Interaction (plain) Significant Latent Factors", out.width="90%", fig.align="center"}
+knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/plotSigGenes.png')
+```
+
+
+## Look at interactions between latent factors with `plotInteractions.png`
+This plot shows a graphical representation of how the interacting latent factors are paired with the marginals.
+Here, `Z97` interacts with both `Z147` and `Z109`; `Z46`, `Z58`, `Z129`, and `Z137` have no interactions
+```{r load_itxn_plots, eval = F, fig.cap = "Latent Factor Interactions", out.width="60%", fig.align="center"}
+knitr::include_graphics('examples/out/0.01_1_out/plotInteractions.png')
+```
+
+```{r actual_itxn_load_plots, echo = F, fig.cap = "Latent Factor Interactions", out.width="60%", fig.align="center"}
+knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/plotInteractions.png')
+```
+
+## Look at gene lists in `gene_list_Z.txt` files
+These outputs provide a table of the top 20 features (same as above in the text plots), and provide the associated latent factor loadings `A_loading` and correlation/AUC `corrs`, as well as the association of each feature with the response `color`. For the color, `Red` is associated with a higher response/Y (or Y = 1 for binary) and `Blue` is associated with a lower response/Y (or Y = 0 for binary). 
+```{r load_gene_list, eval = F, fig.align="center"}
+gene_list = read.csv('examples/out/0.01_1_out/gene_list_Z97.txt',
+                     row.names = 1)
+knitr::kable(head(gene_list))
+```
+
+```{r actual_load_gene_list, echo = F, fig.align="center"}
+gene_list = read.table('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/gene_list_Z97.txt',
+                     row.names = 1, header = T)
+knitr::kable(head(gene_list))
+```
+
+## View SLIDE results and parameters in `SLIDE_LFs.rds` 
+We can see the parameters that were used to run SLIDE in `SLIDE_LFs.rds`
+```{r load_slide_res, eval = F, fig.cap = "Latent Factor Performance", out.width="80%", fig.align="center"}
+SLIDE_LFs = readRDS('examples/out/0.01_1_out/SLIDE_LFs.rds')
+names(SLIDE_LFs)
+```
+
+```{r actual_load_slide_res, echo = F, fig.align="center"}
+SLIDE_LFs = readRDS('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.01_1_out/SLIDE_LFs.rds')
+names(SLIDE_LFs)
+```
+
+We can see the parameters:
+```{r slide_params, fig.align="center"}
+knitr::kable(SLIDE_LFs$SLIDE_param)
+```
+
+
+
+
+
+
+
