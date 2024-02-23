@@ -1,12 +1,21 @@
 ---
 title: "SLIDE"
-#output: rmarkdown::html_vignette
 output: rmarkdown::pdf_document
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{SLIDE}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r setup, include = FALSE}
+library(knitr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+   knitr.graphics.auto_pdf = TRUE, nobreak = TRUE)
+
+knitr::opts_knit$set(root.dir = '..')
+```
 
 **SLIDE Pipeline**
 
@@ -16,11 +25,12 @@ The SLIDE pipeline is consisted of below two steps. We recommend to run both ste
 
 2.  Reviewing the output of step 1 and choose the optimal parameters for rigorous k-fold CV.
 
-    ![](Vignette.png)
+```{r workflow, eval = F, fig.cap = "SLIDE workflow", out.width="60%", fig.align="center"}
+knitr::include_graphics('build_files/Vignette.png')
+```
+# **Step 1: Parameter Tuning**
 
-**Step 1: Parameter Tuning**
-
-**1-1 Pre-Processing and Checking Input Data**
+## **1-1 Pre-Processing and Checking Input Data**
 
 Due to the assumption-free-nature of SLIDE, there are no data modality limit to the input of SLIDE.
 
@@ -30,21 +40,26 @@ The x file contains your data in a sample by feature format, such as single cell
 
 In this tutorial, we are going to use the example Systemic Sclerosis dataset we have used in the SLIDE paper. This dataset is a human skin cell scRNA-seq dataset that we have transformed into the pseudo-bulk format.
 
-[If you have human single-cell data,]{.underline} our recommended workflow is to pseudobulk your dataset since the cell-to-cell variability is high. [If you have mouse single cell data]{.underline}, with the reduced cell-to-cell variability, you can consider each cell as an sample. For single-cell datasets, the sparsity might be extremely high with high feature numbers. In this case, please see below for how to reduce the number of features and samples with large amount of zeros.
-
-**1-2 Parameters**
+[If you have human single-cell data,]{.underline} our recommended workflow is to pseudobulk your dataset since the cell-to-cell variability is high. [If you have mouse single cell data]{.underline}, with the reduced cell-to-cell variability, you can consider each cell as an sample. For single-cell datasets, the sparsity might be extremely high with high feature numbers. In this case, please see below for how to reduce the number of features and samples with large amount of zeros.  
+ 
+ 
+ 
+ 
+## **1-2 Parameters**
 
 The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
 
-![Example YAML file for ordinal/continuous Y.](test_yaml_example.png)
-
-![Example YAML file for binary Y.](Screen%20Shot%202024-02-14%20at%2010.48.53%20AM.png){width="200" height="282"}
-
+```{r load_example_data_class, eval = F, fig.cap = "Example Yaml (Continuous Y)", out.width="60%", fig.align="center"}
+knitr::include_graphics('vignettes/build_files/test_yaml_example.png')
+```
+```{r load_example_data_binary, eval = F, fig.cap = "Example Yaml (Binary Y)", out.width="60%", fig.align="center"}
+knitr::include_graphics('vignettes/build_files/yaml_example.png')
+```
 **x_path:** a string of the path to the data matrix (x) in the csv format [with row names and column names where each row is samples (cells, patients, regions...) and each column is a features (genes, proteins...)]{.underline}.
 
-**y_path:** a string of the path of the response vector (y) in the csv format [with row names and column names where each row is a sample and the column would be the outcome of interest.]{.underline}
+**y_path:** a string of the path of the response vector (y) in the csv format [with row names and column names where each row is a sample and the column would be the outcome of interest.]{.underline}.
 
 **out_path:** a string of the path of a folder to store all output files (please see below section to interpret the outputs).
 
@@ -67,24 +82,27 @@ SLIDE accepts many parameters from user input to give user as much freedom to tw
 **do_interacts (optional):** set to false if don't want interacting latent factors. Default as TRUE
 
 **thresh_fdr:** set to lower if co-linearity of the features in the data matrix is high. Default as 0.2.
-
-**2-1 Step1 of SLIDE Framework**
+  
+  
+  
+## **2-1 Step1 of SLIDE Framework**
 
 Once your YAML file is ready, we first recommend using a YAML validator website to ensure your YAML file is correctly formatted.
 
 We can then check if the YAML file is read in correctly by reading it in as an variable.
 
-```{r setup}
+```{r initial, message = F}
 library(SLIDE)
-yaml_path = "/ix/djishnu/Hanxi/SLIDE/test/test.yaml"
+yaml_path = "examples/test.yaml"
 input_params = yaml::read_yaml(yaml_path)
-```
 
-**If you have a sparse dataset such as scRNA-seq datasets**, we recommend filtering out samples and features that have too many zeros. zeroFiltering function will remove samples with more than g_thresh number of zeros and features with more than c_thresh number of zeros. An appropriate data matrix should at most have around 3-4k features.
-
-```{name1}
-#zeroFiltering(yaml_path, g_thresh, c_thresh)
+knitr::kable(data.frame(arg = unlist(input_params)))
 ```
+**If you have a sparse dataset such as scRNA-seq datasets**, we recommend filtering out samples and features that have too many zeros. zeroFiltering function will remove samples with more than g_thresh number of zeros and features with more than c_thresh number of zeros. An appropriate data matrix should at most have around 3-4k features. See `Preprocessing-and-Filtering` vignette for more information.
+
+<!-- # ```{name1} -->
+<!-- # #zeroFiltering(yaml_path, g_thresh, c_thresh) -->
+<!-- # ``` -->
 
 We then check if your data files are formatted correctly.
 
@@ -95,11 +113,11 @@ checkDataParams(yaml_path)
 If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
 
 ```{r name3, warning=FALSE}
-Optimize_SLIDE(input_params, sink_file = TRUE)
+ optimizeSLIDE(input_params, sink_file = FALSE)
 ```
 
-**2-2 Interpret Step1 Output Files**
+<!-- ## **2-2 Interpret Step1 Output Files** -->
 
-The output files are now populated to the output folder we specified in the YAML file.
+<!-- The output files are now populated to the output folder we specified in the YAML file. -->
 
-First investigate the summary_table.csv. Thi
+<!-- First investigate the summary_table.csv.  -->

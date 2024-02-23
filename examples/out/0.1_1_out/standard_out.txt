@@ -1,0 +1,31 @@
+Getting latent factors for delta,  0.1 , and lambda,  1 . 
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting spec at  0.3 .
+Setting eval_type as  corr .
+Setting SLIDE_iter at  500 .
+Setting SLIDE_top_feats as  10 .
+Setting do_interacts as  TRUE .
+Setting CViter as  10 .
+f_size is set as  24 
+         final marginal spec: 0.3
+      starting interaction selection . . . 
+[1] "Before doing interaction SLIDE"
+[1] "z34" "z45" "z70" "z77"
+[1] "printig the yhat of each maginals:"
+NULL
+      running knockoffs on marginal/interaction submodels . . . 
+[1] "upsilon colnames:"
+Getting real performance: 
+Getting Full  Random: 
+Getting partial random: 
+  delta lambda f_size Num_of_LFs Num_of_Sig_LFs Num_of_Interactors
+1  0.01    0.5     24        172              5                  1
+2  0.01      1     24        172             NA                 NA
+3   0.1    0.5     24         88              5                  4
+4   0.1      1     24         88              4                  5
+  sampleCV_Performance
+1    0.730744050785219
+2                   NA
+3    0.736035109939969
+4    0.510226400719074

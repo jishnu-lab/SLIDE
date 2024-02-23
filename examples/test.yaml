@@ -1,7 +1,7 @@
 ---
-x_path: /ix/djishnu/Hanxi/SLIDE/examples/Ssc_x.csv
-y_path: /ix/djishnu/Hanxi/SLIDE/examples/SkinScore.csv
-out_path: /ix/djishnu/Hanxi/SLIDE/examples/out
+x_path: examples/Ssc_x.csv
+y_path: examples/SkinScore.csv
+out_path: examples/out
 delta:
   - 0.01
   - 0.1
@@ -13,7 +13,7 @@ y_factor: false
 thresh_fdr: 0.2
 y_levels: NULL
 eval_type: corr
-SLIDE_iter: 20
+SLIDE_iter: 500
 SLIDE_top_feats: 10
 CViter: 10
 do_interacts: TRUE
