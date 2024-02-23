@@ -1,0 +1,13 @@
+Getting latent factors for delta,  0.01 , and lambda,  1 . 
+Setting alpha_level at  0.05 .
+Setting thresh_fdr at  0.2 .
+Setting spec at  0.3 .
+Setting eval_type as  corr .
+Setting SLIDE_iter at  500 .
+Setting SLIDE_top_feats as  10 .
+Setting do_interacts as  TRUE .
+Setting CViter as  10 .
+f_size is set as  24 
+         final marginal spec: 0.3
+    no interaction terms . . . no marginals 
+    no interaction terms . . . no marginals 
