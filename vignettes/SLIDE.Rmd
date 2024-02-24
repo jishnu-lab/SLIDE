@@ -121,7 +121,7 @@ optimizeSLIDE(input_params, sink_file = FALSE)
 ```
 
 ```{r plot_correlation_networks}
-plotCorrelationNetwork(input_params)
+plotCorrelationNetworks(input_params)
 
 ```
 

@@ -1,7 +1,7 @@
 ---
 x_path: examples/Ssc_x.csv
 y_path: examples/SkinScore.csv
-out_path: examples/out
+out_path: examples/out_correlation_network_example
 delta:
   - 0.1
 lambda:

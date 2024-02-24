@@ -6,12 +6,16 @@
 #'
 plotCorrelationNetworks = function(input_params) {
 
+  original_wd = getwd()
   # iterate through each run (different values of delta/lambda)
   run_dirs = list.files(input_params$out_path, pattern = "[0-9]+(\\.)?[0-9]+?_[0-9]+(\\.)?([0-9]+)?_out", include.dirs = TRUE,
                         full.names = TRUE, recursive = FALSE)
 
   # make sure they are directories
   run_dirs = base::intersect(run_dirs, list.dirs(input_params$out_path, recursive = FALSE, full.names = TRUE))
+
+  x = as.matrix(read.csv(input_params$x_path, row.names = 1))
+  y = as.matrix(read.csv(input_params$y_path, row.names = 1))
 
   for (r in run_dirs) {
     # going to store correlation plots in a new folder
@@ -20,9 +24,6 @@ plotCorrelationNetworks = function(input_params) {
     if ( !dir.exists(dir_name) ) {
       dir.create(dir_name, recursive = T)
     }
-
-    x = as.matrix(read.csv(input_params$x_path, row.names = 1))
-    y = as.matrix(read.csv(input_params$y_path, row.names = 1))
 
     gene_list_files = list.files(r, pattern = "gene_list_Z", full.names = TRUE)
 
@@ -62,4 +63,5 @@ plotCorrelationNetworks = function(input_params) {
                           posCol="#40006D", negCol="#59A14F",filetype='pdf',height=5,width=7)
     }
   }
+  setwd(original_wd)
 }
