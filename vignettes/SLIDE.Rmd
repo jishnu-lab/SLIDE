@@ -50,9 +50,15 @@ The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
 
+<<<<<<< HEAD
+ ![Example Yaml (Continuous Y)](build_files/test_yaml_example.png)
+ 
+  ![Example Yaml (Binary Y)](build_files/yaml_example.png)
+=======
  ![Example Yaml (Continuous Y)"](build_files/test_yaml_example.png)
  
   ![Example Yaml (Binary Y)"](build_files/yaml_example.png)
+>>>>>>> main
 
 
 <!-- # ```{r load_example_data_class, eval=F, fig.cap = "Example Yaml (Continuous Y)", out.width="60%", fig.align="center"} -->
@@ -120,9 +126,30 @@ If everything is formatted correctly, you can now run [Step1]{.underline} of SLI
 optimizeSLIDE(input_params, sink_file = FALSE)
 ```
 
+<<<<<<< HEAD
+The function above will generate a summary of each `delta` and `lambda` parameter, stored in `summary_table.csv`
+```{r view_summary_table, warning = FALSE}
+
+summary_table = read.csv(paste0(input_params$out_path, "/summary_table.csv"), row.names = 1)
+
+knitr::kable(data.frame(summary_table))
+```
+
+The `sampleCV_Performance` column will tell us which of our parameters gives latent factors that perform well in short cross validation run. We generally want to pick the parameters that have the highest value for `sampleCV_Performance`. Once we pick parameters, we will run a more rigorous cross validation with more iterations.
+
+
+Finally, we can generate correlation plots for the top features in each significant latent factor. 
+```{r plot_correlation_networks, include = TRUE, message = FALSE}
+plotCorrelationNetworks(input_params)
+```
+
+
+
+=======
 <!-- # ```{r plot_correlation_networks} -->
 <!-- # plotCorrelationNetworks(input_params) -->
 <!-- # ``` -->
+>>>>>>> main
 
 <!-- ## **2-2 Interpret Step1 Output Files** -->
 
