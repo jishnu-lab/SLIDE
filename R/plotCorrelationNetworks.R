@@ -49,7 +49,7 @@ plotCorrelationNetworks = function(input_params) {
 
         temp_cols = ifelse(col_auc > 0.5, "salmon", ifelse(col_auc < 0.5, "skyblue", "lightgray"))
       } else {
-        col_cor = round(apply(x_gene, 2, function(xs) cor(as.matrix(y), as.matrix(xs), method = "spearman")))
+        col_cor = round(apply(x_gene, 2, function(xs) cor(as.matrix(y), as.matrix(xs), method = "spearman")), 2)
 
         temp_cols = ifelse(col_cor > 0, "salmon", ifelse(col_cor < 0, "skyblue", "lightgray"))
       }
