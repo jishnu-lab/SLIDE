@@ -10,7 +10,6 @@
 #' @return a heatmap
 #' @export
 
-library(pheatmap)
 makeHeatmap <- function(mat, title, cluster = T, names = F) {
   heatmap <- pheatmap::pheatmap(mat,
                                 cluster_rows = cluster,

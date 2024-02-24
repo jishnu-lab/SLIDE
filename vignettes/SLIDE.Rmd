@@ -1,6 +1,7 @@
 ---
 title: "SLIDE"
-output: rmarkdown::pdf_document
+output: 
+  pdf_document
 vignette: >
   %\VignetteIndexEntry{SLIDE}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,8 +13,7 @@ library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-   knitr.graphics.auto_pdf = TRUE, nobreak = TRUE)
-
+   knitr.graphics.auto_pdf = F, nobreak = TRUE)
 knitr::opts_knit$set(root.dir = '..')
 ```
 
@@ -25,9 +25,8 @@ The SLIDE pipeline is consisted of below two steps. We recommend to run both ste
 
 2.  Reviewing the output of step 1 and choose the optimal parameters for rigorous k-fold CV.
 
-```{r workflow, eval = F, fig.cap = "SLIDE workflow", out.width="60%", fig.align="center"}
-knitr::include_graphics('build_files/Vignette.png')
-```
+ ![SLIDE workflow](build_files/Vignette.png)
+
 # **Step 1: Parameter Tuning**
 
 ## **1-1 Pre-Processing and Checking Input Data**
@@ -51,12 +50,17 @@ The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. Here, we explain what each of these parameters mean.
 
-```{r load_example_data_class, eval = F, fig.cap = "Example Yaml (Continuous Y)", out.width="60%", fig.align="center"}
-knitr::include_graphics('vignettes/build_files/test_yaml_example.png')
-```
-```{r load_example_data_binary, eval = F, fig.cap = "Example Yaml (Binary Y)", out.width="60%", fig.align="center"}
-knitr::include_graphics('vignettes/build_files/yaml_example.png')
-```
+ ![Example Yaml (Continuous Y)"](build_files/test_yaml_example.png)
+ 
+  ![Example Yaml (Binary Y)"](build_files/yaml_example.png)
+
+
+<!-- # ```{r load_example_data_class, eval=F, fig.cap = "Example Yaml (Continuous Y)", out.width="60%", fig.align="center"} -->
+<!-- # knitr::include_graphics('vignettes/build_files/test_yaml_example.png') -->
+<!-- # ``` -->
+<!-- # ```{r load_example_data_binary, eval = F, fig.cap = "Example Yaml (Binary Y)", out.width="60%", fig.align="center"} -->
+<!-- # knitr::include_graphics('vignettes/build_files/yaml_example.png') -->
+<!-- # ``` -->
 **x_path:** a string of the path to the data matrix (x) in the csv format [with row names and column names where each row is samples (cells, patients, regions...) and each column is a features (genes, proteins...)]{.underline}.
 
 **y_path:** a string of the path of the response vector (y) in the csv format [with row names and column names where each row is a sample and the column would be the outcome of interest.]{.underline}.
@@ -93,7 +97,7 @@ We can then check if the YAML file is read in correctly by reading it in as an v
 
 ```{r initial, message = F}
 library(SLIDE)
-yaml_path = "examples/test.yaml"
+yaml_path = "examples/fast_test.yaml"
 input_params = yaml::read_yaml(yaml_path)
 
 knitr::kable(data.frame(arg = unlist(input_params)))
@@ -113,7 +117,12 @@ checkDataParams(yaml_path)
 If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
 
 ```{r name3, warning=FALSE}
- optimizeSLIDE(input_params, sink_file = FALSE)
+optimizeSLIDE(input_params, sink_file = FALSE)
+```
+
+```{r plot_correlation_networks}
+plotCorrelationNetwork(input_params)
+
 ```
 
 <!-- ## **2-2 Interpret Step1 Output Files** -->

@@ -36,7 +36,9 @@ Imports:
     yaml,
     Matrix,
     tidygraph,
-    ggraph
+    ggraph,
+    qgraph,
+    ggpubr
 Suggests: 
     knitr,
     rmarkdown
