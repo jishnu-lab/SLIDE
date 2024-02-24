@@ -47,11 +47,11 @@ plotCorrelationNetworks = function(input_params) {
       if (length(unique(y)) == 2) {
         col_auc = round(apply(x_gene, 2, function(xs) glmnet:::auc(as.matrix(y), as.matrix(xs))), 2)
 
-        temp_cols = ifelse(col_auc > 0.55, "salmon", ifelse(col_auc < 0.45, "skyblue", "lightgray"))
+        temp_cols = ifelse(col_auc > 0.5, "salmon", ifelse(col_auc < 0.5, "skyblue", "lightgray"))
       } else {
-        col_cor = round(apply(x_gene, 2, function(xs) glmnet:::auc(as.matrix(y), as.matrix(xs))), 2)
+        col_cor = round(apply(x_gene, 2, function(xs) cor(as.matrix(y), as.matrix(xs), method = "spearman")))
 
-        temp_cols = ifelse(col_cor > 0.1, "salmon", ifelse(col_cor < -0.1, "skyblue", "lightgray"))
+        temp_cols = ifelse(col_cor > 0, "salmon", ifelse(col_cor < 0, "skyblue", "lightgray"))
       }
 
       x_temp = cor(x_gene)
