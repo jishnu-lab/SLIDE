@@ -32,12 +32,13 @@ plotCorrelationNetworks = function(input_params) {
       cat("\n No feature lists found. Run optimizeSLIDE first \n")
     }
 
-    setwd(dir_name)
 
     for (f in gene_list_files) {
 
       LF_num = unlist(stringr::str_match(f, pattern = "Z[0-9]+"))
       temp_list = read.table(f, header = TRUE) %>% tidyr::drop_na()
+
+      setwd(dir_name)
 
       # subset genes from expression data
       x_gene = as.matrix(x[, temp_list$names])
@@ -61,7 +62,8 @@ plotCorrelationNetworks = function(input_params) {
                           title = LF_num,
                           label.scale.equal=FALSE,label.prop=0.95,shape="ellipse",
                           posCol="#40006D", negCol="#59A14F",filetype='pdf',height=5,width=7)
+      setwd(original_wd)
+
     }
   }
-  setwd(original_wd)
 }
