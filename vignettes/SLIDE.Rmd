@@ -97,7 +97,7 @@ We can then check if the YAML file is read in correctly by reading it in as an v
 
 ```{r initial, message = F}
 library(SLIDE)
-yaml_path = "examples/fast_test.yaml"
+yaml_path = "examples/test.yaml"
 input_params = yaml::read_yaml(yaml_path)
 
 knitr::kable(data.frame(arg = unlist(input_params)))
@@ -120,10 +120,9 @@ If everything is formatted correctly, you can now run [Step1]{.underline} of SLI
 optimizeSLIDE(input_params, sink_file = FALSE)
 ```
 
-```{r plot_correlation_networks}
-plotCorrelationNetworks(input_params)
-
-```
+<!-- # ```{r plot_correlation_networks} -->
+<!-- # plotCorrelationNetworks(input_params) -->
+<!-- # ``` -->
 
 <!-- ## **2-2 Interpret Step1 Output Files** -->
 
