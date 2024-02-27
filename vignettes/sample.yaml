@@ -1,12 +1,12 @@
-x_path: /ix/djishnu/Common_Folder/Isha_SLIDE_data/topTpmDay28s2Vs3.csv
-y_path: /ix/djishnu/Common_Folder/Isha_SLIDE_data/s2Vs3Day28.csv
-out_path: /ix/djishnu/Javad/isha/
+x_path: test/Ssc_x.csv
+y_path: test/SkinScore.csv
+out_path: test/out
 delta:
-  - 0.02
+  - 0.01
   - 0.1
 lambda:
   - 0.5
-  - 2
+  - 1
 spec: 0.3
 y_factor: true
 y_levels: [0,1]
