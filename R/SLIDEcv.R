@@ -21,7 +21,7 @@ z <- calcZMatrix(x_std = scale(x,T,T),all_latent_factors = all_latent_factors,ou
 
 z <- scale(z,T,T)
 
-f_size <- calcDefaultFsize(y=y,all_latent_factors = latentSpace )
+f_size <- calcDefaultFsize(y=y,all_latent_factors = all_latent_factors )
 
 
 
