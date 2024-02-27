@@ -1,0 +1,17 @@
+x_path: /ix/djishnu/Common_Folder/Isha_SLIDE_data/topTpmDay28s2Vs3.csv
+y_path: /ix/djishnu/Common_Folder/Isha_SLIDE_data/s2Vs3Day28.csv
+out_path: /ix/djishnu/Javad/isha/
+delta:
+  - 0.02
+  - 0.1
+lambda:
+  - 0.5
+  - 2
+spec: 0.3
+y_factor: true
+y_levels: [0,1]
+eval_type: auc
+SLIDE_iter: 500
+SLIDE_top_feats: 20
+CViter: 1000
+do_interacts: TRUE
