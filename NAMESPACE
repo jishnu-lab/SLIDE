@@ -2,7 +2,6 @@
 
 export(LP)
 export(SLIDE)
-export(SLIDEcv)
 export(adjustSign)
 export(benchCV)
 export(benchCV2)

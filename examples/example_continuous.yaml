@@ -1,0 +1,20 @@
+---
+x_path: examples/Ssc_x.csv
+y_path: examples/SkinScore.csv
+out_path: examples/out
+delta:
+  - 0.01
+  - 0.1
+lambda:
+  - 0.5
+  - 1.0
+spec: 0.3
+y_factor: FALSE
+thresh_fdr: 0.2
+y_levels: NULL
+eval_type: corr
+SLIDE_iter: 500
+SLIDE_top_feats: 10
+CViter: 10
+sampleCV_K: 4
+do_interacts: TRUE
