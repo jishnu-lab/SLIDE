@@ -97,16 +97,16 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       return(edges)
     }
     
-    edges = make_interaction_adj(slide_res$SLIDE_res)
+    edges = make_interaction_adj(slide_results$SLIDE_res)
     
     unique_nodes = unique(unlist(edges[, 1:2]))
     
-    node_colors = ifelse(unique_nodes %in% paste0("Z", slide_res$SLIDE_res$marginal_vars),
+    node_colors = ifelse(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars),
                          "salmon", "lightgray")
     
     group_list = list(
-      marginal = which(unique_nodes %in% paste0("Z", slide_res$SLIDE_res$marginal_vars)),
-      interaction = which(unique_nodes %in% setdiff(unique_nodes, paste0("Z", slide_res$SLIDE_res$marginal_vars)))
+      marginal = which(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)),
+      interaction = which(unique_nodes %in% setdiff(unique_nodes, paste0("Z", slide_results$SLIDE_res$marginal_vars)))
     )
     
     lf_graph = qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
