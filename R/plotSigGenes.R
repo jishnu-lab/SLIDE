@@ -85,13 +85,13 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       # add marginals first
       for (e in slide_results$marginal_vars) {
         mvar = paste0("Z", e)
-        elist = list(A = mvar, B = mvar, C = 0)
+        elist = list(A = mvar, B = mvar, C = as.numeric(0))
         edges = rbind.data.frame(edges, elist)
       }
     
       for (e in slide_results$interaction_vars) {
         elist = stringr::str_split(e, pattern = "\\.")[[1]]
-        elist = list(A = elist[1], B = elist[2], C = 1)
+        elist = list(A = elist[1], B = elist[2], as.numeric(C = 1))
         edges = rbind.data.frame(edges, elist)
       }
       return(edges)
