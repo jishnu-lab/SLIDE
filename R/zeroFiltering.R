@@ -33,20 +33,6 @@ zeroFiltering <- function(x, y, g_thresh, c_thresh){
   colnames(filtered_y) = colnames(y)
   if (nrow(filtered_y) != nrow(filtered)) {stop("Number of samples in data matrix and response do not match post-filtering.")}
   
-  
-  # check if output path exists
-  if (dir.exists(input_params$out_path)){
-    cat("Populating filtered files to ", input_params$out_path, '.\n')
-  } else{
-    cat ("Output folder not found, creating at ", input_params$out_path, ".\n")
-    dir.create(file.path(input_params$out_path), showWarnings = F, recursive = T)
-  }
-  
-  write.csv(filtered, paste0(input_params$out_path, "/filtered_x.csv"))
-  write.csv(filtered_y, paste0(input_params$out_path, "/filtered_y.csv"))
-  input_params$x_path <-paste0(input_params$out_path, "/filtered_x.csv")
-  input_params$y_path <-paste0(input_params$out_path, "/filtered_y.csv")
-  
-  return(list(input_params, filtered, filtered_y))
+  return(list(filtered, filtered_y))
 }
 

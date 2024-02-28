@@ -135,7 +135,7 @@ Alternatively, you can use the `zeroFiltering` function in the SLIDE package:
 ```{r zero-filtering, eval = F}
 
 # this will remove all features and samples that have more than 50% zeros (any feature or column with median = 0)
-SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, g_thresh = nrow(unfiltered_x)/2, c_thresh = ncol(unfiltered_x)/2)
+filtered_mats = SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, g_thresh = nrow(unfiltered_x)/2, c_thresh = ncol(unfiltered_x)/2)
 ```
 
 ## Variance Filtering
