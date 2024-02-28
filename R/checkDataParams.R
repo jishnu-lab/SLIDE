@@ -1,12 +1,12 @@
 #' Check if the input and the yaml files are set correctly. 
 #'
-#' @param yaml_path a string that points to the yaml file.
-#' @param pipeline a integer indicates which step of the pipeline is the yaml file for.
+#' @param input_params a list of the input parameters from the YAML file.
+#' @param pipeline a integer indicates which step of the pipeline is the YAML file for.
 #' @export
 
 
-checkDataParams <- function(yaml_path, pipeline = NULL){
-  input_params <- yaml::yaml.load_file(yaml_path)
+checkDataParams <- function(input_params, pipeline = NULL){
+  #input_params <- yaml::yaml.load_file(yaml_path)
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   

@@ -8,7 +8,6 @@
 
 optimizeSLIDE <- function(input_params, sink_file){
 
-  #input_params <- yaml::yaml.load_file(yaml_path)
   ##################################### check and print key parameters #####################################
   # check if output path exists
   if (dir.exists(input_params$out_path)){
@@ -52,7 +51,7 @@ optimizeSLIDE <- function(input_params, sink_file){
   } else {sigma = input_params$rep_cv}
   
   if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 1000} else{SLIDE_iter = input_params$SLIDE_iter}
-  if (SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance.")}
+  if (SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance. \n")}
   
   if (is.null(input_params$eval_type) == FALSE){
     if (!input_params$eval_type %in% c('auc', 'corr')){stop("Eval type is set neither to auc nor corr...")}
@@ -70,10 +69,9 @@ optimizeSLIDE <- function(input_params, sink_file){
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
   if (SLIDE_top_feats < 10){stop("The minimum of SLIDE_top_feats should be 10.")}
   
-  if (is.null(input_params$CViter)){CViter = 500} else{CViter = input_params$CViter}
-  if (CViter <= 100) {warning("The CViter is set to less than 100, we recommend setting it to 500 or higher.")}
+  if (is.null(input_params$sampleCV_iter)){sampleCV_iter = 500} else{sampleCV_iter = input_params$sampleCV_iter}
+  if (sampleCV_iter <= 100) {warning("The CViter is set to less than 100, we recommend setting it to 500 or higher.")}
   
- 
 
   ##################################### Heavy Lifting Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
@@ -105,7 +103,7 @@ optimizeSLIDE <- function(input_params, sink_file){
   cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
   cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
   cat("Setting do_interacts as ", do_interacts, ".\n")
-  cat("Setting CViter as ", CViter, ".\n")
+  cat("Setting sampleCV_iter as ", sampleCV_iter, ".\n")
   cat("Setting sampleCV_K as ", sampleCV_K, ".\n")
 
   #initiate the summary table
@@ -166,7 +164,7 @@ optimizeSLIDE <- function(input_params, sink_file){
         calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)}
 
         # calculate the sampleCV performance
-        performance = sampleCV(y, z_matrix, SLIDE_res, sampleCV_K = sampleCV_K, condition = eval_type, sampleCV_iter = CViter, logistic = FALSE, out_path = loop_outpath)
+        performance = sampleCV(y, z_matrix, SLIDE_res, sampleCV_K = sampleCV_K, condition = eval_type, sampleCV_iter = sampleCV_iter, logistic = FALSE, out_path = loop_outpath)
 
       # fill in the summary table
         if (do_interacts == TRUE){

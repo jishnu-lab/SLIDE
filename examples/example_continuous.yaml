@@ -15,6 +15,6 @@ y_levels: NULL
 eval_type: corr
 SLIDE_iter: 500
 SLIDE_top_feats: 10
-CViter: 10
+sampleCV_iter: 500
 sampleCV_K: 4
 do_interacts: TRUE

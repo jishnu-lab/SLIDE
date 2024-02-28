@@ -88,13 +88,15 @@ SLIDE accepts many parameters from user input to give user as much freedom to tw
 
 **eval_type:** the performance evaluation metric used. corr for continuous Y and auc for binary Y.
 
-**SLIDE_iter:** the number of times to repeat the SLIDE latent factor selection algorithm. The higher the iteration, the more stable the performance would be. Default as
+**SLIDE_iter:** the number of times to repeat the SLIDE latent factor selection algorithm. The higher the iteration, the more stable the performance would be. Default as 500.
 
 **SLIDE_top_feats:** the number of top features to plot from each latent factor. If set as n, a union of the top n weighted features and top n correlated (with y) features will be outputted.
 
-**do_interacts (optional):** set to false if don't want interacting latent factors. Default as TRUE
+**do_interacts (optional):** set to false if don't want interacting latent factors. Default as TRUE.
 
 **thresh_fdr:** set to lower if co-linearity of the features in the data matrix is high. Default as 0.2.
+
+**sampleCV_iter:** number of iterations to approximate SLIDE cross-validation restuls. Default to 500.
 
 **sampleCV_K:** the number of folds used when approximating cross-validation performance. Default as 4.
 

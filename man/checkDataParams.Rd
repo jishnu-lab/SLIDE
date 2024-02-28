@@ -4,12 +4,12 @@
 \alias{checkDataParams}
 \title{Check if the input and the yaml files are set correctly.}
 \usage{
-checkDataParams(yaml_path, pipeline = NULL)
+checkDataParams(input_params, pipeline = NULL)
 }
 \arguments{
-\item{yaml_path}{a string that points to the yaml file.}
+\item{input_params}{a list of the input parameters from the YAML file.}
 
-\item{pipeline}{a integer indicates which step of the pipeline is the yaml file for.}
+\item{pipeline}{a integer indicates which step of the pipeline is the YAML file for.}
 }
 \description{
 Check if the input and the yaml files are set correctly.

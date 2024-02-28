@@ -1,16 +1,17 @@
 #' Reduce sparsity of the data matrix by deleting samples and features that are expressed in few features and samples. 
 #'
-#' @param yaml_path the path to the yaml file
+#' @param unfiltered_x the unfiltered x matrix
+#' @param unfiltered_y the unfiltered y matrix
 #' @param g_thresh features with number of zeros greater then g_thresh will be filtered out
 #' @param c_thresh samples with number of zeros greater than c_thresh will be filtered out
 #' @export
 
 
-zeroFiltering <- function(yaml_path, g_thresh, c_thresh){
-  input_params <- yaml::yaml.load_file(yaml_path)
+zeroFiltering <- function(x, y, g_thresh, c_thresh){
+  #input_params <- yaml::yaml.load_file(yaml_path)
   
-  x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
-  y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
+  #x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
+  #y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   cat("Original dataframe dimension is ", dim(x)[[1]], " by ", dim(x)[[2]], "\n")
   
   if (sum(row.names(x) == row.names(y)) != nrow(x)) {stop('Input data matrix and response does not have matching row names.')}
@@ -43,4 +44,9 @@ zeroFiltering <- function(yaml_path, g_thresh, c_thresh){
   
   write.csv(filtered, paste0(input_params$out_path, "/filtered_x.csv"))
   write.csv(filtered_y, paste0(input_params$out_path, "/filtered_y.csv"))
+  input_params$x_path <-paste0(input_params$out_path, "/filtered_x.csv")
+  input_params$y_path <-paste0(input_params$out_path, "/filtered_y.csv")
+  
+  return(list(input_params, filtered, filtered_y))
 }
+
