@@ -17,8 +17,6 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
 
   sg_df = data.frame()
 
-
-
   # make results into plottable dataframe
   for (lf in 1:length(slide_vars)) {
     lf_df = list2DF(slide_vars[[lf]])
@@ -79,55 +77,40 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       ggplot2::ylab("Genes Associated with Significant Latent Factors") +
       ggplot2::ylim(0, max_num_genes_in_any_lf) +
       ggplot2::ggtitle("Significant Latent Factors - Marginals (bold/italic) and Interactions")
-
-
-    #interaction graph
+    
     make_interaction_adj = function(slide_results) {
       # make edgelist
       edges = data.frame()
-
+    
       # add marginals first
       for (e in slide_results$marginal_vars) {
         mvar = paste0("Z", e)
-        elist = list(A = mvar, B = mvar)
+        elist = list(A = mvar, B = mvar, C = as.numeric(0))
         edges = rbind.data.frame(edges, elist)
       }
-
+    
       for (e in slide_results$interaction_vars) {
-
         elist = stringr::str_split(e, pattern = "\\.")[[1]]
-        elist = list(A = elist[1], B = elist[2])
+        elist = list(A = elist[1], B = elist[2], C = as.numeric(1))
         edges = rbind.data.frame(edges, elist)
       }
       return(edges)
     }
-
+    
     edges = make_interaction_adj(slide_results$SLIDE_res)
-    ggraph::set_graph_style(plot_margin = ggplot2::margin(10,10,10,10))
-
-    egraph = tidygraph::as_tbl_graph(edges, directed = F, layout = 'graphopt') %>%
-      dplyr::mutate(`significance` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
-                                                                 .f = function(node, ...) {
-        if (names(.[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
-          "marginal"
-        } else {
-          "interaction"
-        }
-      })) %>%
-      dplyr::mutate(`font_type` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
-                                                                 .f = function(node, ...) {
-        if (names(.[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
-          "bold.italic"
-        } else {
-          "plain"
-        }
-      }))
-
-    lf_graph = ggraph::ggraph(egraph, layout = 'graphopt') +
-      ggraph::geom_edge_link() +
-      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`,
-                                           fontface = font_type),
-                      size = 12) + ggraph::theme_graph()
+    
+    unique_nodes = unique(unlist(edges[, 1:2]))
+    
+    node_colors = ifelse(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars),
+                         "salmon", "lightgray")
+    
+    group_list = list(
+      marginal = which(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)),
+      interaction = which(unique_nodes %in% setdiff(unique_nodes, paste0("Z", slide_results$SLIDE_res$marginal_vars)))
+    )
+    
+    lf_graph = qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
+               groups = group_list, color = c("salmon", "lightgray"), DoNotPlot = TRUE)
 
     plot_list[[2]] = plt
     plot_list[[3]] = lf_graph
@@ -135,7 +118,6 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
 
 
   if ( !is.null(out_path) ) {
-
 
     saveRDS(sg_plot_df, paste0(out_path, '/plotSigGenes_data.RDS'))
 
@@ -151,9 +133,17 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
                       device = "png",
                       width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7,
                       limitsize = FALSE)
+      
+      # need to change wd to save correctly
+      orig_wd = getwd()
+      new_wd = out_path
 
-      ggplot2::ggsave(plot = lf_graph, filename = paste0(out_path, '/plotInteractions.png'),
-             height = 8, width = 12)
+      setwd(new_wd)
+      qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
+           groups = group_list, color = c("salmon", "lightgray"), filename = "plotInteractions",
+                    filetype = "png", height = 5, width = 7)
+      
+      setwd(orig_wd)
     }
   }
   return(plot_list)
