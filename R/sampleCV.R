@@ -34,8 +34,9 @@ sampleCV <- function(y, z_matrix, SLIDE_res, sampleCV_K = 4, condition, sampleCV
   lm_data <- data.frame(y = y, z_matrix[, sigK], Dataint)
   colnames(lm_data)[1] = 'y'
 
-  perfs = c()
-  
+  predicted_y_vec = c()
+  true_y_vec = c()
+  # get the predicted y first
   for (iter in 1:sampleCV_iter){
 
     # randomly choose idx each round
@@ -57,20 +58,24 @@ sampleCV <- function(y, z_matrix, SLIDE_res, sampleCV_K = 4, condition, sampleCV
       y_hat = predict(model, newdata = test_lm_data, type = 'response')
       y_hat = ifelse(y_hat>0.5, 1, 0)
     }
-
+    predicted_y_vec = append(predicted_y_vec, y_hat)
+    true_y_vec = append(true_y_vec, y_true)
+  }
     # calculate performance
     if (condition == 'corr'){
-      perf = cor(y_hat, y_true, method = 'spearman')
+      perf = cor(predicted_y_vec, true_y_vec, method = 'spearman')
     }else if (condition == 'auc'){
-      perf = pROC::auc(response=as.matrix(y_true), predictor=as.matrix(y_hat), direction = "<")
+      perf = pROC::auc(response=as.matrix(true_y_vec), predictor=as.matrix(predicted_y_vec), direction = "<")
     }else{
       stop("Error: Condition not found in sampleCV. ")
     }
 
-    perfs = append(perfs, perf)
-  }
-  model$samplesCV$performances = perfs
+    #perfs = append(perfs, perf)
+
+
+  model$samplesCV$true_y = true_y_vec
+  model$samplesCV$pred_y = predicted_y_vec
   saveRDS(model, paste0(out_path, "sampleCV_model.RDS"))
-  return(mean(perfs))
+  return(perf)
 
 }
