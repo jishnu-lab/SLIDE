@@ -1,0 +1,22 @@
+---
+x_path: path/to/x.csv
+y_path: path/to/y.csv
+out_path: path/to/output/folder
+delta:
+  - 0.01
+  - 0.1
+lambda:
+  - 0.5
+  - 1
+spec: 0.1
+y_factor: TRUE
+y_levels:
+  - 0
+  - 1
+eval_type: auc
+SLIDE_iter: 500
+SLIDE_top_feats: 10
+CViter: 10
+sampleCV_K: 4
+do_interacts: TRUE
+

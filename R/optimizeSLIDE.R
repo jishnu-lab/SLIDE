@@ -72,16 +72,44 @@ optimizeSLIDE <- function(input_params, sink_file){
   
   if (is.null(input_params$CViter)){CViter = 500} else{CViter = input_params$CViter}
   if (CViter <= 100) {warning("The CViter is set to less than 100, we recommend setting it to 500 or higher.")}
+  
+ 
 
-  ##################################### Code #####################################
+  ##################################### Heavy Lifting Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   x_std <- scale(x, T, T)
+  
+  if (is.null(input_params$sampleCV_K)){
+    if (dim(x)[1] <= 20 ) {
+      sampleCV_K = dim(x)[1]
+    } else {
+      sampleCV_K = 4
+    }
+  }
+  
+  if (dim(x)[1] <= 20) {
+    if (sampleCV_K != dim(x)[1]) {
+      sampleCV_K = dim(x)[1]
+      cat("Number of samples is smaller than 20, sampleCV_K set to number of samples to perform approximation for leave-one-out cross-validation...")
+    }
+  }
+  
+  cat("Setting alpha_level at ", alpha_level, ".\n")
+  cat("Setting thresh_fdr at ", thresh_fdr, ".\n")
+  #cat("Setting rep_cv at ", rep_cv, ".\n")
+  cat("Setting spec at ", spec, ".\n")
+  cat("Setting eval_type as ", eval_type, ".\n")
+  cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
+  cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
+  cat("Setting do_interacts as ", do_interacts, ".\n")
+  cat("Setting CViter as ", CViter, ".\n")
+  cat("Setting sampleCV_K as ", sampleCV_K, ".\n")
 
   #initiate the summary table
   summary_table <- as.data.frame(matrix(NA, nrow = length(delta) * length(lambda), ncol = 7))
   colnames(summary_table) <- c('delta', 'lambda', 'f_size', 'Num_of_LFs', 'Num_of_Sig_LFs', 'Num_of_Interactors', 'sampleCV_Performance')
-
+  
   cnt = 1
   for (d in delta){
     for (l in  lambda){
@@ -93,15 +121,6 @@ optimizeSLIDE <- function(input_params, sink_file){
         sink(paste0(loop_outpath, "/standard_out.txt"))
       }
       cat("Getting latent factors for delta, ", d, ", and lambda, ", l, ". \n")
-      cat("Setting alpha_level at ", alpha_level, ".\n")
-      cat("Setting thresh_fdr at ", thresh_fdr, ".\n")
-      #cat("Setting rep_cv at ", rep_cv, ".\n")
-      cat("Setting spec at ", spec, ".\n")
-      cat("Setting eval_type as ", eval_type, ".\n")
-      cat("Setting SLIDE_iter at ", SLIDE_iter, ".\n")
-      cat("Setting SLIDE_top_feats as ", SLIDE_top_feats, ".\n")
-      cat("Setting do_interacts as ", do_interacts, ".\n")
-      cat("Setting CViter as ", CViter, ".\n")
 
       if (input_params$y_factor) {
         y_temp <- toCont(y, input_params$y_order)
@@ -131,7 +150,6 @@ optimizeSLIDE <- function(input_params, sink_file){
       z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
 
       # run SLIDE
-
       SLIDE_res <- runSLIDE(y, y_path = NULL, z_path = NULL, z_matrix, all_latent_factors, lf_path = NULL, niter = SLIDE_iter, spec = spec, do_interacts=do_interacts)
       saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
 
@@ -146,7 +164,7 @@ optimizeSLIDE <- function(input_params, sink_file){
         calcControlPerformance(z_matrix = z_matrix, y, do_interacts, SLIDE_res, condition = eval_type, loop_outpath)}
 
         # calculate the sampleCV performance
-        performance = sampleCV(y, z_matrix, SLIDE_res, fraction = 2/3, condition = eval_type, sampleCV_iter = CViter, logistic = FALSE, out_path = loop_outpath)
+        performance = sampleCV(y, z_matrix, SLIDE_res, sampleCV_K = sampleCV_K, condition = eval_type, sampleCV_iter = CViter, logistic = FALSE, out_path = loop_outpath)
 
       # fill in the summary table
         if (do_interacts == TRUE){
@@ -164,6 +182,7 @@ optimizeSLIDE <- function(input_params, sink_file){
       summary_table[cnt, ] = loop_summary
       if (summary_table[cnt, ]$Num_of_Sig_LFs >= 10) {warning("The number of standalone LFs are more than 10, consider increase the spec parameter.")}
       if ((summary_table[cnt, ]$Num_of_Interactors <= 2 ) & (spec > 0.1)) {warning("The number of standalone LFs are less than 2, consider decrease the spec parameter.")}
+      if (is.na(summary_table[cnt, ]$sampleCV_Performance) & (spec <= 0.1)) {warning("The number of SLIDE chosen LFs is too big to perform cross-validation performance approximation for this delta, lambda and spec choise. Considering increase spec.")}
       cnt = cnt+1
     }
   }

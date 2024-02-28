@@ -119,12 +119,12 @@ SLIDE <- function(z, y, method = 4, do_interacts = TRUE, betas = NULL, top_prop 
                                    parallel = parallel, 
                                    fdr = fdr)
   
-  print("printig the yhat of each maginals:")
+  print("printing the yhat of each maginals...")
   print(interactions$upsilons)
   
   #### METHOD 4 ADDITIONAL WORK ################################################
   if (method == 4 && !is.null(interactions$upsilon)) {
-    cat("      running knockoffs on marginal/interaction submodels . . . \n")
+    cat("      running knockoffs on marginal/interaction submodels...\n")
     final_upsilon <- testUpsilon(upsilon = interactions$upsilon,
                                  y = y,
                                  niter = niter,

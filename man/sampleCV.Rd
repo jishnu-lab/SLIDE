@@ -8,7 +8,7 @@ sampleCV(
   y,
   z_matrix,
   SLIDE_res,
-  fraction = 2/3,
+  sampleCV_K = 4,
   condition,
   sampleCV_iter = 100,
   logistic = FALSE,
@@ -22,7 +22,7 @@ sampleCV(
 
 \item{SLIDE_res}{the output of GetTopFeatures function.}
 
-\item{fraction}{the fraction of samples to choose for sampling.}
+\item{sampleCV_K}{the number of folds.}
 
 \item{condition}{use auc or corr(spearman) to evaluate performance.}
 

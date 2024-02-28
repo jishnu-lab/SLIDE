@@ -4,10 +4,8 @@ y_path: examples/SkinScore.csv
 out_path: examples/out
 delta:
   - 0.01
-  - 0.1
 lambda:
   - 0.5
-  - 1.0
 spec: 0.3
 y_factor: false
 thresh_fdr: 0.2

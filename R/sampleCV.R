@@ -5,7 +5,7 @@
 #' @param y the response matrix.
 #' @param z_matrix the z_matrix, the output of CalcZMatrix function
 #' @param SLIDE_res the output of GetTopFeatures function.
-#' @param fraction the fraction of samples to choose for sampling.
+#' @param sampleCV_K the number of folds.
 #' @param condition use auc or corr(spearman) to evaluate performance.
 #' @param sampleCV_iter a integer for number of iterations.
 #' @param logistic a boolean flag on wether running logistic or lm.
@@ -13,11 +13,11 @@
 #' @return the mean performance.
 #' @export
 
-
-sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV_iter = 100,  logistic = FALSE, out_path){
+sampleCV <- function(y, z_matrix, SLIDE_res, sampleCV_K = 4, condition, sampleCV_iter = 100,  logistic = FALSE, out_path){
 
   # if the number of SLIDE chosen lfs are bigger than 2/3(default number) of the sample numbers, return na
   lf_idx = union(SLIDE_res$marginal_vals, union(SLIDE_res$interaction$p1, SLIDE_res$interaction$p2))
+  fraction = 1 - (1 / sampleCV_K)
   if (length(lf_idx) > length(sample(nrow(z_matrix), ceiling(fraction * nrow(z_matrix))))) {
     perf = "NA"
     return(perf)
@@ -35,6 +35,7 @@ sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV
   colnames(lm_data)[1] = 'y'
 
   perfs = c()
+  
   for (iter in 1:sampleCV_iter){
 
     # randomly choose idx each round
@@ -61,7 +62,7 @@ sampleCV <- function(y, z_matrix, SLIDE_res, fraction = 2/3, condition, sampleCV
     if (condition == 'corr'){
       perf = cor(y_hat, y_true, method = 'spearman')
     }else if (condition == 'auc'){
-      perf = pROC::auc(response=as.matrix(y_true), predictor=as.matrix(y_hat))
+      perf = pROC::auc(response=as.matrix(y_true), predictor=as.matrix(y_hat), direction = "<")
     }else{
       stop("Error: Condition not found in sampleCV. ")
     }
