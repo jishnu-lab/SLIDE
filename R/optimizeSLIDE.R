@@ -86,6 +86,8 @@ optimizeSLIDE <- function(input_params, sink_file){
     } else {
       sampleCV_K = 4
     }
+  } else {
+    sampleCV_K = input_params$sampleCV_K
   }
   
   if (dim(x)[1] <= 20) {
