@@ -125,7 +125,7 @@ knitr::kable(data.frame(arg = unlist(input_params)))
 We then check if your data files are formatted correctly.
 
 ```{r name2, warning=FALSE, message=FALSE}
-checkDataParams(yaml_path)
+checkDataParams(input_params)
 ```
 
 If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
