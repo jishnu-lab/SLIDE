@@ -153,6 +153,12 @@ plotCorrelationNetworks(input_params)
 
 optimizeSLIDE saves various information for each parameter combination, such as latent factor content, model performance against random models, visualization of the LF network and more. [For a more detailed explanation of the outputted files, please see the **`Understanding-Outputs`** vignette.]{.underline}
 
+
+# Cross validation
+
+To run cross validation use this code:
+`SLIDE::SLIDEcv(yaml_path="/ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/vignettes/sample.yaml",nrep=20,k=10)`
+
 <!-- ## **2-2 Interpret Step1 Output Files** -->
 
 <!-- The output files are now populated to the output folder we specified in the YAML file. -->
