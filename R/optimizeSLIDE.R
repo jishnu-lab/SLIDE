@@ -123,7 +123,7 @@ optimizeSLIDE <- function(input_params, sink_file){
       cat("Getting latent factors for delta, ", d, ", and lambda, ", l, ". \n")
 
       if (input_params$y_factor) {
-        y_temp <- toCont(y, input_params$y_order)
+        y_temp <- toCont(y, input_params$y_levels)
 
         saveRDS(y_temp, file = paste0(input_params$out_path, "/binary_y_mapping.rds"))
         orig_y <- as.matrix(y_temp$cat_y)
