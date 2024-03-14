@@ -28,7 +28,8 @@ benchCV2(
   f_size,
   parallel = T,
   ncore = 20,
-  method = 4
+  method = 4,
+  do_interacts = TRUE
 )
 }
 \arguments{

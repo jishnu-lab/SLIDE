@@ -35,7 +35,6 @@ Imports:
     utils,
     yaml,
     Matrix,
-    tidygraph,
     ggraph,
     qgraph,
     ggpubr

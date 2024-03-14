@@ -6,7 +6,7 @@
 
 ##################################### set up the parameters #####################################
 
-optimizeSLIDE <- function(input_params, sink_file){
+optimizeSLIDE <- function(input_params, sink_file = F){
 
   ##################################### check and print key parameters #####################################
   # check if output path exists
@@ -16,7 +16,7 @@ optimizeSLIDE <- function(input_params, sink_file){
     cat ("Output folder not found, creating at ", input_params$out_path, ".\n")
     dir.create(file.path(input_params$out_path), showWarnings = F, recursive = T)
   }
-  
+
   if (is.null(input_params$x_path)){stop("No path to data matrix X is provided. Please add x_path: path/to/x to the YAML file...")}
   if (is.null(input_params$y_path)){stop("No path to outcome vector Y is provided. Please add Y_path: path/to/x to the YAML file...")}
   if (is.null(input_params$out_path)){stop("No path to output folder is provided.Please add out_path: path/to/output/folder to the YAML file...")}
@@ -33,26 +33,26 @@ optimizeSLIDE <- function(input_params, sink_file){
 
   # take care of all input params
   if (is.null(input_params$alpha)){alpha_level = 0.05} else {alpha_level = input_params$alpha}
-  
+
   if (is.null(input_params$thresh_fdr)){thresh_fdr = 0.2} else {thresh_fdr = input_params$thresh_fdr}
   if (thresh_fdr <=0 | thresh_fdr > 1) {stop("thresh_fdr should be set between 0 and 1.")}
-  
+
   if (is.null(input_params$rep_cv)){rep_cv = 50} else {rep_cv = input_params$rep_cv}
-  
+
   if (is.null(input_params$spec)){spec = 0.1} else(spec = input_params$spec)
   if (spec < 0.01) {stop("spec is less then 0.1. Please increase spec as the minimum of spec should be 0.01.")}
   if (spec > 0.9) {stop("spec is greater than 0.9. Please decrease spec as the maximum of spec should be 0.9.")}
-  
+
   if (is.null(input_params$do_interacts)){do_interacts = TRUE} else(do_interacts = input_params$do_interacts)
-  
+
   if (is.null(input_params$sigma)){
     sigma = NULL
     cat("Setting sigma as Null.\n")
   } else {sigma = input_params$rep_cv}
-  
+
   if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 1000} else{SLIDE_iter = input_params$SLIDE_iter}
   if (SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance. \n")}
-  
+
   if (is.null(input_params$eval_type) == FALSE){
     if (!input_params$eval_type %in% c('auc', 'corr')){stop("Eval type is set neither to auc nor corr...")}
   }
@@ -65,19 +65,19 @@ optimizeSLIDE <- function(input_params, sink_file){
     if (length(unique(y))<=2){eval_type = "auc"}
     else{eval_type = "corr"}
     }
-  
+
   if (is.null(input_params$SLIDE_top_feats)){SLIDE_top_feats = 10} else {SLIDE_top_feats = input_params$SLIDE_top_feats}
   if (SLIDE_top_feats < 10){stop("The minimum of SLIDE_top_feats should be 10.")}
-  
+
   if (is.null(input_params$sampleCV_iter)){sampleCV_iter = 500} else{sampleCV_iter = input_params$sampleCV_iter}
   if (sampleCV_iter <= 100) {warning("The CViter is set to less than 100, we recommend setting it to 500 or higher.")}
-  
+
 
   ##################################### Heavy Lifting Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   x_std <- scale(x, T, T)
-  
+
   if (is.null(input_params$sampleCV_K)){
     if (dim(x)[1] <= 20 ) {
       sampleCV_K = dim(x)[1]
@@ -87,14 +87,14 @@ optimizeSLIDE <- function(input_params, sink_file){
   } else {
     sampleCV_K = input_params$sampleCV_K
   }
-  
+
   if (dim(x)[1] <= 20) {
     if (sampleCV_K != dim(x)[1]) {
       sampleCV_K = dim(x)[1]
       cat("Number of samples is smaller than 20, sampleCV_K set to number of samples to perform approximation for leave-one-out cross-validation...")
     }
   }
-  
+
   cat("Setting alpha_level at ", alpha_level, ".\n")
   cat("Setting thresh_fdr at ", thresh_fdr, ".\n")
   #cat("Setting rep_cv at ", rep_cv, ".\n")
@@ -109,7 +109,7 @@ optimizeSLIDE <- function(input_params, sink_file){
   #initiate the summary table
   summary_table <- as.data.frame(matrix(NA, nrow = length(delta) * length(lambda), ncol = 7))
   colnames(summary_table) <- c('delta', 'lambda', 'f_size', 'Num_of_LFs', 'Num_of_Sig_LFs', 'Num_of_Interactors', 'sampleCV_Performance')
-  
+
   cnt = 1
   for (d in delta){
     for (l in  lambda){
@@ -132,7 +132,7 @@ optimizeSLIDE <- function(input_params, sink_file){
       }
 
       #final output
-      
+
       all_latent_factors <- getLatentFactors(x = x,
                                              x_std = x_std,
                                              y = y,
@@ -146,6 +146,15 @@ optimizeSLIDE <- function(input_params, sink_file){
 
       saveRDS(all_latent_factors, paste0(loop_outpath, 'AllLatentFactors.rds'))
 
+
+      # saving run specific yaml so can run CV later without needing to change another yaml
+      run_yaml = input_params
+      run_yaml$delta = d
+      run_yaml$lambda = l
+      run_yaml$out_path = loop_outpath
+
+      yaml::write_yaml(run_yaml, paste0(loop_outpath, "yaml_params.yaml"))
+
       # get Z matrix
       z_matrix <- calcZMatrix(x_std, all_latent_factors, x_path = NULL, lf_path = NULL, loop_outpath)
 
@@ -156,6 +165,8 @@ optimizeSLIDE <- function(input_params, sink_file){
       if(length(SLIDE_res$SLIDE_res$marginal_vars) != 0) {
         # get top features txt files and latent factor plots
         SLIDE_res <- getTopFeatures(x, y, all_latent_factors, loop_outpath, SLIDE_res, num_top_feats = SLIDE_top_feats, condition = eval_type)
+        saveRDS(SLIDE_res, paste0(loop_outpath, 'SLIDE_LFs.rds'))
+
         plotSigGenes(SLIDE_res, plot_interaction = do_interacts, out_path = loop_outpath)
 
         #the SLIDE_res has to be the output from getTopFeatures

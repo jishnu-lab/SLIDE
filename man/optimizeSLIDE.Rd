@@ -4,7 +4,7 @@
 \alias{optimizeSLIDE}
 \title{Main Pipeline of Running SLIDE (get LF and run SLIDE without CV)}
 \usage{
-optimizeSLIDE(input_params, sink_file)
+optimizeSLIDE(input_params, sink_file = F)
 }
 \arguments{
 \item{sink_file}{boolean flag of saving to a sink file or not}
