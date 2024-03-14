@@ -23,7 +23,7 @@
 #' @export
 
 runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter, fdr,
-                     f_size, betas, top_prop, marginals, parallel, ncore, y_factor) {
+                     f_size, betas, top_prop, marginals, parallel, ncore, y_factor, do_interacts = TRUE) {
   ## run SLIDE
 
 
@@ -39,7 +39,7 @@ runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter
                top_prop = top_prop,
                ncore = ncore,
                elbow = FALSE,
-               do_interacts = TRUE,
+               do_interacts = do_interacts,
                fdr = fdr)
   ## if no sig margs, select 5 random ones (like in lasso)
   if (length(res$marginal_vars) == 0){
@@ -56,7 +56,7 @@ runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter
                  betas = betas,
                  top_prop = top_prop,
                  ncore = ncore,
-                 do_interacts = TRUE,
+                 do_interacts = do_interacts,
                  fdr = fdr)
   }
   ## get training Zs (margs + interacts)

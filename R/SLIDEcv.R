@@ -1,3 +1,5 @@
+#' @export
+
 SLIDEcv <- function(yaml_path=NULL,nrep=20,k=10){
 
 if(is.null(yaml_path)){stop("yaml path can't be empty! \n")}
@@ -31,7 +33,8 @@ slide_input$std_y <- T
 slide_input$permute <- T
 slide_input$parallel <- T
 slide_input$fdr <- 0.1
-
+slide_input$do_interacts = ifelse(is.null(slide_input$do_interacts), TRUE, slide_input$do_interacts)
+  
 library(doParallel)
 
 
@@ -59,7 +62,8 @@ benchCV2(k =k,
          fdr=slide_input$fdr,
          f_size=f_size,
          parallel = slide_input$parallel,
-         ncore=20)
+         ncore=20,
+        do_interacts = do_interacts)
 
 }
 
