@@ -34,7 +34,7 @@ plotCorrelationNetworks = function(input_params) {
 
     for (f in feature_list_files) {
 
-      LF_num = unlist(stringr::str_match(f, pattern = "Z[0-9]+", ))
+      LF_num = unlist(stringr::str_match(f, pattern = "Z[0-9]+"))
       temp_list = read.table(f, header = TRUE) %>% tidyr::drop_na()
 
       setwd(dir_name)
