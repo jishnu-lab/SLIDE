@@ -133,9 +133,15 @@ Alternatively, you can use the `zeroFiltering` function in the SLIDE package:
 - Samples with more than `c_thresh` zeros will be filtered out
 
 ```{r zero-filtering, eval = F}
-
 # this will remove all features and samples that have more than 50% zeros (any feature or column with median = 0)
+col_thresh = nrow(unfiltered_x)/2
+row_thresh = ncol(unfiltered_x)/2
+
+#columns with more than col_thresh number of zeros will be filtered
+#rows with more than row_thresh number of zeros will be filtered
 filtered_mats = SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, col_thresh = nrow(unfiltered_x)/2, row_thresh = ncol(unfiltered_x)/2)
+filtered_x = filtered_mats$filtered_x
+filtered_x = filtered_mats$filtered_y
 ```
 
 ## Variance Filtering
