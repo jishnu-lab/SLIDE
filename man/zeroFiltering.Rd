@@ -4,16 +4,19 @@
 \alias{zeroFiltering}
 \title{Reduce sparsity of the data matrix by deleting samples and features that are expressed in few features and samples.}
 \usage{
-zeroFiltering(x, y, g_thresh, c_thresh)
+zeroFiltering(x, y, col_thresh, row_thresh)
 }
 \arguments{
-\item{g_thresh}{features with number of zeros greater then g_thresh will be filtered out}
+\item{col_thresh}{filtered out columns with number of zeros greater than col_thresh, if entered as nrow of x, no columns will be deleted.}
 
-\item{c_thresh}{samples with number of zeros greater than c_thresh will be filtered out}
+\item{row_thresh}{filtered out rows with number of zeros greater than row_thresh, if entered as ncol of x, no rows will be deleted.}
 
 \item{unfiltered_x}{the unfiltered x matrix}
 
-\item{unfiltered_y}{the unfiltered y matrix}
+\item{unfiltered_y}{the unfiltered y vector}
+}
+\value{
+a list including the filtered x matrix and y vector
 }
 \description{
 Reduce sparsity of the data matrix by deleting samples and features that are expressed in few features and samples.
