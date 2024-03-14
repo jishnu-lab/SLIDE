@@ -68,7 +68,7 @@ SLIDEcv <- function(yaml_path=NULL, nrep=20, k=10){
 
     # make a new directory to store the replicate folders for SLIDECV
 
-    folder_for_slide_reps = paste0(r, "SLIDE_CV_replicate_data/")
+    folder_for_slide_reps = paste0(r, "/SLIDE_CV_replicate_data/")
     if (!dir.exists(folder_for_slide_reps)) {
       dir.create(folder_for_slide_reps)
     }
