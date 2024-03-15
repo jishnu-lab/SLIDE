@@ -129,13 +129,19 @@ hist(absolute_num_row_zeros)
 ```
 
 Alternatively, you can use the `zeroFiltering` function in the SLIDE package:
-- Features with more than `g_thresh` zeros will be filtered out 
-- Samples with more than `c_thresh` zeros will be filtered out
+- Features with more than `col_thresh` zeros will be filtered out 
+- Samples with more than `row`_thresh` zeros will be filtered out
 
-```{r zero-filtering, eval = F}
-
+```{r zero-filtering, eval = T}
 # this will remove all features and samples that have more than 50% zeros (any feature or column with median = 0)
-filtered_mats = SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, g_thresh = nrow(unfiltered_x)/2, c_thresh = ncol(unfiltered_x)/2)
+col_thresh = nrow(unfiltered_x)/2
+row_thresh = ncol(unfiltered_x)/2
+
+#columns with more than col_thresh number of zeros will be filtered
+#rows with more than row_thresh number of zeros will be filtered
+filtered_mats = SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, col_thresh = nrow(unfiltered_x)/2, row_thresh = ncol(unfiltered_x)/2)
+filtered_x = filtered_mats$filtered_x
+filtered_x = filtered_mats$filtered_y
 ```
 
 ## Variance Filtering
