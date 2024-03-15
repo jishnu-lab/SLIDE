@@ -9,7 +9,8 @@ checkDataParams <- function(input_params, pipeline = NULL){
   #input_params <- yaml::yaml.load_file(yaml_path)
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
-  
+  cat("Dimension of input X is:", dim(x)[1], "by", dim(x)[2], ".\n")
+  cat("Dimension of input y is:", dim(y)[1], "by", dim(y)[2], ".\n")
   ##################################################################
   ##                          check data                          ##
   ##################################################################
