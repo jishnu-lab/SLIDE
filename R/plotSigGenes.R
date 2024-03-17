@@ -77,18 +77,18 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       ggplot2::ylab("Genes Associated with Significant Latent Factors") +
       ggplot2::ylim(0, max_num_genes_in_any_lf) +
       ggplot2::ggtitle("Significant Latent Factors - Marginals (bold/italic) and Interactions")
-    
+
     make_interaction_adj = function(slide_results) {
       # make edgelist
       edges = data.frame()
-    
+
       # add marginals first
       for (e in slide_results$marginal_vars) {
         mvar = paste0("Z", e)
         elist = list(A = mvar, B = mvar, C = as.numeric(0))
         edges = rbind.data.frame(edges, elist)
       }
-    
+
       for (e in slide_results$interaction_vars) {
         elist = stringr::str_split(e, pattern = "\\.")[[1]]
         elist = list(A = elist[1], B = elist[2], C = as.numeric(1))
@@ -96,21 +96,28 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       }
       return(edges)
     }
-    
+
     edges = make_interaction_adj(slide_results$SLIDE_res)
-    
+
     unique_nodes = unique(unlist(edges[, 1:2]))
-    
+
     node_colors = ifelse(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars),
                          "salmon", "lightgray")
-    
+
     group_list = list(
       marginal = which(unique_nodes %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)),
       interaction = which(unique_nodes %in% setdiff(unique_nodes, paste0("Z", slide_results$SLIDE_res$marginal_vars)))
     )
-    
-    lf_graph = qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
+
+
+    lf_graph =
+      tryCatch({
+        qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
                groups = group_list, color = c("salmon", "lightgray"), DoNotPlot = TRUE)
+      }, error = function(e) {
+        cat("\nError making interaction plot\n")
+        return(NULL)
+      })
 
     plot_list[[2]] = plt
     plot_list[[3]] = lf_graph
@@ -133,16 +140,20 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
                       device = "png",
                       width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7,
                       limitsize = FALSE)
-      
+
       # need to change wd to save correctly
       orig_wd = getwd()
       new_wd = out_path
 
       setwd(new_wd)
+      tryCatch({
       qgraph::qgraph(edges, layout = "spring", directed = F, edge.color = "black", esize = 4,
            groups = group_list, color = c("salmon", "lightgray"), filename = "plotInteractions",
                     filetype = "png", height = 5, width = 7)
-      
+      }, error = function(e) {
+        cat("\nError making interaction plot\n")
+      })
+
       setwd(orig_wd)
     }
   }

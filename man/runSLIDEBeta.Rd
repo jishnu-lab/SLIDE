@@ -19,7 +19,8 @@ runSLIDEBeta(
   marginals,
   parallel,
   ncore,
-  y_factor
+  y_factor,
+  do_interacts = TRUE
 )
 }
 \arguments{

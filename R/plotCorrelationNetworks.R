@@ -8,7 +8,7 @@ plotCorrelationNetworks = function(input_params) {
 
   original_wd = getwd()
   # iterate through each run (different values of delta/lambda)
-  run_dirs = list.files(input_params$out_path, pattern = "[0-9]+(\\.)?[0-9]+?_[0-9]+(\\.)?([0-9]+)?_out", include.dirs = TRUE,
+  run_dirs = list.files(input_params$out_path, pattern = "[0-9]+(\\.)?[0-9]+?_[0-9]+(\\.)?([0-9]+)?_out|_out$", include.dirs = TRUE,
                         full.names = TRUE, recursive = FALSE)
 
   # make sure they are directories
@@ -25,14 +25,14 @@ plotCorrelationNetworks = function(input_params) {
       dir.create(dir_name, recursive = T)
     }
 
-    gene_list_files = list.files(r, pattern = "gene_list_Z", full.names = TRUE)
+    feature_list_files = list.files(r, pattern = "feature_list_Z|gene_list_Z", full.names = TRUE)
 
-    if (length(gene_list_files) == 0) {
+    if (length(feature_list_files) == 0) {
       # no gene lists found
       cat("\n No feature lists found. Run optimizeSLIDE first \n")
     }
 
-    for (f in gene_list_files) {
+    for (f in feature_list_files) {
 
       LF_num = unlist(stringr::str_match(f, pattern = "Z[0-9]+"))
       temp_list = read.table(f, header = TRUE) %>% tidyr::drop_na()

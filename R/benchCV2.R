@@ -27,7 +27,8 @@
 
 benchCV2 <- function(k = 5, y, x,z, delta, std_cv, std_y, thresh_fdr = 0.2, lambda = 0.1,
                      rep_cv = 50, alpha_level = 0.05, permute = T,y_levels = NULL,
-                     eval_type, out_path, rep, benchmark = F,niter,spec,fdr=0.1,f_size,parallel=T,ncore=20,method=4) {
+                     eval_type, out_path, rep, benchmark = F,niter,spec,fdr=0.1,f_size,parallel=T,ncore=20,method=4,
+                    do_interacts = TRUE) {
   raw_x <- x
   x <- scale(x, T, T)
   if (std_cv != std_y) {
@@ -195,7 +196,8 @@ benchCV2 <- function(k = 5, y, x,z, delta, std_cv, std_y, thresh_fdr = 0.2, lamb
           betas = NULL,
           top_prop = NULL,
           ncore = ncore,
-          fdr = fdr)
+          fdr = fdr,
+        do_interacts = do_interacts)
 
         pred_vals <- res$valid_pred }
 
