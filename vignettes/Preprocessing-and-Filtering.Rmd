@@ -23,13 +23,17 @@ knitr::opts_chunk$set(
 # Overview
 SLIDE uses the feature-feature correlation structure in the data to create latent factors. Input data does not need to be autoscaled (meaning each feature has `mean = 0` and `std dev = 1`), as this is done when calculating the latent factors. However, there are a few important considerations:
 
+* **The goal is to get down to approximately $\le 5000$ features for SLIDE to run smoothly**  
+  
+  
+* **Be sure to remove features with `std deviation = 0` before starting - these will cause errors in SLIDE**
 * Normalization is still recommended (such as normalizing for read-depth or library size); other transformations (log, power,etc) may be recommended for specific data types. 
 * `thresh_fdr` argument sets the threshold below which correlations (in the scaled correlation matrix) will be removed. The default is `0.2`, but use a lower value to get more diverse latent factors.
   + Occasionally, `thresh_fdr` and `delta` will cause the algorithm to fail because the remaining correlations in the data are too sparse and more than `delta` apart from each other. Consider lowering both if you encounter problems.
 
 The sections below outline:
 
-1. Sample data
+1. Load Sample data
 2. Remove features with `std dev = 0`
 3. Handling missing values
     + data repair
@@ -42,7 +46,7 @@ The sections below outline:
 
 
 
-# Sample Data
+# Load Sample Data
 Below are some examples using example data (note, download these files from the examples folder on the SLIDE repo at jishnu-lab/SLIDE):
 ```{r load_example_data, eval = F}
 unfiltered_x = as.matrix(read.csv('SLIDE/Data_Scripts/CD4_Expansion/x.csv', row.names = 1))
