@@ -1,6 +1,6 @@
 ---
 title: "Preprocessing-and-Filtering"
-author: "Vignette Author"
+# author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: rmarkdown::pdf_document
 vignette: >
@@ -15,33 +15,38 @@ library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  tidy.opts = list(width.cutoff = 40), tidy = TRUE,
-  linewidth = 40
+  tidy.opts = list(width.cutoff = 70), tidy = TRUE,
+  linewidth = 70
 )
 ```
 
 # Overview
 SLIDE uses the feature-feature correlation structure in the data to create latent factors. Input data does not need to be autoscaled (meaning each feature has `mean = 0` and `std dev = 1`), as this is done when calculating the latent factors. However, there are a few important considerations:
 
+* **The goal is to get down to approximately $\le 5000$ features for SLIDE to run smoothly**  
+  
+  
+* **Be sure to remove features with `std deviation = 0` before starting - these will cause errors in SLIDE**
 * Normalization is still recommended (such as normalizing for read-depth or library size); other transformations (log, power,etc) may be recommended for specific data types. 
 * `thresh_fdr` argument sets the threshold below which correlations (in the scaled correlation matrix) will be removed. The default is `0.2`, but use a lower value to get more diverse latent factors.
   + Occasionally, `thresh_fdr` and `delta` will cause the algorithm to fail because the remaining correlations in the data are too sparse and more than `delta` apart from each other. Consider lowering both if you encounter problems.
 
 The sections below outline:
 
-1. Sample data
-2. Handling missing values
+1. Load Sample data
+2. Remove features with `std dev = 0`
+3. Handling missing values
     + data repair
     + imputation
-3. Filtering
+4. Filtering
     + sparsity
     + variance
-    + coefficient of variation
+    <!-- + coefficient of variation -->
 
 
 
 
-# Sample Data
+# Load Sample Data
 Below are some examples using example data (note, download these files from the examples folder on the SLIDE repo at jishnu-lab/SLIDE):
 ```{r load_example_data, eval = F}
 unfiltered_x = as.matrix(read.csv('SLIDE/Data_Scripts/CD4_Expansion/x.csv', row.names = 1))
@@ -54,6 +59,17 @@ unfiltered_x = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Sc
 unfiltered_y = as.matrix(read.csv('/ix/djishnu/Aaron/1_general_use/SLIDE/Data_Scripts/CD4_Expansion/y.csv', row.names = 1))
 
 ```
+
+# Remove features with `standard dev = 0`
+First things first: remove all features that have a `std dev = 0` because these are uninformative and will cause errors in calculating the correlation matrix in SLIDE.
+
+```{r remove_zero_sd}
+# find columns with sd = 0
+zero_sd_features = which(apply(unfiltered_x, 2, sd) == 0)
+
+filtered_x = unfiltered_x[, -zero_sd_features]
+```
+
 # Handling Missing Values
 SLIDE requires that the input sample-feature data be a numeric matrix and contain no characters or `NA`/`NAN`/`Inf` values. 
 
@@ -95,27 +111,33 @@ proportion_col_zeros = apply(unfiltered_x, MARGIN = 2,
 hist(proportion_col_zeros, xlab = "Proportion/% of Zeros in each column")
 ```
 
-We can use these vectors with the quantile function to set a threshold for percentage of zeros - note: you don't need to use the quantile function, but it makes for smoother filtering.
-```{r sparsity-filter-col}
-# Get indices for cols that are the top 10% sparse
-cols_above_zero_threshold = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9))
+We can now remove any column that has more than `0.9` (90%) zeros.
+```{r sparsity-filter-cols, out.width = "80%"}
 
-filtered_x = unfiltered_x[, -cols_above_zero_threshold]
+filtered_x = unfiltered_x[, -which(proportion_col_zeros > 0.9)]
 ```
+Note: we can use these vectors with the quantile function to set a threshold for percentage of zeros - note: you can also use the quantile function.
+<!-- # ```{r sparsity-filter-col} -->
+<!-- # # Get indices for cols that are the top 10% sparse -->
+<!-- # cols_above_zero_threshold = which(proportion_col_zeros > quantile(proportion_col_zeros, 0.9)) -->
+<!-- #  -->
+<!-- # filtered_x = unfiltered_x[, -cols_above_zero_threshold] -->
+<!-- # ``` -->
 
 ### Filtering samples (rows)
-Now do the same for rows (**remember to remove the corresponding rows from your response vector as well!**)
+We can do the same for rows (**remember to remove the corresponding rows from your response vector as well!**)
 ```{r sparsity-filter-rows, out.width = "80%"}
 # Get indices for rows that are the top 10% sparse
 proportion_row_zeros = apply(unfiltered_x, MARGIN = 1, function(x) length(which(x == 0))/length(x))
 
 hist(proportion_row_zeros, xlab = "Proportion/% of Zeros in each row")
 
-rows_above_zero_threshold = which(proportion_row_zeros > quantile(proportion_row_zeros, 0.9))
+rows_above_zero_threshold = which(proportion_row_zeros > 0.9)
 
 filtered_x = unfiltered_x[-rows_above_zero_threshold, ]
 filtered_y = unfiltered_y[-rows_above_zero_threshold]
 ```
+
 
 Note: you may want to filter out zeros based on absolute number (versus just filtering out by quantile); in this case, your apply function will not normalize for length:
 ```{r absolute-sparsity-filtering, out.width = "80%"}
@@ -148,10 +170,6 @@ filtered_x = filtered_mats$filtered_y
 
 We use similar functions to filter by variance; generally speaking, you will want to look at the variance of mean-centered data (although your input data does not need to be centered or scaled, as that is done in SLIDE)
 
-Below, we filter out the bottom 25th percentile by variance. We use the `quantile` function to control the number of features we filter, and so that we don't need to explicitly pick a variance threshold (e.g. filtering out the 25th percentile removes the lowest 25% of features by variance)
-
-Note, you can repeat this same process for rows by changing the `MARGIN` argument in the apply function - e.g. for columns, `MARGIN = 2` `apply(unfiltered_x, MARGIN = 2, var)` and for rows, `MARGIN = 1` `apply(unfiltered_x, MARGIN = 1, var)`
-
 ```{r col-variance, out.width = "80%"}
 
 # mean center each column
@@ -161,6 +179,21 @@ scaled_x = apply(unfiltered_x, MARGIN = 2, function(x) scale(x, center = TRUE, s
 col_variance = apply(scaled_x, MARGIN = 2, var)
 
 hist(col_variance)
+```
+Next, using this histogram, we want to filter out features with low variance. It looks like `0.20` is a good choice to remove the lowest variance features
+```{r col-variance_abs, out.width = "80%"}
+
+# we can filter out features with very low variance (typically we use somewhere between the 25th-45th percentiles). We use 25th percentile below
+low_var_cols = which(col_variance < 0.2)
+
+filtered_x = unfiltered_x[, -low_var_cols]
+```
+
+Alternatively, we filter out the bottom 25th percentile by variance. We can also use the `quantile` function to control the number of features we filter, and so that we don't need to explicitly pick a variance threshold (e.g. filtering out the 25th percentile removes the lowest 25% of features by variance)
+
+Note, you can repeat this same process for rows by changing the `MARGIN` argument in the apply function - e.g. for columns, `MARGIN = 2` `apply(unfiltered_x, MARGIN = 2, var)` and for rows, `MARGIN = 1` `apply(unfiltered_x, MARGIN = 1, var)`
+
+```{r col-variance_quantile, out.width = "80%"}
 
 # we can filter out features with very low variance (typically we use somewhere between the 25th-45th percentiles). We use 25th percentile below
 low_var_cols = which(col_variance < quantile(col_variance, 0.25))
@@ -168,21 +201,21 @@ low_var_cols = which(col_variance < quantile(col_variance, 0.25))
 filtered_x = unfiltered_x[, -low_var_cols]
 ```
 
-## Coefficient of Variation Filtering
+<!-- ## Coefficient of Variation Filtering -->
 
-We can also filter by coefficient of variation (`sd(x)/mean(x)`). As stated above, features with high coefficient of variation may be noise and features with low coefficient of variation may be uninformative. We can again use the `quantile` function to filter out the top 5th percentile (noise) and bottom 5th percentile (uninformative)
-```{r col-coef-var, out.width = "80%"}
+<!-- We can also filter by coefficient of variation (`sd(x)/mean(x)`). As stated above, features with high coefficient of variation may be noise and features with low coefficient of variation may be uninformative. We can again use the `quantile` function to filter out the top 5th percentile (noise) and bottom 5th percentile (uninformative) -->
+<!-- ```{r col-coef-var, out.width = "80%"} -->
 
-# mean center each column
-scaled_x = apply(unfiltered_x, MARGIN = 2, function(x) scale(x, center = TRUE, scale = FALSE))
+<!-- # mean center each column -->
+<!-- scaled_x = apply(unfiltered_x, MARGIN = 2, function(x) scale(x, center = TRUE, scale = FALSE)) -->
 
-# get the variance of each column
-col_coefficient_variation = apply(scaled_x, MARGIN = 2, function(x) sd(x)/mean(x))
+<!-- # get the variance of each column -->
+<!-- col_coefficient_variation = apply(scaled_x, MARGIN = 2, function(x) sd(x)/mean(x)) -->
 
-hist(col_coefficient_variation)
+<!-- hist(col_coefficient_variation) -->
 
-# we typically filter out somewhere between the top/bottom 5-10% of features; filtering out top and bottom 5% shown below
-low_coeff_var_cols = which(col_coefficient_variation < quantile(col_coefficient_variation, 0.05) | col_coefficient_variation > quantile(col_coefficient_variation, 0.95))
+<!-- # we typically filter out somewhere between the top/bottom 5-10% of features; filtering out top and bottom 5% shown below -->
+<!-- low_coeff_var_cols = which(col_coefficient_variation < quantile(col_coefficient_variation, 0.05) | col_coefficient_variation > quantile(col_coefficient_variation, 0.95)) -->
 
-filtered_x = unfiltered_x[, -low_coeff_var_cols]
-```
+<!-- filtered_x = unfiltered_x[, -low_coeff_var_cols] -->
+<!-- ``` -->
