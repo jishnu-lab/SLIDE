@@ -185,7 +185,7 @@ optimizeSLIDE <- function(input_params, sink_file = F){
           loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), length(interactors), performance)
         } else{
           if (nrow(SLIDE_res$interaction) != 0) {stop("do_interacts set to FALSE but interaction terms found...")}
-          #loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
+          loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, length(SLIDE_res$marginal_vals), 'NA', performance)
         }
       } else {
         loop_summary = c(d, l, SLIDE_res$SLIDE_param['f_size'], all_latent_factors$K, "NA", "NA", "NA")
