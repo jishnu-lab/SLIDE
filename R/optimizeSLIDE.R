@@ -74,7 +74,7 @@ optimizeSLIDE <- function(input_params, sink_file = F){
 
 
   ##################################### Heavy Lifting Code #####################################
-  x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
+  x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1, check.names = F))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   x_std <- scale(x, T, T)
 
