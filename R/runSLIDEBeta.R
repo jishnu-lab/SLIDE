@@ -147,9 +147,9 @@ runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter
   } else { ## no interactions
     cat("NO INTERACTIONS...USING MARGINALS \n")
     ## just use the marginal variables and make into a data frame
-    zs_train <- data.frame(train_z[, res$marginal_vars])
+    zs_train <- data.frame(train_z[, paste0("Z", res$marginal_vars)])
     # colnames(zs_train) <- c(res$marginal_vars)
-    zs_valid <- data.frame(valid_z[, res$marginal_vars])
+    zs_valid <- data.frame(valid_z[, paste0("Z", res$marginal_vars)])
     # colnames(zs_valid) <- c(res$marginal_vars)
   }
   ## make model
