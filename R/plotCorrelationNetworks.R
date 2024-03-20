@@ -15,6 +15,8 @@ plotCorrelationNetworks = function(input_params) {
   run_dirs = base::intersect(run_dirs, list.dirs(input_params$out_path, recursive = FALSE, full.names = TRUE))
 
   x = as.matrix(read.csv(input_params$x_path, row.names = 1))
+  colnames(x) = stringr::str_replace_all(colnames(x), pattern = " ", replacement = "_")
+
   y = as.matrix(read.csv(input_params$y_path, row.names = 1))
 
   for (r in run_dirs) {
