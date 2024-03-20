@@ -75,6 +75,12 @@ optimizeSLIDE <- function(input_params, sink_file = F){
 
   ##################################### Heavy Lifting Code #####################################
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1, check.names = F))
+
+  # since we are keeping original column names, instead of check.names = T which is 
+    #how we get the X... features, we need to make sure our names don't have spaces in them
+
+  colnames(x) = stringr::str_replace_all(colnames(x), pattern = " ", replacement = "_")
+  cat("\nReplacing spaces in feature names with underscores\n")
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
   x_std <- scale(x, T, T)
 
