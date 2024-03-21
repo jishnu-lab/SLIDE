@@ -30,8 +30,8 @@ First install `SLIDE` in Python by running the following code from a  R command 
 
 
 ```library(devtools)```   
-```install_github("jishnu-lab/SLIDE")```
-
+```devtools::install_github("jishnu-lab/SLIDE")```
+Requires R ≥ 4.2
 
 
 ## Running the software
