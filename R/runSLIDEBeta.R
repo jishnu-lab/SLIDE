@@ -148,7 +148,7 @@ runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter
     cat("NO INTERACTIONS...USING MARGINALS \n")
     ## just use the marginal variables and make into a data frame
     # res$marginal vars does not have the Zs
-    marginal_vars_only = paste0("Z", res$marginal_vars)
+    marginal_vars_only = stringr::str_to_upper(res$marginal_vars)
     
     zs_train <- as.data.frame(train_z) %>% select(marginal_vars_only)
     # colnames(zs_train) <- colnames(train_z)[as.numeric(res$marginal_vars)]
