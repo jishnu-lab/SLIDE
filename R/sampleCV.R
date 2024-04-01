@@ -65,7 +65,7 @@ sampleCV <- function(y, z_matrix, SLIDE_res, sampleCV_K = 4, condition, sampleCV
     if (condition == 'corr'){
       perf = cor(predicted_y_vec, true_y_vec, method = 'spearman')
     }else if (condition == 'auc'){
-      perf = pROC::auc(response=as.matrix(true_y_vec), predictor=as.matrix(predicted_y_vec), direction = "<")
+      perf = pROC::auc(response=as.matrix(true_y_vec), predictor=as.matrix(predicted_y_vec), levels = sort(unique(y[, 1])), direction = "<")
     }else{
       stop("Error: Condition not found in sampleCV. ")
     }
