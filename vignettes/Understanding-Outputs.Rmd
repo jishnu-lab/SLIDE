@@ -61,7 +61,7 @@ Above is an example of a model with great performance. In some cases, you may fi
 The data for this plot is stored in `ControlPerformance.rds`; the `ControlPerformancePlot.rds` has the plot object for the ggplot above. 
 
 ## Look at top features in each latent factor using `plotSigGenes_marginals.png` and `plotSigGenes.png`
-The `plotSigGenes_marginals.png` shows the top features in the stand-alone/marginal significant latent factors. By default, we show the top 10 features by loading (features that contribute most to the latent factor), as well as the top 10 univariate features (features that have high correlation or AUC with response/Y). Each latent factor shows 20 features - the bottom 10 are the highest univariate and the top 10 are highest highest loading. 
+The `plotSigGenes_marginals.png` shows the top features in the stand-alone/marginal significant latent factors. By default, we show the top 10 features by loading (features that contribute most to the latent factor), as well as the top 10 univariate features (features that have high correlation or AUC with response/Y). Each latent factor shows 20 features - the bottom 10 are the highest univariate and the top 10 are highest by latent factor loading. 
 
 ```{r load_sig_plots, eval = F, fig.cap = "Marginal Significant Latent Factors", out.width="90%", fig.align="center"}
 knitr::include_graphics('examples/out/0.01_1_out/plotSigGenes_marginals.png')
