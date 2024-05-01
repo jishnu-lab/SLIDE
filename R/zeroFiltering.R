@@ -29,10 +29,10 @@ zeroFiltering <- function(x, y, col_thresh, row_thresh){
   filtered_y <- as.matrix(y[row.names(y) %in% row.names(filtered), ])
   colnames(filtered_y) = colnames(y)
   if (nrow(filtered_y) != nrow(filtered)) {stop("Number of samples in data matrix and response do not match post-filtering.")}
+  rownames(filtered_y) = rownames(filtered)
   
   filtered_data = list()
   filtered_data$filtered_x <- filtered
   filtered_data$filtered_y <- filtered_y
   return(filtered_data)
 }
-

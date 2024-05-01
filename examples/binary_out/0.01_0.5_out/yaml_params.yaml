@@ -1,0 +1,17 @@
+x_path: /ix/djishnu/Hanxi/SLIDE/Data_Scripts/CD4_Expansion/x.csv
+y_path: /ix/djishnu/Hanxi/SLIDE/Data_Scripts/CD4_Expansion/y.csv
+out_path: /ix/djishnu/Hanxi/SLIDE/examples/binary_out/0.01_0.5_out/
+delta: 0.01
+lambda: 0.5
+spec: 0.1
+y_factor: yes
+y_levels:
+- 0
+- 1
+eval_type: auc
+SLIDE_iter: 5.0
+SLIDE_top_feats: 10
+CViter: 10
+sampleCV_K: 4
+do_interacts: yes
+sampleCV_iter: 5.0
