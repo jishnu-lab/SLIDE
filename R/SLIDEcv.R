@@ -19,6 +19,11 @@ SLIDEcv <- function(yaml_path=NULL, nrep=20, k=10){
   # make sure they are directories
   run_dirs = base::intersect(run_dirs, list.dirs(slide_input$out_path, recursive = FALSE, full.names = TRUE))
 
+  if (length(run_dirs) == 0) {
+    # if we don't find any output folders from optimizeSLIDE, just use the outpath in the yaml (this is case when
+    # running SLIDEcv on a single run from optimizeSLIDE, using the yaml file in that folder)
+    run_dirs = slide_input$out_path
+  }
   for (r in run_dirs) {
     slide_input$out_path = paste0(r, "/")
 
