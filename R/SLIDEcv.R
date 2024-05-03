@@ -21,7 +21,7 @@ SLIDEcv <- function(yaml_path=NULL, nrep=20, k=10){
 
   if (length(run_dirs) == 0) {
     # if we don't find any output folders from optimizeSLIDE, just use the outpath in the yaml (this is case when
-    # running SLIDEcv on a single run from optimizeSLIDE, using the yaml file in that folder)
+    # running SLIDEcv using a standard yaml file/from the yaml file in a single run from optimizeSLIDE)
     run_dirs = slide_input$out_path
   }
   for (r in run_dirs) {
