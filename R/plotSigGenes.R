@@ -94,9 +94,9 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       }
 
       for (e in slide_results$interaction_vars) {
-        elist = stringr::str_split(e, pattern = "\\.")[[1]]
+        elist = sort(stringr::str_split(e, pattern = "\\.")[[1]])
         elist = list(A = elist[1], B = elist[2], C = as.numeric(1))
-        edges = rbind.data.frame(edges, elist)
+        edges = rbind.data.frame(edges, elist) %>% distinct()
       }
       return(edges)
     }
