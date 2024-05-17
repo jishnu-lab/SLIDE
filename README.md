@@ -25,7 +25,7 @@ The link for the paper:[website](https://www.nature.com/articles/s41592-024-0217
 
 ## Installation Procedure
 # SLIDE
-First install `SLIDE` in Python by running the following code from a  R command terminal:
+First install `SLIDE` in R by running the following code from a  R command terminal:
 
 
 
