@@ -84,7 +84,7 @@ knitr::include_graphics('/ix/djishnu/Aaron/1_general_use/SLIDE/examples/out/0.1_
 
 ## Look at interactions between latent factors with `plotInteractions.png`
 This plot shows a graphical representation of how the interacting latent factors are paired with the marginals.
-Here, `Z97` interacts with both `Z147` and `Z109`; `Z46`, `Z58`, `Z129`, and `Z137` have no interactions
+Here, connections from the salmon nodes (marginal latent factors) to the gray nodes indicate latent factor interactions.
 ```{r load_itxn_plots, eval = F, fig.cap = "Latent Factor Interactions", out.width="60%", fig.align="center"}
 knitr::include_graphics('examples/out/0.01_1_out/plotInteractions.png')
 ```
