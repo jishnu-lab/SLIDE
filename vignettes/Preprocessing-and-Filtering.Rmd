@@ -163,7 +163,7 @@ row_thresh = ncol(unfiltered_x)/2
 #rows with more than row_thresh number of zeros will be filtered
 filtered_mats = SLIDE::zeroFiltering(unfiltered_x, unfiltered_y, col_thresh = nrow(unfiltered_x)/2, row_thresh = ncol(unfiltered_x)/2)
 filtered_x = filtered_mats$filtered_x
-filtered_x = filtered_mats$filtered_y
+filtered_y = filtered_mats$filtered_y
 ```
 
 ## Variance Filtering
