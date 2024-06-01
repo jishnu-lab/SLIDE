@@ -32,6 +32,9 @@ This is the general workflow:
 5. View SLIDE results and parameters in `SLIDE_LFs.rds` 
 6. View correlation networks of significant latent factors after running `plotCorrelationNetworks`
 
+
+## **Note - below is a static example using defined outputs for demonstration** 
+
 ## Evaluate latent factor performance using `ControlPerformancePlot.png`
 This plot shows how the significant latent factors perform relative to their knockoff counterparts:
 
