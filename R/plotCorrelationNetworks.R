@@ -58,7 +58,7 @@ plotCorrelationNetworks = function(input_params,minimum=0.25) {
       x_temp = cor(x_gene)
 
       pl = qgraph::qgraph(x_temp, filename=LF_num,
-                          layout = "spring", minimum=0.25, repulsion=0.1,
+                          layout = "spring", minimum=minimum, repulsion=0.1,
                           labels = colnames(x_temp), color = temp_cols,
                           title = LF_num,
                           label.scale.equal=FALSE,label.prop=0.95,shape="ellipse",
