@@ -4,7 +4,7 @@
 #' @return none
 #' @export
 #'
-plotCorrelationNetworks = function(input_params) {
+plotCorrelationNetworks = function(input_params,minimum=0.25) {
 
   original_wd = getwd()
   # iterate through each run (different values of delta/lambda)
