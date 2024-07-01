@@ -128,7 +128,7 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
 
 
-      rawdf <- data.frame(FullRandom = Fullreport,Partialreport=Partialreport)
+      rawdf <- data.frame(FullRandom = Fullreport,PartialRandom=Partialreport)
       df <- reshape2::melt(rawdf)
       colnames(df) <- c("group", "value")
 
