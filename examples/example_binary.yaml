@@ -14,7 +14,7 @@ y_levels:
   - 0
   - 1
 eval_type: auc
-SLIDE_iter: 500
+SLIDE_iter: 1000
 SLIDE_top_feats: 10
 sampleCV_iter: 500
 sampleCV_K: 4
