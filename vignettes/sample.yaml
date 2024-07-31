@@ -1,17 +1,16 @@
-x_path: test/Ssc_x.csv
-y_path: test/SkinScore.csv
-out_path: test/out
+x_path: examples/Ssc_x.csv
+y_path: examples/SkinScore.csv
+out_path: examples/out
 delta:
-  - 0.01
   - 0.1
+  - 0.2
 lambda:
-  - 0.5
   - 1
-spec: 0.3
+spec: 0.1
 y_factor: true
-y_levels: [0,1]
-eval_type: auc
-SLIDE_iter: 500
+y_levels: NULL
+eval_type: corr
+SLIDE_iter: 1000
 SLIDE_top_feats: 20
 CViter: 1000
 do_interacts: TRUE

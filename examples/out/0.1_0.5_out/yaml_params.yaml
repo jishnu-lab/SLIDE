@@ -8,8 +8,8 @@ y_factor: no
 thresh_fdr: 0.2
 y_levels: ~
 eval_type: corr
-SLIDE_iter: 5.0
+SLIDE_iter: 100.0
 SLIDE_top_feats: 10
-sampleCV_iter: 5.0
+sampleCV_iter: 100.0
 sampleCV_K: 4
 do_interacts: yes

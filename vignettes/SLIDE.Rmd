@@ -1,11 +1,9 @@
 ---
 title: "SLIDE"
-output: 
-  pdf_document
-vignette: >
-  %\VignetteIndexEntry{SLIDE}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  html_document:
+    df_print: paged
+vignette: "%\\VignetteIndexEntry{SLIDE} %\\VignetteEngine{knitr::rmarkdown} %\\VignetteEncoding{UTF-8}\n"
 ---
 
 ```{r setup, include = FALSE}
@@ -54,9 +52,9 @@ The input to SLIDE is the path to a YAML file which documents the parameters.
 
 SLIDE accepts many parameters from user input to give user as much freedom to tweak the method to their own data as possible. We have set default values to many parameters that works well with majority of the data moralities. [The example yaml files for both continuous/ordinal and binary response can be found in the examples folder.]{.underline} Here, we explain what each of these parameters mean.
 
-![Example Yaml (Continuous Y)](build_files/continuous_yaml_example.png)
+![Example Yaml (Continuous Y)](build_files/continuous_yaml_example.png){width="158" height="238"}
 
-![Example Yaml (Binary Y)](build_files/binary_yaml_example.png){width="225" height="340"}
+![Example Yaml (Binary Y)](build_files/binary_yaml_example.png){width="158" height="238"}
 
 <!-- # ```{r load_example_data_class, eval=F, fig.cap = "Example Yaml (Continuous Y)", out.width="60%", fig.align="center"} -->
 
@@ -114,6 +112,15 @@ input_params = yaml::read_yaml(yaml_path)
 knitr::kable(data.frame(arg = unlist(input_params)))
 ```
 
+
+
+```{r only_for_vignette, message = F, include=F}
+# we don't want it to take forever to build the vignette, so we will lower these values to make it faster. Use >1000 for each for real runs
+input_params$SLIDE_iter = 100
+input_params$sampleCV_iter = 100
+```
+
+
 **If you have a sparse dataset such as scRNA-seq datasets**, we recommend filtering out samples and features that have too many zeros. zeroFiltering function will remove samples with more than g_thresh number of zeros and features with more than c_thresh number of zeros. An appropriate data matrix should at most have around 3-4k features. See `Preprocessing-and-Filtering` vignette for more information.
 
 <!-- # ```{name1} -->
@@ -124,13 +131,13 @@ knitr::kable(data.frame(arg = unlist(input_params)))
 
 We then check if your data files are formatted correctly.
 
-```{r name2, warning=FALSE, message=FALSE}
+```{r name2, message=FALSE, warning=FALSE}
 checkDataParams(input_params)
 ```
 
 If everything is formatted correctly, you can now run [Step1]{.underline} of SLIDE. If sink_file set to TRUE, all print statement will be printed to a txt file.
 
-```{r name3, warning=FALSE, results = 'hide'}
+```{r name3, warning=FALSE, results = 'hide', message = F}
 optimizeSLIDE(input_params, sink_file = FALSE)
 ```
 
@@ -143,7 +150,7 @@ summary_table = read.csv(paste0(input_params$out_path, "/summary_table.csv"), ro
 knitr::kable(data.frame(summary_table))
 ```
 
-The `sampleCV_Performance` column will tell us which of our parameters gives latent factors that perform well in short cross validation run. We generally want to pick the parameters that have the highest value for `sampleCV_Performance`. Once we pick parameters, we will run a more rigorous cross validation with more iterations.
+The `sampleCV_Performance` column will tell us which of our parameters gives latent factors that perform well in short cross validation run. We generally want to pick the parameters that have the highest value for `sampleCV_Performance`. Once we pick parameters, we will run a more rigorous cross validation with more iterations.`NA` values indicate a model with no significant latent factors. 
 
 Finally, we can generate correlation plots for the top features in each significant latent factor.
 
@@ -154,11 +161,12 @@ plotCorrelationNetworks(input_params)
 optimizeSLIDE saves various information for each parameter combination, such as latent factor content, model performance against random models, visualization of the LF network and more. [For a more detailed explanation of the outputted files, please see the **`Understanding-Outputs`** vignette.]{.underline}
 
 
-## **3 Run optimizeSLIDE**
-
+## **3 Run SLIDEcv to do cross-validation on chosen latent factors**
+After using `optimizeSLIDE` we will have a number of SLIDE models to choose from (and each model will have its own yaml file in its folder, to make running `SLIDEcv` on a select run easier). We can evaluate the performance for the latent factors in these models by using `SLIDEcv`. For example, if we thought `delta=0.1` and `lambda=1.0` looked good, we could use the yaml file for that model:
 To run cross validation use this code:
-`SLIDE::SLIDEcv(yaml_path="/ix/djishnu/Javad/SLIDEDir_Lab/SLIDE/vignettes/sample.yaml",nrep=20,k=10)`
-
+```{r slidecv, include = TRUE, eval=F}
+SLIDE::SLIDEcv(yaml_path="examples/out/0.1_1_out/yaml_params.yaml",nrep=20,k=10)
+```
 <!-- ## **2-2 Interpret Step1 Output Files** -->
 
 <!-- The output files are now populated to the output folder we specified in the YAML file. -->
