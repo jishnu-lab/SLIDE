@@ -12,6 +12,7 @@ SLIDE::checkDataParams(input_params)
 ##                           option 1                           ##
 ##################################################################
 ## Approximate the SLIDE model's performance for different delta and lambda. 
+## Dont use optimizeSLIDE to select final latent factors, this function is solely to approximate the peformance
 SLIDE::optimizeSLIDE(input_params, sink_file = FALSE)
 
 
@@ -19,7 +20,7 @@ SLIDE::optimizeSLIDE(input_params, sink_file = FALSE)
 ##                           option 2                           ##
 ##################################################################
 
-## Finding the  SLIDE model's performance  using cross-validation
+## To identify the the exact peformance of the SLIDE model use SLIDEcv
 SLIDE::SLIDEcv(yaml_path, nrep = 20, k = 5)
 
 ## Depending on the limitations you can run optimizeSLIDE or slidecv
