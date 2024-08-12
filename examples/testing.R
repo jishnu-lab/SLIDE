@@ -9,7 +9,7 @@ SLIDE::optimizeSLIDE(input_params, sink_file = FALSE)
 ## Finding the  SLIDE model's performance  using cross-validation
 SLIDE::SLIDEcv(yaml_path, nrep = 20, k = 5)
 
-## Depending on the limitations you can run optimizeSLIDE or slidcv
+## Depending on the limitations you can run optimizeSLIDE or slidecv
 
 
 ## You can also run the ```optimizeSLIDE``` and for a single combination of delta and lambda you can run ```SLIDEcv```
