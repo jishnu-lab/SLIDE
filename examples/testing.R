@@ -12,11 +12,12 @@ SLIDE::SLIDEcv(yaml_path, nrep = 20, k = 5)
 ## Depending on the limitations you can run optimizeSLIDE or slidecv
 
 
-## You can also run the ```optimizeSLIDE``` and for a single combination of delta and lambda you can run ```SLIDEcv```
+## You can also run the ```optimizeSLIDE``` and to find an approximate model performance 
+## For an optimum combination of delta and lambda you can run ```SLIDEcv```
 
 
 
 
-
+## After finding the optimum delta and lambda one you can get correlation network using below command:
 SLIDE::plotCorrelationNetworks(input_params)
 
