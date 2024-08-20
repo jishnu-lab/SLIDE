@@ -123,7 +123,7 @@ SLIDEcv <- function(yaml_path=NULL, nrep=20, k=10){
                                          fill = "method" ) +
         ggpubr::stat_compare_means(label = "p.signif")
     }
-    ggplot2::ggsave(plot = lambda_boxplot, filename = paste0(slide_input$out_path, "SLIDECV_boxplot.png"), height = 6, width = 6)
+    ggplot2::ggsave(plot = lambda_boxplot, filename = paste0(slide_input$out_path, "SLIDECV_boxplot.pdf"), height = 6, width = 6)
     saveRDS(perRes,file=paste0(slide_input$out_path,"SLIDECV_boxplot_data.rds"))
   }
 }
