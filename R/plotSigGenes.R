@@ -161,5 +161,6 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
       setwd(orig_wd)
     }
   }
+  plot_list[["plot_data"]] = sg_plot_df
   return(plot_list)
 }
