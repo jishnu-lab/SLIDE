@@ -4,7 +4,7 @@
 \alias{plotCorrelationNetworks}
 \title{Plot correlation network for latent factors. Saves in a new directory "correlation_networks" in the output directory}
 \usage{
-plotCorrelationNetworks(input_params)
+plotCorrelationNetworks(input_params, minimum = 0.25)
 }
 \arguments{
 \item{input_params}{loaded yaml file that has already been run through optimizeSLIDE}

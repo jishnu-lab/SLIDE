@@ -20,7 +20,7 @@ checkDataParams <- function(input_params, pipeline = NULL){
   if (is.null(names(as.data.frame(y))) == TRUE){stop("No column name found for the response data (y), please add column name...")}
   
   # check the dimensions  
-  if (dim(x)[1] != length(y)) {stop("The number of samples in input data (X) and response data (y) does not match or data matrix needs to be transposed.")}
+  if (dim(x)[1] != dim(y)[1]) {stop("The number of samples in input data (X) and response data (y) does not match or data matrix needs to be transposed.")}
   if (dim(y)[1] <= 15) {stop("The number of samples are too low to recieve accurate results.")}
   if (dim(x)[2] >= 4000) {warning("The number of features are over 4000 which can result in long computational time, please reduce the number of features...")}
   
