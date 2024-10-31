@@ -9,6 +9,7 @@ checkDataParams <- function(input_params, pipeline = NULL){
   #input_params <- yaml::yaml.load_file(yaml_path)
   x <- as.matrix(utils::read.csv(input_params$x_path, row.names = 1))
   y <- as.matrix(utils::read.csv(input_params$y_path, row.names = 1))
+  if (dim(y)[2] > 1) {stop("Response vector should only contain 1 column...")}
   cat("Dimension of input X is:", dim(x)[1], "by", dim(x)[2], ".\n")
   cat("Dimension of input y is:", dim(y)[1], "by", dim(y)[2], ".\n")
   ##################################################################
@@ -41,7 +42,7 @@ checkDataParams <- function(input_params, pipeline = NULL){
   ##################################################################
   cat("Checking if yaml file is correct for the input data and response matrices... \n")
   if ((length(unique(y)) == 2) & (input_params$y_factor == FALSE)) {
-    stop("The response data (y) is binary, set f_factor is set to TRUE. ")
+    stop("The response data (y) is binary, set y_factor is set to TRUE. ")
   }
   if ((length(unique(y)) == 2) & (input_params$eval_type == 'corr')) { 
     warning("Only 2 level in response data (y), evaluation type is set as correlation.")
