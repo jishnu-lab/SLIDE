@@ -43,8 +43,8 @@ runSLIDEBeta <- function(train_y, valid_y, train_z, valid_z, method, spec, niter
                fdr = fdr)
   ## if no sig margs, select 5 random ones (like in lasso)
   if (length(res$marginal_vars) == 0){
-    cat("SLIDE selects no features - Randomly selecting 5 features. . . \n")
-    sig_margs <- sample(1:ncol(train_z), 5)
+    cat("SLIDE selects no features - Randomly selecting 1 feature. . . \n")
+    sig_margs <- sample(1:ncol(train_z), 1)
     res <- SLIDE(z = train_z,
                  y = train_y,
                  method = method,
