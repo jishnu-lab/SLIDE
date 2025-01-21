@@ -132,16 +132,16 @@ if(!is.null(slide_results$SLIDE_res$marginal_vars)){
 
     saveRDS(sg_plot_df, paste0(out_path, '/plotSigGenes_data.RDS'))
 
-    ggplot2::ggsave(plot = marg_plot, filename = paste0(out_path, '/plotSigGenes_marginals.png'),
+    ggplot2::ggsave(plot = marg_plot, filename = paste0(out_path, '/plotSigGenes_marginals.pdf'),
 
-                    device = "png",
+                    device = "pdf",
                     width = 1.5 * length(slide_results$SLIDE_res$marginal_vars), height = 7,
                     limitsize = FALSE)
 
     if (plot_interactions) {
 
-      ggplot2::ggsave(plot = plt, filename = paste0(out_path, '/plotSigGenes.png'),
-                      device = "png",
+      ggplot2::ggsave(plot = plt, filename = paste0(out_path, '/plotSigGenes.pdf'),
+                      device = "pdf",
                       width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7,
                       limitsize = FALSE)
 

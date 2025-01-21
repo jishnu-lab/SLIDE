@@ -316,7 +316,7 @@ calcControlPerformance <- function(z_matrix, y, do_interacts, SLIDE_res, conditi
 
     saveRDS(df, file = paste0(out_path, "ControlPerformance.rds"))
     saveRDS(P2, file = paste0(out_path, "ControlPerformancePlot.rds"))
-    ggplot2::ggsave(P2, filename = paste0(out_path, "ControlPerfomancePlot.png"))
+    ggplot2::ggsave(P2, filename = paste0(out_path, "ControlPerfomancePlot.pdf"))
     P2
 
    }
