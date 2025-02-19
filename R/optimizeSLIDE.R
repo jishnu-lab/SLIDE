@@ -48,7 +48,7 @@ optimizeSLIDE <- function(input_params, sink_file = F){
   if (is.null(input_params$sigma)){
     sigma = NULL
     cat("Setting sigma as Null.\n")
-  } else {sigma = input_params$rep_cv}
+  } else {sigma = input_params$sigma}
 
   if (is.null(input_params$SLIDE_iter)){SLIDE_iter = 1000} else{SLIDE_iter = input_params$SLIDE_iter}
   if (SLIDE_iter <= 100) {warning("SLIDE_iter is less than 100. We recommand setting it to minimum 500 for stable performance. \n")}
@@ -142,7 +142,7 @@ optimizeSLIDE <- function(input_params, sink_file = F){
       all_latent_factors <- getLatentFactors(x = x,
                                              x_std = x_std,
                                              y = y,
-                                             sigma = NULL,
+                                             sigma = sigma,
                                              delta = d,
                                              lambda = l,
                                              rep_cv = rep_cv,
