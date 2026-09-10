@@ -114,12 +114,12 @@ SLIDEcv <- function(yaml_path=NULL, nrep=20, k=10){
 
 
     if (slide_input$eval_type == "corr") {
-      lambda_boxplot = ggpubr::ggboxplot(data = perRes, x = "method", y = "corr", palette = "aaas",
+      lambda_boxplot = ggpubr::ggboxplot(data = perRes, x = "method", y = "corr", palette = c("#808180FF", "#EE0000FF"),
                                          fill = "method" ) +
         ggpubr::stat_compare_means(label = "p.signif")
 
     } else {
-      lambda_boxplot = ggpubr::ggboxplot(data = perRes, x = "method", y = "auc", palette = "aaas",
+      lambda_boxplot = ggpubr::ggboxplot(data = perRes, x = "method", y = "auc", palette = c("#808180FF", "#EE0000FF"),
                                          fill = "method" ) +
         ggpubr::stat_compare_means(label = "p.signif")
     }
