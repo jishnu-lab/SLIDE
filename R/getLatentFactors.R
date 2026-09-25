@@ -47,7 +47,8 @@ getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thr
   }
   
   if (!is.logical(save_heatmaps) || length(save_heatmaps) != 1L || is.na(save_heatmaps)) {
-    stop("`save_heatmaps` must be a single TRUE/FALSE value.")
+    cat("`save_heatmaps` must be a single TRUE/FALSE value. Setting to FALSE")
+    save_heatmaps = FALSE
   }
 
   #### scale delta by this value to satisfy some requirements so that the
