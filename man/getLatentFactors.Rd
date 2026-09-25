@@ -15,7 +15,8 @@ getLatentFactors(
   lambda = 0.1,
   rep_cv = 50,
   alpha_level = 0.05,
-  out_path = NULL
+  out_path = NULL,
+  save_heatmaps = FALSE
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ control the false discovery rate, default is 0.2}
 \item{alpha_level}{\eqn{\alpha}, a numerical constant used in confidence interval calculation}
 
 \item{out_path}{a string path to where to save output}
+
+\item{save_heatmaps}{a logical flag indicating whether to save correlation matrix heatmaps}
 }
 \value{
 a list of results from the Essential Regression framework including: \eqn{K} = number of clusters,

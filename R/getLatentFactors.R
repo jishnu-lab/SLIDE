@@ -15,6 +15,7 @@
 #' @param rep_cv number of replicates for cross-validation
 #' @param alpha_level \eqn{\alpha}, a numerical constant used in confidence interval calculation
 #' @param out_path a string path to where to save output
+#' @param save_heatmaps a logical flag indicating whether to save correlation matrix heatmaps
 #' @return a list of results from the Essential Regression framework including: \eqn{K} = number of clusters,
 #' \eqn{\hat{A}}, \eqn{\hat{C}}, \eqn{\hat{I}}, the indices of the pure variables, \eqn{\hat{\Gamma}},
 #' \eqn{\hat{\beta}}, \eqn{\alpha}-level confidence intervals (if requested), prediction results (if requested),
@@ -23,7 +24,7 @@
 #' @export
 
 getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thresh_fdr = 0.2, lambda = 0.1,
-                    rep_cv = 50, alpha_level = 0.05, out_path = NULL) {
+                    rep_cv = 50, alpha_level = 0.05, out_path = NULL, save_heatmaps = FALSE) {
   ## Data Housekeeping #########################################################
   raw_y <- y
   raw_x <- x  # input raw x is now raw_x
@@ -44,6 +45,10 @@ getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thr
   if (is.null(sigma)) {
     sigma <- cor(x)
   }
+  
+  if (!is.logical(save_heatmaps) || length(save_heatmaps) != 1L || is.na(save_heatmaps)) {
+    stop("`save_heatmaps` must be a single TRUE/FALSE value.")
+  }
 
   #### scale delta by this value to satisfy some requirements so that the
   #### statistical guarantees in the paper hold
@@ -51,7 +56,7 @@ getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thr
 
   ## Sigma Thresholding ########################################################
   #### save correlation matrix heatmap
-  if (!is.null(out_path)) {
+  if (save_heatmaps && !is.null(out_path)) {
     pdf_file <- paste0(out_path, "delta_", delta[1], "/corr_mat_heatmap.pdf")
     dir.create(file.path(dirname(pdf_file)), showWarnings = F, recursive = T)
     grDevices::pdf(file = pdf_file)
@@ -71,7 +76,7 @@ getLatentFactors <- function(y, x, x_std, std_y = TRUE, sigma = NULL, delta, thr
   }
 
   #### save threshold correlation matrix heatmap
-  if (!is.null(out_path)) {
+  if (save_heatmaps && !is.null(out_path)) {
     pdf_file <- paste0(out_path, "delta_", delta[1], "/thresh_corr_mat_heatmap.pdf")
     dir.create(file.path(dirname(pdf_file)), showWarnings = F, recursive = T)
     grDevices::pdf(file = pdf_file)
